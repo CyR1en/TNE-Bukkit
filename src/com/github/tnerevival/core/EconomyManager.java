@@ -13,6 +13,7 @@ import com.github.tnerevival.listeners.collections.SignsListener;
 import com.github.tnerevival.serializable.SerializableLocation;
 import com.github.tnerevival.utils.AccountUtils;
 import com.github.tnerevival.utils.TopBalance;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -33,6 +34,8 @@ public class EconomyManager {
   public List<UUID> special = new ArrayList<>();
 
   public EventMap<SerializableLocation, TNESign> signs = new EventMap<>();
+
+  public List<CommandSender> debuggers = new ArrayList<>();
 
   public AuctionManager auctionManager = new AuctionManager();
   public CurrencyManager currencyManager = new CurrencyManager();

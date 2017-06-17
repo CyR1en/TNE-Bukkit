@@ -43,6 +43,7 @@ public class BankBalanceCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = getPlayer(sender);
     String world = (arguments.length >= 1)? arguments[0] : getWorld(sender);
+    world = IDFinder.getBalanceShareWorld(world);
     String owner = (arguments.length >= 2)? arguments[1] : player.getName();
     String currency = (arguments.length >= 3)? getCurrency(world, arguments[2]).getName() : plugin.manager.currencyManager.get(world).getName();
     Account account = AccountUtils.getAccount(IDFinder.getID(owner));

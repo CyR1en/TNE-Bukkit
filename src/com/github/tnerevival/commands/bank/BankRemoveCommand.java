@@ -45,6 +45,7 @@ public class BankRemoveCommand extends TNECommand {
     Player player = getPlayer(sender);
     Account account = AccountUtils.getAccount(IDFinder.getID(player));
     String world = (arguments.length >= 2)? arguments[1] : getWorld(sender);
+    world = IDFinder.getBalanceShareWorld(world);
 
     if(arguments.length < 1) {
       help(sender);

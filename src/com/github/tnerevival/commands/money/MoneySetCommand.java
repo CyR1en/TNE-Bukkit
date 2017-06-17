@@ -1,6 +1,7 @@
 package com.github.tnerevival.commands.money;
 
 import com.github.tnerevival.TNE;
+import com.github.tnerevival.account.Account;
 import com.github.tnerevival.account.IDFinder;
 import com.github.tnerevival.commands.TNECommand;
 import com.github.tnerevival.core.Message;
@@ -46,9 +47,10 @@ public class MoneySetCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(arguments.length >= 2) {
       String world = (arguments.length == 3)? getWorld(sender, arguments[2]) : getWorld(sender);
+      world = IDFinder.getBalanceShareWorld(world);
       String currencyName = (arguments.length >= 4)? arguments[3] : TNE.instance().manager.currencyManager.get(world).getName();
-
-      if(!TNE.instance().manager.currencyManager.contains(world, currencyName)) {
+      Account acc = AccountUtils.getAccount(IDFinder.getID(arguments[0]));
+      if(acc.getBalances().containsKey(world + ":" + currencyName)) {
         Message m = new Message("Messages.Money.NoCurrency");
         m.addVariable("$currency", currencyName);
         m.addVariable("$world", world);

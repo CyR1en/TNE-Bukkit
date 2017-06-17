@@ -44,6 +44,7 @@ public class MoneyPayCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = getPlayer(sender);
     String world = getWorld(sender);
+    world = IDFinder.getBalanceShareWorld(world);
     if(arguments.length >= 2) {
       String currencyName = (arguments.length >= 3)? arguments[2] : TNE.instance().manager.currencyManager.get(world).getName();
       Currency currency = getCurrency(world, currencyName);

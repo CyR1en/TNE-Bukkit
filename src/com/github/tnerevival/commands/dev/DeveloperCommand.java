@@ -28,6 +28,7 @@ public class DeveloperCommand extends TNECommand {
     super(plugin);
     subCommands.add(new DeveloperAccountsCommand(plugin));
     subCommands.add(new DeveloperBalanceCommand(plugin));
+    subCommands.add(new DeveloperListenCommand(plugin));
   }
 
   @Override

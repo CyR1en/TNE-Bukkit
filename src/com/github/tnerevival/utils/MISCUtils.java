@@ -11,6 +11,7 @@ import com.github.tnerevival.core.transaction.TransactionType;
 import com.github.tnerevival.serializable.SerializableItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -52,6 +53,11 @@ public class MISCUtils {
   public static void debug(String message) {
     if(TNE.debugMode) {
       TNE.instance().getLogger().info("[DEBUG MODE]" + message);
+    }
+    if(TNE.instance().manager != null) {
+      for (CommandSender sender : TNE.instance().manager.debuggers) {
+        sender.sendMessage(message);
+      }
     }
   }
 

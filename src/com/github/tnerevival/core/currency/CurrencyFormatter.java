@@ -30,17 +30,17 @@ import java.util.Map;
 public class CurrencyFormatter {
 
   public static String format(String world, BigDecimal amount) {
-    MISCUtils.debug("CurrencyFormatter.format(" + world + ", " + amount.doubleValue() + ")");
+    MISCUtils.debug("CurrencyFormatter.format(" + world + ", " + amount.toPlainString() + ")");
     return format(TNE.instance().manager.currencyManager.get(world), world, amount);
   }
 
   public static String format(String world, String name, BigDecimal amount) {
-    MISCUtils.debug("CurrencyFormatter.format(" + name + ", " + world + ", " + amount.doubleValue() + ")");
+    MISCUtils.debug("CurrencyFormatter.format(" + name + ", " + world + ", " + amount.toPlainString() + ")");
     return format(TNE.instance().manager.currencyManager.get(world, name), world, amount);
   }
 
   public static String format(Currency currency, String world, BigDecimal amount) {
-    MISCUtils.debug("CurrencyFormatter.format(" + currency.getName() + ", " + world + ", " + amount.doubleValue() + ")");
+    MISCUtils.debug("CurrencyFormatter.format(" + currency.getName() + ", " + world + ", " + amount.toPlainString() + ")");
 
     if(currency == null) currency = TNE.instance().manager.currencyManager.get(TNE.instance().defaultWorld);
 
@@ -94,13 +94,13 @@ public class CurrencyFormatter {
   }
 
   private static BigDecimal parseWeight(Currency currency, BigDecimal decimal) {
-    String[] amountStr = (String.valueOf(decimal) + (String.valueOf(decimal).contains(".")? "" : ".00")).split("\\.");
+    String[] amountStr = (String.valueOf(decimal) + (decimal.toPlainString().contains(".")? "" : ".00")).split("\\.");
     BigInteger major = new BigInteger(amountStr[0]);
     BigInteger minor = new BigInteger(String.format("%1$-2s", Integer.valueOf(amountStr[1])).replace(' ', '0'));
     BigInteger majorConversion = minor;
-    majorConversion = majorConversion.divide(new BigInteger(currency.getTier("minor").getWeight() + ""));
+    majorConversion = majorConversion.divide(new BigInteger(currency.getTier("Minor").getWeight() + ""));
     major = major.add(majorConversion);
-    minor = minor.mod(new BigInteger(currency.getTier("minor").getWeight() + ""));
+    minor = minor.mod(new BigInteger(currency.getTier("Minor").getWeight() + ""));
 
     return new BigDecimal(major.toString() + currency.getDecimal() + minor.toString());
   }

@@ -33,7 +33,7 @@ Objects:
     Inventories:
     
         #Whether or not GUI costs should be enabled
-        Enabled: true
+        Enabled: false
         
         #Whether or not timed access should be per-world
         PerWorld: true

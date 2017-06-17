@@ -111,7 +111,6 @@ public class MainConfiguration extends Configuration {
     configurations.put("Core.Database.MySQL.User", "user");
     configurations.put("Core.Database.MySQL.Password", "password");
     configurations.put("Core.Database.H2.File", "Economy");
-    configurations.put("Core.Database.SQLite.File", "economy.db");
 
     configurations.put("Core.Conversion.Convert", false);
     configurations.put("Core.Conversion.Name", "iConomy");

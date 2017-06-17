@@ -51,6 +51,7 @@ public class MoneyTopCommand extends TNECommand {
     int limit = (parsed.containsKey("limit") && MISCUtils.isInteger(parsed.get("limit")))? Integer.valueOf(parsed.get("limit")) : 10;
     boolean bank = (parsed.containsKey("bank") && MISCUtils.isBoolean(parsed.get("bank")))? Boolean.valueOf(parsed.get("bank")) : false;
     String world = (parsed.containsKey("world"))? getWorld(sender, parsed.get("world")) : getWorld(sender);
+    world = IDFinder.getBalanceShareWorld(world);
     String currency = (parsed.containsKey("currency") &&
                        TNE.instance().manager.currencyManager.contains(world, parsed.get("currency")) ||
                        parsed.containsKey("currency") && parsed.get("currency").equalsIgnoreCase("overall")

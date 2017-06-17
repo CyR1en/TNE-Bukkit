@@ -54,6 +54,11 @@ public class DeveloperBalanceCommand extends TNECommand {
   }
 
   @Override
+  public boolean developer() {
+    return true;
+  };
+
+  @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(arguments.length >= 1) {
       String world = (sender instanceof Player)? IDFinder.getWorld((Player)sender) : TNE.instance().defaultWorld;

@@ -427,6 +427,12 @@ Core:
             #Want to only accept a couple items, and don't want to write a book in the forbidden list? Do so here
             Accepted:
 
+    #All configurations relating to multipliers
+    Multipliers:
+
+        #Whether or not multipliers are enabled
+        Enabled: true
+
     #All configurations relating to vaults
     Vault:
 
@@ -527,14 +533,6 @@ Core:
         H2:
             #The H2 Database file.
             File: Economy
-            
-        #All configurations relating to the SQLite Database
-        #No Longer Supported
-        #For backwards support purposes only.
-        SQLite:
-            
-            #The SQLite Database File
-            File: economy.db
 
     #All configurations relating to converter from another economy plugin.
     #Please make sure you have the plugin's directory in your plugin's folder as we

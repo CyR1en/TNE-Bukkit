@@ -41,6 +41,7 @@ public class MoneyBalanceCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = getPlayer(sender);
     String world = (arguments.length >= 1)? getWorld(sender, arguments[0]) : getWorld(sender);
+    world = IDFinder.getBalanceShareWorld(world);
     String currencyName = (arguments.length >= 2)? arguments[1] : TNE.instance().manager.currencyManager.get(world).getName();
     Currency currency = getCurrency(world, currencyName);
 
@@ -55,7 +56,7 @@ public class MoneyBalanceCommand extends TNECommand {
     }
 
     Message balance = new Message("Messages.Money.Balance");
-    balance.addVariable("$amount",  CurrencyFormatter.format(currency, world, plugin.api().getBalance(player.getUniqueId().toString(), world, currency)));
+    balance.addVariable("$amount",  CurrencyFormatter.format(currency, world, plugin.api().getBalance(IDFinder.getID(player).toString(), world, currency)));
     balance.translate(world, player);
     return true;
   }

@@ -36,6 +36,7 @@ public class IDFinder {
     if(player == null) {
       return TNE.instance().defaultWorld;
     }
+    if(!TNE.instance().api().getBoolean("Core.Multiworld")) return TNE.instance().defaultWorld;
     return player.getWorld().getName();
   }
 
@@ -46,6 +47,9 @@ public class IDFinder {
   public static String getBalanceShareWorld(String world) {
     if(MISCUtils.worldConfigExists("Worlds." + world + ".Share.Balances")) {
       return TNE.instance().worldConfigurations.getString("Worlds." + world + ".Share.Balances");
+    }
+    if(!TNE.instance().api().getBoolean("Core.Multiworld")) {
+      return TNE.instance().defaultWorld;
     }
     return world;
   }

@@ -284,6 +284,10 @@ public class CurrencyManager {
   }
 
   public boolean contains(String world, String name) {
+    MISCUtils.debug("CurrencyManager.contains(" + world + ", " + name + ")");
+    if(currencies.containsKey(IDFinder.getBalanceShareWorld(world) + ":" + name)) {
+      return currencies.containsKey(IDFinder.getBalanceShareWorld(world) + ":" + name);
+    }
     return currencies.containsKey(world + ":" + name);
   }
 }
