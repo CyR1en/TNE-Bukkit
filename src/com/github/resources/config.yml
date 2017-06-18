@@ -172,6 +172,12 @@ Core:
                 #Example: GOLD_INGOT
                 Item: GOLD_INGOT
 
+                #Whether or not the major value should be separated every three numeric places.
+                Separate: true
+
+                #The separator to use for numeric separation.
+                Separator: ','
+
             #Configurations relating to the minor tier of currency
             #Example: Cents
             Minor:

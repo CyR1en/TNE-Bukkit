@@ -32,6 +32,8 @@ public class Currency {
   private boolean bankChest;
   private boolean enderChest;
   private boolean trackChest;
+  private boolean separateMajor;
+  private String majorSeparator;
   private String name;
   private String format;
   private String prefixes;
@@ -118,6 +120,22 @@ public class Currency {
 
   public void setTrackChest(boolean trackChest) {
     this.trackChest = trackChest;
+  }
+
+  public boolean canSeparateMajor() {
+    return separateMajor;
+  }
+
+  public void setSeparateMajor(boolean separateMajor) {
+    this.separateMajor = separateMajor;
+  }
+
+  public String getMajorSeparator() {
+    return majorSeparator;
+  }
+
+  public void setMajorSeparator(String majorSeparator) {
+    this.majorSeparator = majorSeparator;
   }
 
   public String getName() {

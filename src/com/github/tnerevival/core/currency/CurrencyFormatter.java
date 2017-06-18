@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -55,15 +57,16 @@ public class CurrencyFormatter {
     BigInteger minor = new BigInteger(String.format("%1$-2s", Integer.valueOf(amountStr[1])).replace(' ', '0'));
     String majorName = (major.compareTo(BigInteger.ONE) == 0)? currency.getTier("Major").getSingle() : currency.getTier("Major").getPlural();
     String minorName = (minor.compareTo(BigInteger.ONE) == 0)? currency.getTier("Minor").getSingle() : currency.getTier("Minor").getPlural();
+    String majorString = (currency.canSeparateMajor())? insert(major.toString(), currency.getMajorSeparator(), 3) : major.toString();
 
     Map<String, String> replacements = new HashMap<>();
     replacements.put("<symbol>", currency.getTier("Major").getSymbol());
     replacements.put("<decimal>", currency.getDecimal());
-    replacements.put("<major>", major + " " + majorName);
+    replacements.put("<major>", majorString + " " + majorName);
     replacements.put("<minor>", minor + " " + minorName);
     replacements.put("<major.name>", majorName);
     replacements.put("<minor.name>", minorName);
-    replacements.put("<major.amount>", major + "");
+    replacements.put("<major.amount>", majorString + "");
     replacements.put("<minor.amount>", minor + "");
     replacements.put("<short.amount>", shorten(currency, amount));
     replacements.putAll(Message.colours);
@@ -74,6 +77,18 @@ public class CurrencyFormatter {
       formatted = formatted.replace(entry.getKey(), entry.getValue());
     }
     return formatted;
+  }
+
+  private static String insert(String text, String insert, int period) {
+    Pattern p = Pattern.compile("(.{" + period + "})", Pattern.DOTALL);
+    text = new StringBuffer(text).reverse().toString();
+    Matcher m = p.matcher(text);
+    String result = m.replaceAll("$1" + insert);
+
+    if(result.endsWith(insert)) {
+      return new StringBuffer(result.substring(0, result.lastIndexOf(insert))).reverse().toString();
+    }
+    return new StringBuffer(result).reverse().toString();
   }
 
   public static String parseAmount(Currency currency, String world, String amount) {

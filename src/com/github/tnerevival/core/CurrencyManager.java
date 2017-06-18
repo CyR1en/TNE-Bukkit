@@ -80,6 +80,8 @@ public class CurrencyManager {
         Boolean bankChest = configuration.contains(base + ".BankChest") && configuration.getBoolean(base + ".BankChest");
         Boolean ender = configuration.contains(base + ".EnderChest") && configuration.getBoolean(base + ".EnderChest");
         Boolean track = configuration.contains(base + ".TrackChest") && configuration.getBoolean(base + ".TrackChest");
+        Boolean separate = configuration.contains(base + ".Major.Separate") && configuration.getBoolean(base + ".Major.Separate");
+        String separator = configuration.contains(base + ".Major.Separator")? configuration.getString(base + ".Major.Separator") : ",";
         String symbol = configuration.contains(base + ".Symbol")? configuration.getString(base + ".Symbol") : "$";
         String major = configuration.contains(base + ".Major.Single")? configuration.getString(base + ".Major.Single") : "dollar";
         String majorPlural = configuration.contains(base + ".Major.Plural")? configuration.getString(base + ".Major.Plural") : "dollars";
@@ -123,6 +125,8 @@ public class CurrencyManager {
         currency.setBankChest(bankChest);
         currency.setEnderChest(ender);
         currency.setTrackChest(track);
+        currency.setSeparateMajor(separate);
+        currency.setMajorSeparator(separator);
         currency.addTier("Major", majorTier);
         currency.addTier("Minor", minorTier);
 
