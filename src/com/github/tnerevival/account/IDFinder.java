@@ -25,14 +25,26 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by creatorfromhell on 11/6/2016.
  **/
 public class IDFinder {
 
-  public static String getWorld(Player player) {
+  /**
+   * A map containing the worlds that share balances with another world.
+   * The format is Slave, Master
+   */
+  public static Map<String, String> balanceSharing = new HashMap<>();
+
+  /**
+   * A map containing the worlds that share configurations with another world.
+   * The format is Slave, Master
+   */
+  public static Map<String, String> configurationSharing = new HashMap<>();
+
+  /*public static String getWorld(Player player) {
     if(player == null) {
       return TNE.instance().defaultWorld;
     }
@@ -42,9 +54,9 @@ public class IDFinder {
 
   public static String getWorld(UUID id) {
     return getWorld(getPlayer(id.toString()));
-  }
+  }*/
 
-  public static String getBalanceShareWorld(String world) {
+  /*public static String getBalanceShareWorld(String world) {
     if(MISCUtils.worldConfigExists("Worlds." + world + ".Share.Balances")) {
       return TNE.instance().worldConfigurations.getString("Worlds." + world + ".Share.Balances");
     }
@@ -52,11 +64,76 @@ public class IDFinder {
       return TNE.instance().defaultWorld;
     }
     return world;
-  }
+  }*/
 
-  public static String getConfigurationShare(String world) {
+  /*public static String getConfigurationShare(String world) {
     if(MISCUtils.worldConfigExists("Worlds." + world + ".Share.Configurations")) {
       return TNE.instance().worldConfigurations.getString("Worlds." + world + ".Share.Configurations");
+    }
+    return world;
+  }*/
+
+  public static List<String> getBalanceSharers(String world) {
+    List<String> sharers = new ArrayList<>();
+
+    for(Map.Entry<String, String> entry : balanceSharing.entrySet()) {
+      if(entry.getValue().equalsIgnoreCase(world)) {
+        sharers.add(entry.getKey());
+      }
+    }
+    return sharers;
+  }
+
+  public static List<String> getConfigurationSharers(String world) {
+    List<String> sharers = new ArrayList<>();
+
+    for(Map.Entry<String, String> entry : configurationSharing.entrySet()) {
+      if(entry.getValue().equalsIgnoreCase(world)) {
+        sharers.add(entry.getKey());
+      }
+    }
+    return sharers;
+  }
+
+  public static String findRealWorld(UUID id) {
+    return findRealWorld(getPlayer(id.toString()));
+  }
+
+  public static String findRealWorld(Player player) {
+    String world = TNE.instance().defaultWorld;
+    if(player != null) {
+      world = player.getWorld().getName();
+    }
+    return world;
+  }
+
+  public static String findBalanceWorld(String world) {
+    if(balanceSharing.containsKey(world)) return balanceSharing.get(world);
+    return world;
+  }
+
+  public static String findConfigurationWorld(String world) {
+    if(balanceSharing.containsKey(world)) return balanceSharing.get(world);
+    return world;
+  }
+
+  public static String findWorld(UUID id, boolean balance) {
+    return findWorld(getPlayer(id.toString()), balance);
+  }
+
+  public static String findWorld(Player player, boolean balance) {
+    String world = TNE.instance().defaultWorld;
+    if(player != null && TNE.instance().api().getBoolean("Core.Multiworld")) {
+      world = player.getWorld().getName();
+      if(balance) {
+        if(balanceSharing.containsKey(world)) {
+          world = balanceSharing.get(world);
+        }
+      } else {
+        if(configurationSharing.containsKey(world)) {
+          world = configurationSharing.get(world);
+        }
+      }
     }
     return world;
   }

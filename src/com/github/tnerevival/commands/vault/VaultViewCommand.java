@@ -43,21 +43,21 @@ public class VaultViewCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
 
     Player player = getPlayer(sender);
-    String world = getWorld(sender);
+    String world = IDFinder.findRealWorld(getPlayer(sender));
     String owner = (arguments.length >= 1)? arguments[0] : player.getName();
 
     if(IDFinder.getID(owner) == null) {
       Message notFound = new Message("Messages.General.NoPlayer");
       notFound.addVariable("$player", owner);
-      notFound.translate(IDFinder.getWorld(player), player);
+      notFound.translate(IDFinder.findRealWorld(player), player);
       return false;
     }
 
     Account account = AccountUtils.getAccount(IDFinder.getID(owner));
-    if(Vault.command(getWorld(sender), IDFinder.getID(player).toString())) {
+    if(Vault.command(IDFinder.findRealWorld(getPlayer(sender)), IDFinder.getID(player).toString())) {
       if(account.hasVault(world)) {
         if(!account.getVault(world).getOwner().equals(IDFinder.getID(player)) && !account.getVault(world).getMembers().contains(IDFinder.getID(player))) {
-          new Message("Messages.General.NoPerm").translate(IDFinder.getWorld(player), player);
+          new Message("Messages.General.NoPerm").translate(IDFinder.findRealWorld(player), player);
           return false;
         }
 
@@ -67,12 +67,12 @@ public class VaultViewCommand extends TNECommand {
         return true;
       } else {
         Message none = new Message("Messages.Vault.None");
-        none.addVariable("$amount",  CurrencyFormatter.format(getWorld(sender), Vault.cost(getWorld(sender), IDFinder.getID(player).toString())));
-        none.translate(getWorld(sender), player);
+        none.addVariable("$amount",  CurrencyFormatter.format(IDFinder.findRealWorld(getPlayer(sender)), Vault.cost(IDFinder.findRealWorld(getPlayer(sender)), IDFinder.getID(player).toString())));
+        none.translate(IDFinder.findRealWorld(getPlayer(sender)), player);
         return false;
       }
     } else {
-      new Message("Messages.Vault.NoCommand").translate(getWorld(sender), player);
+      new Message("Messages.Vault.NoCommand").translate(IDFinder.findRealWorld(getPlayer(sender)), player);
     }
     help(sender);
     return false;

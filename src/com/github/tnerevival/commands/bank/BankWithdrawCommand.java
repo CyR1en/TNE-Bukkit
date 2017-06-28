@@ -45,8 +45,8 @@ public class BankWithdrawCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = getPlayer(sender);
-    String world = (arguments.length >= 2)? arguments[1] : getWorld(sender);
-    world = IDFinder.getBalanceShareWorld(world);
+    String world = (arguments.length >= 2)? arguments[1] : IDFinder.findRealWorld(getPlayer(sender));
+    world = IDFinder.findBalanceWorld(world);
     String owner = (arguments.length >= 3)? arguments[2] : player.getName();
     String currencyName = (arguments.length >= 4)? getCurrency(world, arguments[3]).getName() : plugin.manager.currencyManager.get(world).getName();
 
@@ -73,7 +73,7 @@ public class BankWithdrawCommand extends TNECommand {
       max.addVariable("$currency", currency.getName());
       max.addVariable("$world", world);
       max.addVariable("$player", getPlayer(sender).getDisplayName());
-      max.translate(getWorld(sender), sender);
+      max.translate(IDFinder.findRealWorld(getPlayer(sender)), sender);
       return false;
     }
 
@@ -86,19 +86,19 @@ public class BankWithdrawCommand extends TNECommand {
     if(IDFinder.getID(owner) == null) {
       Message notFound = new Message("Messages.General.NoPlayer");
       notFound.addVariable("$player", owner);
-      notFound.translate(IDFinder.getWorld(player), player);
+      notFound.translate(IDFinder.findRealWorld(player), player);
       return false;
     }
 
     if(!account.hasBank(world) && !owner.equals(player.getName())) {
       Message none = new Message("Messages.Bank.None");
-      none.addVariable("$amount",  CurrencyFormatter.format(getWorld(sender), Bank.cost(getWorld(sender), IDFinder.getID(player).toString())));
-      none.translate(getWorld(sender), player);
+      none.addVariable("$amount",  CurrencyFormatter.format(IDFinder.findRealWorld(getPlayer(sender)), Bank.cost(IDFinder.findRealWorld(getPlayer(sender)), IDFinder.getID(player).toString())));
+      none.translate(IDFinder.findRealWorld(getPlayer(sender)), player);
       return false;
     }
 
-    if(!AccountUtils.getAccount(IDFinder.getID(owner)).hasBank(world) || !Bank.bankMember(IDFinder.getID(owner), IDFinder.getID(sender.getName())) || !world.equals(getWorld(sender)) && !TNE.instance().api().getBoolean("Core.Bank.MultiManage")) {
-      new Message("Messages.General.NoPerm").translate(getWorld(player), player);
+    if(!AccountUtils.getAccount(IDFinder.getID(owner)).hasBank(world) || !Bank.bankMember(IDFinder.getID(owner), IDFinder.getID(sender.getName())) || !world.equals(IDFinder.findRealWorld(getPlayer(sender))) && !TNE.instance().api().getBoolean("Core.Bank.MultiManage")) {
+      new Message("Messages.General.NoPerm").translate(IDFinder.findRealWorld(player), player);
       return false;
     }
 
@@ -106,22 +106,22 @@ public class BankWithdrawCommand extends TNECommand {
     if(comparison.add(value).compareTo(currency.getMaxBalance()) > 0) {
       Message exceeds = new Message("Messages.Money.ExceedsPlayerMaximum");
       exceeds.addVariable("$max",  CurrencyFormatter.format(world, currencyName, currency.getMaxBalance()));
-      exceeds.translate(IDFinder.getWorld(id), id);
+      exceeds.translate(IDFinder.findRealWorld(id), id);
       return false;
     }
 
-    if(!AccountUtils.transaction(IDFinder.getID(owner).toString(), id.toString(), value, currency, TransactionType.BANK_WITHDRAWAL, IDFinder.getWorld(id))) {
+    if(!AccountUtils.transaction(IDFinder.getID(owner).toString(), id.toString(), value, currency, TransactionType.BANK_WITHDRAWAL, IDFinder.findRealWorld(id))) {
       Message overdraw = new Message("Messages.Bank.Overdraw");
       overdraw.addVariable("$amount",  CurrencyFormatter.format(world, currencyName, value));
       overdraw.addVariable("$name",  owner);
-      overdraw.translate(IDFinder.getWorld(id), id);
+      overdraw.translate(IDFinder.findRealWorld(id), id);
       return false;
     }
 
     Message withdrawn = new Message("Messages.Bank.Withdraw");
     withdrawn.addVariable("$amount",  CurrencyFormatter.format(world, currencyName, value));
     withdrawn.addVariable("$name",  owner);
-    withdrawn.translate(IDFinder.getWorld(id), id);
+    withdrawn.translate(IDFinder.findRealWorld(id), id);
     return true;
   }
 

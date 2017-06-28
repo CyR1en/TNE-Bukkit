@@ -44,8 +44,8 @@ public class BankDepositCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = getPlayer(sender);
-    String world = (arguments.length >= 2)? arguments[1] : getWorld(sender);
-    world = IDFinder.getBalanceShareWorld(world);
+    String world = (arguments.length >= 2)? arguments[1] : IDFinder.findRealWorld(getPlayer(sender));
+    world = IDFinder.findBalanceWorld(world);
     String owner = (arguments.length >= 3)? arguments[2] : player.getName();
     String currencyName = (arguments.length >= 4)? getCurrency(world, arguments[3]).getName() : plugin.manager.currencyManager.get(world).getName();
 
@@ -68,18 +68,18 @@ public class BankDepositCommand extends TNECommand {
     if(IDFinder.getID(owner) == null) {
       Message notFound = new Message("Messages.General.NoPlayer");
       notFound.addVariable("$player", owner);
-      notFound.translate(IDFinder.getWorld(player), player);
+      notFound.translate(IDFinder.findRealWorld(player), player);
       return false;
     }
 
     if(!account.hasBank(world) && !owner.equals(player.getName())) {
       Message none = new Message("Messages.Bank.None");
-      none.addVariable("$amount",  CurrencyFormatter.format(world, Bank.cost(getWorld(sender), IDFinder.getID(player).toString())));
-      none.translate(getWorld(sender), player);
+      none.addVariable("$amount",  CurrencyFormatter.format(world, Bank.cost(IDFinder.findRealWorld(getPlayer(sender)), IDFinder.getID(player).toString())));
+      none.translate(IDFinder.findRealWorld(getPlayer(sender)), player);
       return false;
     }
-    if(!AccountUtils.getAccount(IDFinder.getID(owner)).hasBank(world) || !Bank.bankMember(IDFinder.getID(owner), IDFinder.getID(sender.getName())) || !world.equals(getWorld(sender)) && !TNE.instance().api().getBoolean("Core.Bank.MultiManage")) {
-      new Message("Messages.General.NoPerm").translate(getWorld(player), player);
+    if(!AccountUtils.getAccount(IDFinder.getID(owner)).hasBank(world) || !Bank.bankMember(IDFinder.getID(owner), IDFinder.getID(sender.getName())) || !world.equals(IDFinder.findRealWorld(getPlayer(sender))) && !TNE.instance().api().getBoolean("Core.Bank.MultiManage")) {
+      new Message("Messages.General.NoPerm").translate(IDFinder.findRealWorld(player), player);
       return false;
     }
 
@@ -89,7 +89,7 @@ public class BankDepositCommand extends TNECommand {
       max.addVariable("$currency", currency.getName());
       max.addVariable("$world", world);
       max.addVariable("$player", getPlayer(sender).getDisplayName());
-      max.translate(getWorld(sender), sender);
+      max.translate(IDFinder.findRealWorld(getPlayer(sender)), sender);
       return false;
     }
 
@@ -108,18 +108,18 @@ public class BankDepositCommand extends TNECommand {
       return false;
     }
 
-    if(!AccountUtils.transaction(IDFinder.getID(player).toString(), IDFinder.getID(owner).toString(), value, plugin.manager.currencyManager.get(world, currencyName), TransactionType.BANK_DEPOSIT, IDFinder.getWorld(player))) {
+    if(!AccountUtils.transaction(IDFinder.getID(player).toString(), IDFinder.getID(owner).toString(), value, plugin.manager.currencyManager.get(world, currencyName), TransactionType.BANK_DEPOSIT, IDFinder.findRealWorld(player))) {
       Message insufficient = new Message("Messages.Money.Insufficient");
       insufficient.addVariable("$amount",  CurrencyFormatter.format(world, currencyName, value));
       insufficient.addVariable("$name",  owner);
-      insufficient.translate(IDFinder.getWorld(player), player);
+      insufficient.translate(IDFinder.findRealWorld(player), player);
       return false;
     }
 
     Message deposit = new Message("Messages.Bank.Deposit");
     deposit.addVariable("$amount",  CurrencyFormatter.format(world, currencyName, value));
     deposit.addVariable("$name",  owner);
-    deposit.translate(IDFinder.getWorld(player), player);
+    deposit.translate(IDFinder.findRealWorld(player), player);
     return true;
   }
 

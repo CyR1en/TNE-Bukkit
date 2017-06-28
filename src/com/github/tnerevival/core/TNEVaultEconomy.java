@@ -43,7 +43,7 @@ public class TNEVaultEconomy implements Economy {
 
   @Override
   public EconomyResponse createBank(String name, OfflinePlayer player) {
-    String world = IDFinder.getWorld(player.getPlayer());
+    String world = IDFinder.findRealWorld(player.getPlayer());
 
     if(!Bank.enabled(world, IDFinder.getID(player).toString())) {
       return new EconomyResponse(0, 0, ResponseType.FAILURE, "Banks are not enabled in this world!");
@@ -143,7 +143,7 @@ public class TNEVaultEconomy implements Economy {
 
   @Override
   public EconomyResponse isBankOwner(String name, OfflinePlayer player) {
-    if(AccountUtils.getAccount(getBankAccount(name)).getBank(IDFinder.getWorld(getBankAccount(name))).getOwner().equals(IDFinder.getID(player))) {
+    if(AccountUtils.getAccount(getBankAccount(name)).getBank(IDFinder.findRealWorld(getBankAccount(name))).getOwner().equals(IDFinder.getID(player))) {
       return new EconomyResponse(0, 0, ResponseType.SUCCESS, player.getName() + " is the owner of this bank!");
     }
     return new EconomyResponse(0, 0, ResponseType.FAILURE, player.getName() + " is not the owner of this bank!");
@@ -230,7 +230,7 @@ public class TNEVaultEconomy implements Economy {
   @Override
   @Deprecated
   public EconomyResponse bankBalance(String username) {
-    String world = IDFinder.getWorld(getBankAccount(username));
+    String world = IDFinder.findRealWorld(getBankAccount(username));
     if(!Bank.enabled(world, getBankAccount(username).toString())) {
       return new EconomyResponse(0, 0, ResponseType.FAILURE, "Banks are not enabled in this world!");
     }
@@ -244,7 +244,7 @@ public class TNEVaultEconomy implements Economy {
   @Override
   @Deprecated
   public EconomyResponse bankDeposit(String username, double amount) {
-    String world = IDFinder.getWorld(getBankAccount(username));
+    String world = IDFinder.findRealWorld(getBankAccount(username));
     if(!Bank.enabled(world, getBankAccount(username).toString())) {
       return new EconomyResponse(0, 0, ResponseType.FAILURE, "Banks are not enabled in this world!");
     }
@@ -263,7 +263,7 @@ public class TNEVaultEconomy implements Economy {
   @Override
   @Deprecated
   public EconomyResponse bankHas(String username, double amount) {
-    String world = IDFinder.getWorld(getBankAccount(username));
+    String world = IDFinder.findRealWorld(getBankAccount(username));
     if(!Bank.enabled(world, getBankAccount(username).toString())) {
       return new EconomyResponse(0, 0, ResponseType.FAILURE, "Banks are not enabled in this world!");
     }
@@ -281,7 +281,7 @@ public class TNEVaultEconomy implements Economy {
   @Override
   @Deprecated
   public EconomyResponse bankWithdraw(String username, double amount) {
-    String world = IDFinder.getWorld(getBankAccount(username));
+    String world = IDFinder.findRealWorld(getBankAccount(username));
     if(!Bank.enabled(world, getBankAccount(username).toString())) {
       return new EconomyResponse(0, 0, ResponseType.FAILURE, "Banks are not enabled in this world!");
     }
@@ -400,7 +400,7 @@ public class TNEVaultEconomy implements Economy {
   @Override
   @Deprecated
   public EconomyResponse isBankOwner(String name, String username) {
-    if(AccountUtils.getAccount(getBankAccount(name)).getBank(IDFinder.getWorld(getBankAccount(username))).getOwner().equals(IDFinder.getID(username))) {
+    if(AccountUtils.getAccount(getBankAccount(name)).getBank(IDFinder.findRealWorld(getBankAccount(username))).getOwner().equals(IDFinder.getID(username))) {
       return new EconomyResponse(0, 0, ResponseType.SUCCESS, username + " is the owner of this bank!");
     }
     return new EconomyResponse(0, 0, ResponseType.FAILURE, username + " is not the owner of this bank!");

@@ -72,17 +72,17 @@ public class InteractionListener implements Listener {
       String[] commandSplit = command.split(" ");
       String commandName = commandSplit[0];
       String commandFirstArg = commandSplit[0] + ((commandSplit.length > 1) ? " " + commandSplit[1] : "");
-      BigDecimal cost = configuration.getCommandCost(commandName.toLowerCase(), (commandSplit.length > 1) ? new String[] { commandSplit[1].toLowerCase() } : new String[0], IDFinder.getWorld(player), IDFinder.getID(player).toString());
+      BigDecimal cost = configuration.getCommandCost(commandName.toLowerCase(), (commandSplit.length > 1) ? new String[] { commandSplit[1].toLowerCase() } : new String[0], IDFinder.findRealWorld(player), IDFinder.getID(player).toString());
 
       Message commandCost = new Message("Messages.Command.Charge");
-      commandCost.addVariable("$amount", CurrencyFormatter.format(IDFinder.getWorld(event.getPlayer()), cost));
+      commandCost.addVariable("$amount", CurrencyFormatter.format(IDFinder.findRealWorld(event.getPlayer()), cost));
       commandCost.addVariable("$command", commandFirstArg);
 
       if(cost.compareTo(BigDecimal.ZERO) > 0) {
         String message = "";
         Account acc = AccountUtils.getAccount(IDFinder.getID(player));
-        if(TNE.instance().manager.enabled(IDFinder.getID(player), IDFinder.getWorld(player))) {
-          if(!TNE.instance().manager.confirmed(IDFinder.getID(player), IDFinder.getWorld(player))) {
+        if(TNE.instance().manager.enabled(IDFinder.getID(player), IDFinder.findRealWorld(player))) {
+          if(!TNE.instance().manager.confirmed(IDFinder.getID(player), IDFinder.findRealWorld(player))) {
             if (acc.getPin().equalsIgnoreCase("TNENOSTRINGVALUE"))
               message = "Messages.Account.Set";
             else if (!acc.getPin().equalsIgnoreCase("TNENOSTRINGVALUE"))
@@ -92,7 +92,7 @@ public class InteractionListener implements Listener {
 
         if(!message.equals("")) {
           event.setCancelled(true);
-          new Message(message).translate(IDFinder.getWorld(player), player);
+          new Message(message).translate(IDFinder.findRealWorld(player), player);
           return;
         }
         event.setCancelled(true);
@@ -114,13 +114,13 @@ public class InteractionListener implements Listener {
             return;
           }
 
-          commandCost.translate(IDFinder.getWorld(player), player);
+          commandCost.translate(IDFinder.findRealWorld(player), player);
         }
         return;
       }
 
       if(TNE.configurations.getBoolean("Objects.Commands.ZeroMessage", "objects")) {
-        commandCost.translate(IDFinder.getWorld(player), player);
+        commandCost.translate(IDFinder.findRealWorld(player), player);
       }
     }
   }
@@ -223,12 +223,12 @@ public class InteractionListener implements Listener {
 
   @EventHandler
   public void onEnchant(final EnchantItemEvent event) {
-    if (TNE.instance().api().getBoolean("Materials.Enabled", IDFinder.getWorld(event.getEnchanter()), IDFinder.getID(event.getEnchanter()))) {
+    if (TNE.instance().api().getBoolean("Materials.Enabled", IDFinder.findRealWorld(event.getEnchanter()), IDFinder.getID(event.getEnchanter()))) {
       if (event.getItem() != null && !event.getItem().getType().equals(Material.AIR)) {
 
         ItemStack result = event.getItem();
         String name = result.getType().name();
-        BigDecimal cost = InteractionType.ENCHANT.getCost(name, IDFinder.getWorld(event.getEnchanter()), IDFinder.getID(event.getEnchanter()).toString());
+        BigDecimal cost = InteractionType.ENCHANT.getCost(name, IDFinder.findRealWorld(event.getEnchanter()), IDFinder.getID(event.getEnchanter()).toString());
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.WHITE + "Enchanting Cost: " + ChatColor.GOLD + cost);
@@ -251,9 +251,9 @@ public class InteractionListener implements Listener {
     if(event.getInventory().getResult() != null) {
       Player player = (Player)event.getView().getPlayer();
 
-      if (TNE.instance().api().getBoolean("Materials.Enabled", IDFinder.getWorld(player), IDFinder.getID(player))) {
+      if (TNE.instance().api().getBoolean("Materials.Enabled", IDFinder.findRealWorld(player), IDFinder.getID(player))) {
         String name = event.getInventory().getResult().getType().name();
-        BigDecimal cost = InteractionType.CRAFTING.getCost(name, IDFinder.getWorld(player), IDFinder.getID(player).toString());
+        BigDecimal cost = InteractionType.CRAFTING.getCost(name, IDFinder.findRealWorld(player), IDFinder.getID(player).toString());
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.WHITE + "Crafting Cost: " + ChatColor.GOLD + cost);
@@ -272,7 +272,7 @@ public class InteractionListener implements Listener {
 
     Player player = (Player) event.getWhoClicked();
 
-    if (TNE.instance().api().getBoolean("Materials.Enabled", IDFinder.getWorld(player), IDFinder.getID(player))) {
+    if (TNE.instance().api().getBoolean("Materials.Enabled", IDFinder.findRealWorld(player), IDFinder.getID(player))) {
 
       String name = event.getInventory().getResult().getType().name();
       ItemStack result = event.getCurrentItem().clone();
@@ -352,14 +352,14 @@ public class InteractionListener implements Listener {
         if (!sign.onCreate(event.getPlayer())) {
           event.setCancelled(true);
         } else {
-          BigDecimal place = sign.getType().place(IDFinder.getWorld(event.getPlayer()), IDFinder.getID(event.getPlayer()).toString());
+          BigDecimal place = sign.getType().place(IDFinder.findRealWorld(event.getPlayer()), IDFinder.getID(event.getPlayer()).toString());
           MISCUtils.debug("Interaction " + place);
           MISCUtils.debug("Interaction " + sign.getType().name());
           if (place != null && place.compareTo(BigDecimal.ZERO) > 0) {
-            AccountUtils.transaction(IDFinder.getID(event.getPlayer()).toString(), null, place, TransactionType.MONEY_REMOVE, IDFinder.getWorld(event.getPlayer()));
+            AccountUtils.transaction(IDFinder.getID(event.getPlayer()).toString(), null, place, TransactionType.MONEY_REMOVE, IDFinder.findRealWorld(event.getPlayer()));
             Message charged = new Message("Messages.Objects.SignPlace");
-            charged.addVariable("$amount", CurrencyFormatter.format(IDFinder.getWorld(event.getPlayer()), place));
-            charged.translate(IDFinder.getWorld(player), player);
+            charged.addVariable("$amount", CurrencyFormatter.format(IDFinder.findRealWorld(event.getPlayer()), place));
+            charged.translate(IDFinder.findRealWorld(player), player);
           }
 
           if(type.equals(SignType.ITEM)) {
@@ -407,7 +407,7 @@ public class InteractionListener implements Listener {
 
       if(player.getInventory().getItemInMainHand().getType().equals(Material.NAME_TAG) && !player.hasPermission("tne.bypass.nametag")) {
         event.setCancelled(true);
-        new Message("Messages.Mob.NPCTag").translate(IDFinder.getWorld(player), player);
+        new Message("Messages.Mob.NPCTag").translate(IDFinder.findRealWorld(player), player);
       }
 
       if(villager.getCustomName() != null && villager.getCustomName().equalsIgnoreCase("vaultkeeper")) {
@@ -415,22 +415,22 @@ public class InteractionListener implements Listener {
         if(player.hasPermission("tne.vault.use")) {
           if(Vault.enabled(world, IDFinder.getID(player).toString())) {
             if(Vault.npc(world)) {
-              if(AccountUtils.getAccount(IDFinder.getID(player)).hasBank(IDFinder.getWorld(player))) {
+              if(AccountUtils.getAccount(IDFinder.getID(player)).hasBank(IDFinder.findRealWorld(player))) {
                 Inventory inventory = AccountUtils.getAccount(IDFinder.getID(player)).getVault(world).getInventory();
                 player.openInventory(inventory);
               } else {
                 Message none = new Message("Messages.Vault.None");
                 none.addVariable("$amount",  CurrencyFormatter.format(player.getWorld().getName(), Vault.cost(player.getWorld().getName(), IDFinder.getID(player).toString())));
-                none.translate(IDFinder.getWorld(player), player);
+                none.translate(IDFinder.findRealWorld(player), player);
               }
             } else {
-              new Message("Messages.Vault.NoNPC").translate(IDFinder.getWorld(player), player);
+              new Message("Messages.Vault.NoNPC").translate(IDFinder.findRealWorld(player), player);
             }
           } else {
-            new Message("Messages.Vault.Disabled").translate(IDFinder.getWorld(player), player);
+            new Message("Messages.Vault.Disabled").translate(IDFinder.findRealWorld(player), player);
           }
         } else {
-          new Message("Messages.General.NoPerm").translate(IDFinder.getWorld(player), player);
+          new Message("Messages.General.NoPerm").translate(IDFinder.findRealWorld(player), player);
         }
       }
     }
@@ -467,11 +467,11 @@ public class InteractionListener implements Listener {
             }
           }
           if(!event.isCancelled()) {
-            BigDecimal use = sign.getType().use(IDFinder.getWorld(event.getPlayer()), IDFinder.getID(event.getPlayer()).toString());
-            AccountUtils.transaction(IDFinder.getID(event.getPlayer()).toString(), null, use, TransactionType.MONEY_REMOVE, IDFinder.getWorld(event.getPlayer()));
+            BigDecimal use = sign.getType().use(IDFinder.findRealWorld(event.getPlayer()), IDFinder.getID(event.getPlayer()).toString());
+            AccountUtils.transaction(IDFinder.getID(event.getPlayer()).toString(), null, use, TransactionType.MONEY_REMOVE, IDFinder.findRealWorld(event.getPlayer()));
             Message charged = new Message("Messages.Objects.SignUse");
-            charged.addVariable("$amount", CurrencyFormatter.format(IDFinder.getWorld(event.getPlayer()), use));
-            charged.translate(IDFinder.getWorld(player), player);
+            charged.addVariable("$amount", CurrencyFormatter.format(IDFinder.findRealWorld(event.getPlayer()), use));
+            charged.translate(IDFinder.findRealWorld(player), player);
           }
         }
       } else if(action.equals(Action.RIGHT_CLICK_BLOCK) && block.getState() instanceof Chest
@@ -513,11 +513,11 @@ public class InteractionListener implements Listener {
             event.setCancelled(true);
           }
           if(!event.isCancelled()) {
-            BigDecimal use = sign.getType().use(IDFinder.getWorld(event.getPlayer()), IDFinder.getID(event.getPlayer()).toString());
-            AccountUtils.transaction(IDFinder.getID(event.getPlayer()).toString(), null, use, TransactionType.MONEY_REMOVE, IDFinder.getWorld(event.getPlayer()));
+            BigDecimal use = sign.getType().use(IDFinder.findRealWorld(event.getPlayer()), IDFinder.getID(event.getPlayer()).toString());
+            AccountUtils.transaction(IDFinder.getID(event.getPlayer()).toString(), null, use, TransactionType.MONEY_REMOVE, IDFinder.findRealWorld(event.getPlayer()));
             Message charged = new Message("Messages.Objects.SignUse");
-            charged.addVariable("$amount", CurrencyFormatter.format(IDFinder.getWorld(event.getPlayer()), use));
-            charged.translate(IDFinder.getWorld(player), player);
+            charged.addVariable("$amount", CurrencyFormatter.format(IDFinder.findRealWorld(event.getPlayer()), use));
+            charged.translate(IDFinder.findRealWorld(player), player);
           }
         }
       }
@@ -552,7 +552,7 @@ public class InteractionListener implements Listener {
       //Permissions Check
       if(killer.hasPermission("tne.general.mob")) {
 
-        String world = IDFinder.getWorld(killer);
+        String world = IDFinder.findRealWorld(killer);
         String id = IDFinder.getID(killer).toString();
         String mob = entity.getCustomName();
         BigDecimal reward = TNE.configurations.mobReward("Default", world, id);
@@ -633,12 +633,12 @@ public class InteractionListener implements Listener {
           if (TNE.instance().messageConfigurations.contains("Messages.Mob.Custom." + formatted.replaceAll(" ", "")))
             messageNode = TNE.instance().messageConfigurations.getString("Messages.Mob.Custom." + formatted.replaceAll(" ", ""));
           if (TNE.configurations.mobEnabled(mob, world, id)) {
-            AccountUtils.transaction(IDFinder.getID(killer).toString(), null, reward, TNE.instance().manager.currencyManager.get(world, currency), TransactionType.MONEY_GIVE, IDFinder.getWorld(killer));
+            AccountUtils.transaction(IDFinder.getID(killer).toString(), null, reward, TNE.instance().manager.currencyManager.get(world, currency), TransactionType.MONEY_GIVE, IDFinder.findRealWorld(killer));
             if (TNE.instance().api().getBoolean("Mobs.Message")) {
               Message mobKilled = new Message(messageNode);
               mobKilled.addVariable("$mob", formatted.replace(".", " "));
-              mobKilled.addVariable("$reward", CurrencyFormatter.format(IDFinder.getWorld(killer), currency, reward));
-              mobKilled.translate(IDFinder.getWorld(killer), killer);
+              mobKilled.addVariable("$reward", CurrencyFormatter.format(IDFinder.findRealWorld(killer), currency, reward));
+              mobKilled.translate(IDFinder.findRealWorld(killer), killer);
             }
           }
         }

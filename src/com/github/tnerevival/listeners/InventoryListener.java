@@ -60,7 +60,7 @@ public class InventoryListener implements Listener {
   @EventHandler
   public void onOpen(final InventoryOpenEvent event) {
     UUID player = IDFinder.getID((Player)event.getPlayer());
-    String world = IDFinder.getWorld(player);
+    String world = IDFinder.findRealWorld(player);
     Inventory inventory = event.getInventory();
     InventoryType type = inventory.getType();
 
@@ -252,7 +252,7 @@ public class InventoryListener implements Listener {
   public void onClose(final InventoryCloseEvent event) {
     UUID player = IDFinder.getID((Player)event.getPlayer());
     InventoryType type = event.getInventory().getType();
-    String world = IDFinder.getWorld(player);
+    String world = IDFinder.findRealWorld(player);
 
     if(plugin.inventoryManager.inventoryTime.containsKey(player)) {
       InventoryTimeTracking tracking = plugin.inventoryManager.inventoryTime.get(player);

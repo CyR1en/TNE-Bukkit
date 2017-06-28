@@ -39,9 +39,9 @@ public class PinConfirmCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = (Player)sender;
 
-    if(TNE.instance().manager.confirmed(IDFinder.getID(player), IDFinder.getWorld(player))) {
+    if(TNE.instance().manager.confirmed(IDFinder.getID(player), IDFinder.findRealWorld(player))) {
       Message message = new Message("Messages.Pin.Already");
-      message.translate(IDFinder.getWorld(player), player);
+      message.translate(IDFinder.findRealWorld(player), player);
       return false;
     }
 
@@ -49,7 +49,7 @@ public class PinConfirmCommand extends TNECommand {
       Account acc = AccountUtils.getAccount(IDFinder.getID(player));
       if(acc.getPin().equalsIgnoreCase("TNENOSTRINGVALUE")) {
         Message message = new Message("Messages.Account.Set");
-        message.translate(IDFinder.getWorld(player), player);
+        message.translate(IDFinder.findRealWorld(player), player);
         return false;
       }
 
@@ -60,7 +60,7 @@ public class PinConfirmCommand extends TNECommand {
 
       TNE.instance().manager.confirmed.add(IDFinder.getID(player));
       Message message = new Message("Messages.Pin.Confirmed");
-      message.translate(IDFinder.getWorld(player), player);
+      message.translate(IDFinder.findRealWorld(player), player);
       return true;
     }
     help(sender);

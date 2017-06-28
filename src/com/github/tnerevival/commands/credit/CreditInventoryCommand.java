@@ -5,7 +5,6 @@ import com.github.tnerevival.account.IDFinder;
 import com.github.tnerevival.commands.TNECommand;
 import com.github.tnerevival.core.Message;
 import com.github.tnerevival.utils.AccountUtils;
-import com.github.tnerevival.utils.MISCUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -54,7 +53,7 @@ public class CreditInventoryCommand extends TNECommand {
       } else {
         Message insufficient = new Message("Messages.Credit.Empty");
         insufficient.addVariable("$type",  arguments[0]);
-        insufficient.translate(IDFinder.getWorld(player), player);
+        insufficient.translate(IDFinder.findRealWorld(player), player);
         return false;
       }
     }

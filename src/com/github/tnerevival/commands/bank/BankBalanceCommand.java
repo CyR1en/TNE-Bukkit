@@ -42,8 +42,8 @@ public class BankBalanceCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = getPlayer(sender);
-    String world = (arguments.length >= 1)? arguments[0] : getWorld(sender);
-    world = IDFinder.getBalanceShareWorld(world);
+    String world = (arguments.length >= 1)? arguments[0] : IDFinder.findRealWorld(getPlayer(sender));
+    world = IDFinder.findBalanceWorld(world);
     String owner = (arguments.length >= 2)? arguments[1] : player.getName();
     String currency = (arguments.length >= 3)? getCurrency(world, arguments[2]).getName() : plugin.manager.currencyManager.get(world).getName();
     Account account = AccountUtils.getAccount(IDFinder.getID(owner));
@@ -52,25 +52,25 @@ public class BankBalanceCommand extends TNECommand {
     if(IDFinder.getID(owner) == null) {
       Message notFound = new Message("Messages.General.NoPlayer");
       notFound.addVariable("$player", owner);
-      notFound.translate(IDFinder.getWorld(player), player);
+      notFound.translate(IDFinder.findRealWorld(player), player);
       return false;
     }
 
     if(!account.hasBank(world) && !owner.equals(player.getName())) {
       Message none = new Message("Messages.Bank.None");
-      none.addVariable("$amount",  CurrencyFormatter.format(getWorld(sender), Bank.cost(getWorld(sender), IDFinder.getID(player).toString())));
-      none.translate(getWorld(sender), player);
+      none.addVariable("$amount",  CurrencyFormatter.format(IDFinder.findRealWorld(getPlayer(sender)), Bank.cost(IDFinder.findRealWorld(getPlayer(sender)), IDFinder.getID(player).toString())));
+      none.translate(IDFinder.findRealWorld(getPlayer(sender)), player);
       return false;
     }
 
-    if(!AccountUtils.getAccount(IDFinder.getID(owner)).hasBank(world) || !Bank.bankMember(IDFinder.getID(owner), IDFinder.getID(sender.getName())) || !world.equals(getWorld(sender)) && !TNE.instance().api().getBoolean("Core.Bank.MultiManage")) {
-      new Message("Messages.General.NoPerm").translate(getWorld(player), player);
+    if(!AccountUtils.getAccount(IDFinder.getID(owner)).hasBank(world) || !Bank.bankMember(IDFinder.getID(owner), IDFinder.getID(sender.getName())) || !world.equals(IDFinder.findRealWorld(getPlayer(sender))) && !TNE.instance().api().getBoolean("Core.Bank.MultiManage")) {
+      new Message("Messages.General.NoPerm").translate(IDFinder.findRealWorld(player), player);
       return false;
     }
     Message balance = new Message("Messages.Bank.Balance");
     balance.addVariable("$amount",  CurrencyFormatter.format(world, currency, Bank.getBankBalance(IDFinder.getID(owner), world, currency)));
     balance.addVariable("$name", owner);
-    balance.translate(IDFinder.getWorld(player), player);
+    balance.translate(IDFinder.findRealWorld(player), player);
     return true;
   }
 

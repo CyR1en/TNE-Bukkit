@@ -41,8 +41,8 @@ public class AdminBalanceCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(arguments.length >= 1 && arguments.length <= 3) {
-      String world = (arguments.length >= 2)? getWorld(sender, arguments[1]) : getWorld(sender);
-      world = IDFinder.getBalanceShareWorld(world);
+      String world = (arguments.length >= 2)? getWorld(sender, arguments[1]) : IDFinder.findRealWorld(getPlayer(sender));
+      world = IDFinder.findBalanceWorld(world);
       String currencyName = (arguments.length >= 3)? arguments[2] : TNE.instance().manager.currencyManager.get(world).getName();
       Currency currency = getCurrency(world, currencyName);
       MISCUtils.debug(TNE.instance().manager.accounts.containsKey(IDFinder.getID(arguments[0])) + "");

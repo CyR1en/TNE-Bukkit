@@ -65,12 +65,12 @@ public class AuctionBidCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-    String world = getWorld(sender);
-    if(arguments.length < 1 || !CurrencyFormatter.isBigDecimal(arguments[0], IDFinder.getWorld(getPlayer(sender)))) {
+    String world = IDFinder.findRealWorld(getPlayer(sender));
+    if(arguments.length < 1 || !CurrencyFormatter.isBigDecimal(arguments[0], IDFinder.findRealWorld(getPlayer(sender)))) {
       new Message("Messages.Auction.BidRequire").translate(world, sender);
       return false;
     }
-    BigDecimal bid = CurrencyFormatter.translateBigDecimal(arguments[0], IDFinder.getWorld(getPlayer(sender)));
+    BigDecimal bid = CurrencyFormatter.translateBigDecimal(arguments[0], IDFinder.findRealWorld(getPlayer(sender)));
     Integer lot = (arguments.length >= 2 && MISCUtils.isInteger(arguments[1]))? Integer.valueOf(arguments[1]) : -1;
     if(lot == -1) {
       if(plugin.manager.auctionManager.requireLot(world)) {

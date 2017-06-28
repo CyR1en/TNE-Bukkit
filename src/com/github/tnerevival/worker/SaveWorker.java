@@ -1,8 +1,7 @@
 package com.github.tnerevival.worker;
 
-import org.bukkit.scheduler.BukkitRunnable;
-
 import com.github.tnerevival.TNE;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class SaveWorker extends BukkitRunnable {
 

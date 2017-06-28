@@ -65,7 +65,7 @@ public class AdminPinCommand extends TNECommand {
 
         TNE.instance().manager.accounts.put(acc.getUid(), acc);
         if(Bukkit.getOnlinePlayers().contains(target)) {
-          String world = IDFinder.getWorld(target);
+          String world = IDFinder.findRealWorld(target);
           Message m = new Message("Messages.Account.Reset");
           m.addVariable("$pin", arguments[1]);
           m.translate(world, target);

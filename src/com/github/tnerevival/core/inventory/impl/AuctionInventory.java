@@ -75,7 +75,7 @@ public class AuctionInventory extends TNEInventory {
       if(inventory.getItem(slot) != null && !inventory.getItem(slot).getType().equals(Material.AIR)) {
         int use = (lots.size() == 1)? 0 : slot;
         Auction a = TNE.instance().manager.auctionManager.getAuction(lots.get(use));
-        TNE.instance().manager.auctionManager.bid(IDFinder.getWorld(player), lots.get(use), player, new TransactionCost(a.getNextBid()));
+        TNE.instance().manager.auctionManager.bid(IDFinder.findRealWorld(player), lots.get(use), player, new TransactionCost(a.getNextBid()));
         IDFinder.getPlayer(player.toString()).closeInventory();
         onClose(player);
         return false;

@@ -44,7 +44,7 @@ public class BankAddCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = getPlayer(sender);
     Account account = AccountUtils.getAccount(IDFinder.getID(player));
-    String world = (arguments.length >= 2)? arguments[1] : getWorld(sender);
+    String world = (arguments.length >= 2)? arguments[1] : IDFinder.findRealWorld(getPlayer(sender));
 
     if(arguments.length < 1) {
       help(sender);
@@ -54,25 +54,25 @@ public class BankAddCommand extends TNECommand {
     if(IDFinder.getID(arguments[0]) == null) {
       Message notFound = new Message("Messages.General.NoPlayer");
       notFound.addVariable("$player", arguments[0]);
-      notFound.translate(IDFinder.getWorld(player), player);
+      notFound.translate(IDFinder.findRealWorld(player), player);
       return false;
     }
 
     if(!account.hasBank(world)) {
       Message none = new Message("Messages.Bank.None");
-      none.addVariable("$amount",  CurrencyFormatter.format(getWorld(sender), Bank.cost(getWorld(sender), IDFinder.getID(player).toString())));
-      none.translate(getWorld(sender), player);
+      none.addVariable("$amount",  CurrencyFormatter.format(IDFinder.findRealWorld(getPlayer(sender)), Bank.cost(IDFinder.findRealWorld(getPlayer(sender)), IDFinder.getID(player).toString())));
+      none.translate(IDFinder.findRealWorld(getPlayer(sender)), player);
       return false;
     }
 
-    if(!account.getBank(world).getOwner().equals(IDFinder.getID(player))|| !world.equals(getWorld(sender)) && !TNE.instance().api().getBoolean("Core.Bank.MultiManage")) {
-      new Message("Messages.General.NoPerm").translate(getWorld(player), player);
+    if(!account.getBank(world).getOwner().equals(IDFinder.getID(player))|| !world.equals(IDFinder.findRealWorld(getPlayer(sender))) && !TNE.instance().api().getBoolean("Core.Bank.MultiManage")) {
+      new Message("Messages.General.NoPerm").translate(IDFinder.findRealWorld(player), player);
       return false;
     }
     account.getBank(world).addMember(IDFinder.getID(IDFinder.getPlayer(arguments[0])));
     Message added = new Message("Messages.Bank.Added");
     added.addVariable("$player", arguments[0]);
-    added.translate(getWorld(player), player);
+    added.translate(IDFinder.findRealWorld(player), player);
     return true;
   }
 

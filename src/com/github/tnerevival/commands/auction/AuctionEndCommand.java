@@ -1,6 +1,7 @@
 package com.github.tnerevival.commands.auction;
 
 import com.github.tnerevival.TNE;
+import com.github.tnerevival.account.IDFinder;
 import com.github.tnerevival.commands.TNECommand;
 import com.github.tnerevival.core.Message;
 import com.github.tnerevival.utils.MISCUtils;
@@ -60,7 +61,7 @@ public class AuctionEndCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-    String world = getWorld(sender);
+    String world = IDFinder.findRealWorld(getPlayer(sender));
     Boolean winner = (arguments.length >= 1 && MISCUtils.isBoolean(arguments[0]))? Boolean.valueOf(arguments[0]) : false;
     Integer lot = (arguments.length >= 2 && MISCUtils.isInteger(arguments[1]))? Integer.valueOf(arguments[1]) : -1;
     if(lot == -1) {

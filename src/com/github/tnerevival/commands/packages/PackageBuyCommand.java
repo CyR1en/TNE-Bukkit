@@ -8,7 +8,6 @@ import com.github.tnerevival.core.currency.CurrencyFormatter;
 import com.github.tnerevival.core.objects.TNEAccessPackage;
 import com.github.tnerevival.core.transaction.TransactionType;
 import com.github.tnerevival.utils.AccountUtils;
-import com.github.tnerevival.utils.MISCUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -47,28 +46,28 @@ public class PackageBuyCommand extends TNECommand {
     if(!AccountUtils.getAccount(IDFinder.getID(player)).getStatus().getBalance()) {
       Message locked = new Message("Messages.Account.Locked");
       locked.addVariable("$player", player.getDisplayName());
-      locked.translate(IDFinder.getWorld(player), player);
+      locked.translate(IDFinder.findRealWorld(player), player);
       return false;
     }
 
     if(arguments.length == 2) {
-      List<TNEAccessPackage> packages = TNE.configurations.getObjectConfiguration().getInventoryPackages(arguments[0], IDFinder.getWorld(player), IDFinder.getID(player).toString());
+      List<TNEAccessPackage> packages = TNE.configurations.getObjectConfiguration().getInventoryPackages(arguments[0], IDFinder.findRealWorld(player), IDFinder.getID(player).toString());
       if(packages.size() > 0) {
         for(TNEAccessPackage p : packages) {
           if(p.getName().equalsIgnoreCase(arguments[1])) {
-            if(AccountUtils.transaction(IDFinder.getID(player).toString(), null, p.getCost(), TransactionType.MONEY_INQUIRY, IDFinder.getWorld(player))) {
-              AccountUtils.transaction(IDFinder.getID(player).toString(), null, p.getCost(), TransactionType.MONEY_REMOVE, IDFinder.getWorld(player));
-              AccountUtils.getAccount(IDFinder.getID(player)).addTime(IDFinder.getWorld(player), arguments[0], p.getTime());
+            if(AccountUtils.transaction(IDFinder.getID(player).toString(), null, p.getCost(), TransactionType.MONEY_INQUIRY, IDFinder.findRealWorld(player))) {
+              AccountUtils.transaction(IDFinder.getID(player).toString(), null, p.getCost(), TransactionType.MONEY_REMOVE, IDFinder.findRealWorld(player));
+              AccountUtils.getAccount(IDFinder.getID(player)).addTime(IDFinder.findRealWorld(player), arguments[0], p.getTime());
               Message bought = new Message("Messages.Package.Bought");
-              bought.addVariable("$amount",  CurrencyFormatter.format(IDFinder.getWorld(player), p.getCost()));
+              bought.addVariable("$amount",  CurrencyFormatter.format(IDFinder.findRealWorld(player), p.getCost()));
               bought.addVariable("$name",  p.getName());
               bought.addVariable("$type",  arguments[0]);
-              bought.translate(IDFinder.getWorld(player), player);
+              bought.translate(IDFinder.findRealWorld(player), player);
               return true;
             } else {
               Message insufficient = new Message("Messages.Money.Insufficient");
-              insufficient.addVariable("$amount",  CurrencyFormatter.format(IDFinder.getWorld(player), p.getCost()));
-              insufficient.translate(IDFinder.getWorld(player), player);
+              insufficient.addVariable("$amount",  CurrencyFormatter.format(IDFinder.findRealWorld(player), p.getCost()));
+              insufficient.translate(IDFinder.findRealWorld(player), player);
               return false;
             }
           }
@@ -77,7 +76,7 @@ public class PackageBuyCommand extends TNECommand {
       Message insufficient = new Message("Messages.Package.None");
       insufficient.addVariable("$name",  arguments[1]);
       insufficient.addVariable("$type",  arguments[0]);
-      insufficient.translate(IDFinder.getWorld(player), player);
+      insufficient.translate(IDFinder.findRealWorld(player), player);
       return false;
     }
     help(sender);

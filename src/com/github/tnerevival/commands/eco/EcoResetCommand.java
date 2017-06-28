@@ -1,6 +1,7 @@
 package com.github.tnerevival.commands.eco;
 
 import com.github.tnerevival.TNE;
+import com.github.tnerevival.account.IDFinder;
 import com.github.tnerevival.commands.TNECommand;
 import com.github.tnerevival.core.Message;
 import org.bukkit.command.CommandSender;
@@ -50,7 +51,7 @@ public class EcoResetCommand extends TNECommand {
     reset.addVariable("$world", world);
     reset.addVariable("$currency", currency);
     reset.addVariable("$player", player);
-    reset.translate(getWorld(sender), sender);
+    reset.translate(IDFinder.findRealWorld(getPlayer(sender)), sender);
     return true;
   }
 

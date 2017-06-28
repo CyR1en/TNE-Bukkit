@@ -52,19 +52,19 @@ public abstract class TNESign {
       event.setCancelled(true);
     }
 
-    Integer max = type.max(IDFinder.getWorld(player), IDFinder.getID(player).toString());
+    Integer max = type.max(IDFinder.findRealWorld(player), IDFinder.getID(player).toString());
     if(max > -1 && getOwned(IDFinder.getID(player), type) >= max) {
-      new Message("Messages.Sign.Max").translate(IDFinder.getWorld(player), player);
+      new Message("Messages.Sign.Max").translate(IDFinder.findRealWorld(player), player);
       event.setCancelled(true);
     }
 
-    BigDecimal place = type.place(IDFinder.getWorld(player), IDFinder.getID(player).toString());
+    BigDecimal place = type.place(IDFinder.findRealWorld(player), IDFinder.getID(player).toString());
 
     if(!event.isCancelled() && place != null && place.compareTo(BigDecimal.ZERO) > 0) {
-      if (!AccountUtils.transaction(IDFinder.getID(player).toString(), null, place, TransactionType.MONEY_INQUIRY, IDFinder.getWorld(player))) {
+      if (!AccountUtils.transaction(IDFinder.getID(player).toString(), null, place, TransactionType.MONEY_INQUIRY, IDFinder.findRealWorld(player))) {
         Message insufficient = new Message("Messages.Money.Insufficient");
-        insufficient.addVariable("$amount", CurrencyFormatter.format(IDFinder.getWorld(player), place));
-        insufficient.translate(IDFinder.getWorld(player), player);
+        insufficient.addVariable("$amount", CurrencyFormatter.format(IDFinder.findRealWorld(player), place));
+        insufficient.translate(IDFinder.findRealWorld(player), player);
         event.setCancelled(true);
       }
     }
@@ -110,17 +110,17 @@ public abstract class TNESign {
       event.setCancelled(true);
     }
 
-    BigDecimal use = type.use(IDFinder.getWorld(player), IDFinder.getID(player).toString());
+    BigDecimal use = type.use(IDFinder.findRealWorld(player), IDFinder.getID(player).toString());
 
-    if(!type.enabled(IDFinder.getWorld(player), IDFinder.getID(player).toString())) {
-      new Message("Messages.Objects.SignDisabled").translate(IDFinder.getWorld(player), player);
+    if(!type.enabled(IDFinder.findRealWorld(player), IDFinder.getID(player).toString())) {
+      new Message("Messages.Objects.SignDisabled").translate(IDFinder.findRealWorld(player), player);
       event.setCancelled(true);
     }
 
-    if(!AccountUtils.transaction(IDFinder.getID(player).toString(), null, use, TransactionType.MONEY_INQUIRY, IDFinder.getWorld(player))) {
+    if(!AccountUtils.transaction(IDFinder.getID(player).toString(), null, use, TransactionType.MONEY_INQUIRY, IDFinder.findRealWorld(player))) {
       Message insufficient = new Message("Messages.Money.Insufficient");
-      insufficient.addVariable("$amount", CurrencyFormatter.format(IDFinder.getWorld(player), use));
-      insufficient.translate(IDFinder.getWorld(player), player);
+      insufficient.addVariable("$amount", CurrencyFormatter.format(IDFinder.findRealWorld(player), use));
+      insufficient.translate(IDFinder.findRealWorld(player), player);
       event.setCancelled(true);
     }
 

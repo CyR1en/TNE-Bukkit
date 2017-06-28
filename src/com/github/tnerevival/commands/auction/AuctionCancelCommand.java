@@ -62,7 +62,7 @@ public class AuctionCancelCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-    String world = getWorld(sender);
+    String world = IDFinder.findRealWorld(getPlayer(sender));
     if(arguments.length < 1 || !MISCUtils.isInteger(arguments[0])) {
       new Message("Messages.Auction.LotRequire").translate(world, sender);
       return false;

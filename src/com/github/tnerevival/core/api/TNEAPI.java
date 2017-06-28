@@ -20,7 +20,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 public class TNEAPI {
 
@@ -75,7 +78,7 @@ public class TNEAPI {
    * @param amount The amount of funds to add to the player's account.
    */
   public void fundsAdd(String identifier, BigDecimal amount) {
-    fundsAdd(identifier, IDFinder.getWorld(IDFinder.getID(identifier)), amount);
+    fundsAdd(identifier, IDFinder.findRealWorld(IDFinder.getID(identifier)), amount);
   }
 
   /**
@@ -106,7 +109,7 @@ public class TNEAPI {
    * @return Whether or not this player has the specified funds.
    */
   public Boolean fundsHas(String identifier, BigDecimal amount) {
-    return fundsHas(identifier, IDFinder.getWorld(IDFinder.getID(identifier)), amount);
+    return fundsHas(identifier, IDFinder.findRealWorld(IDFinder.getID(identifier)), amount);
   }
 
   /**
@@ -138,7 +141,7 @@ public class TNEAPI {
    * @param amount The amount of funds to remove to the player's account.
    */
   public void fundsRemove(String identifier, BigDecimal amount) {
-    fundsRemove(identifier, IDFinder.getWorld(IDFinder.getID(identifier)), amount);
+    fundsRemove(identifier, IDFinder.findRealWorld(IDFinder.getID(identifier)), amount);
   }
 
 
@@ -691,19 +694,11 @@ public class TNEAPI {
   }
 
   /**
-   * Get a map of all the currencies.
-   * @return A map containing every currency with the world as the key, and instance as value.
-   */
-  public Map<String, Currency> getCurrencies() {
-    return plugin.manager.currencyManager.getCurrencies();
-  }
-
-  /**
    * Get a list of all the currencies for a specific world.
    * @param world The name of the world to use.
    * @return A list containing every currency for the specified world.
    */
-  public List<Currency> getCurrencies(String world) {
+  public Collection<Currency> getCurrencies(String world) {
     return plugin.manager.currencyManager.getWorldCurrencies(world);
   }
 

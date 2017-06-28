@@ -12,7 +12,9 @@ import com.github.tnerevival.listeners.collections.ShopsListener;
 import com.github.tnerevival.listeners.collections.SignsListener;
 import com.github.tnerevival.serializable.SerializableLocation;
 import com.github.tnerevival.utils.AccountUtils;
+import com.github.tnerevival.utils.MISCUtils;
 import com.github.tnerevival.utils.TopBalance;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -25,27 +27,32 @@ public class EconomyManager {
    * Format: Player UUID, Account Class Instance
    */
   public EventMap<UUID, Account> accounts = new EventMap<>();
-
   public EventMap<String, UUID> ecoIDs = new EventMap<>();
-
   public  EventMap<String, Shop> shops = new EventMap<>();
-
   public List<UUID> confirmed = new ArrayList<>();
   public List<UUID> special = new ArrayList<>();
-
   public EventMap<SerializableLocation, TNESign> signs = new EventMap<>();
-
   public List<CommandSender> debuggers = new ArrayList<>();
+  public Map<String, WorldManager> worldManagers = new HashMap<>();
 
-  public AuctionManager auctionManager = new AuctionManager();
-  public CurrencyManager currencyManager = new CurrencyManager();
-  public TransactionManager transactions = new TransactionManager();
+  public CurrencyManager currencyManager;
+  public TransactionManager transactions;
+  public AuctionManager auctionManager;
 
   public EconomyManager() {
     accounts.setListener(new AccountsListener());
     ecoIDs.setListener(new IDSListener());
     shops.setListener(new ShopsListener());
     signs.setListener(new SignsListener());
+
+    //Initialize our world managers.
+    for(World world : TNE.instance().getServer().getWorlds()) {
+      MISCUtils.debug("Adding world manager for world: " + world.getName());
+      worldManagers.put(world.getName(), new WorldManager(world.getName()));
+    }
+    currencyManager = new CurrencyManager();
+    transactions = new TransactionManager();
+    auctionManager = new AuctionManager();
   }
 
   public LinkedHashSet<Object> parseTop(String currency, String world, Boolean bank, Integer limit) {
@@ -90,7 +97,7 @@ public class EconomyManager {
     while(it.hasNext()) {
       Account acc = it.next();
 
-      List<com.github.tnerevival.core.currency.Currency> worldCurrencies = TNE.instance().manager.currencyManager.getWorldCurrencies(world);
+      Collection<com.github.tnerevival.core.currency.Currency> worldCurrencies = TNE.instance().manager.currencyManager.getWorldCurrencies(world);
       Boolean remove = true;
       for(com.github.tnerevival.core.currency.Currency c : worldCurrencies) {
         if(acc.getBalances().containsKey(world + ":" + c.getName()) && !acc.getBalance(world, c.getName()).equals(AccountUtils.getInitialBalance(world, c.getName()))) {
@@ -137,7 +144,7 @@ public class EconomyManager {
 
     if(!enabled) {
       Player p = IDFinder.getPlayer(id.toString());
-      new Message("Messages.Money.NoPins").translate(IDFinder.getWorld(p), p);
+      new Message("Messages.Money.NoPins").translate(IDFinder.findRealWorld(p), p);
       return true;
     }
     return !force || confirmed.contains(id);

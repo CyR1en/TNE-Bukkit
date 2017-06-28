@@ -171,7 +171,7 @@ public class Bank implements Serializable {
   public static boolean bankMember(UUID owner, UUID id) {
     String world = TNE.instance().defaultWorld;
     if(MISCUtils.multiWorld()) {
-      world = IDFinder.getWorld(id);
+      world = IDFinder.findRealWorld(id);
     }
     if(world == null) {
       TNE.instance().getLogger().warning("***WORLD NAME IS NULL***");

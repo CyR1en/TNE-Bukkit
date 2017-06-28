@@ -75,14 +75,14 @@ public class VaultCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-    if(MISCUtils.ecoDisabled(getWorld(sender))) {
+    if(MISCUtils.ecoDisabled(IDFinder.findRealWorld(getPlayer(sender)))) {
       Message disabled = new Message("Messages.General.Disabled");
-      disabled.translate(getWorld(sender), sender);
+      disabled.translate(IDFinder.findRealWorld(getPlayer(sender)), sender);
       return false;
     }
     Player player = getPlayer(sender);
-    if(!Vault.enabled(getWorld(sender), IDFinder.getID(player).toString())) {
-      new Message("Messages.Vault.Disabled").translate(IDFinder.getWorld(player), player);
+    if(!Vault.enabled(IDFinder.findRealWorld(getPlayer(sender)), IDFinder.getID(player).toString())) {
+      new Message("Messages.Vault.Disabled").translate(IDFinder.findRealWorld(player), player);
       return false;
     }
     return super.execute(sender, command, arguments);

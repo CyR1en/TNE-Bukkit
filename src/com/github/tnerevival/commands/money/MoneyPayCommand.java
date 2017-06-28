@@ -43,8 +43,8 @@ public class MoneyPayCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = getPlayer(sender);
-    String world = getWorld(sender);
-    world = IDFinder.getBalanceShareWorld(world);
+    String world = IDFinder.findRealWorld(getPlayer(sender));
+    world = IDFinder.findBalanceWorld(world);
     if(arguments.length >= 2) {
       String currencyName = (arguments.length >= 3)? arguments[2] : TNE.instance().manager.currencyManager.get(world).getName();
       Currency currency = getCurrency(world, currencyName);
@@ -63,7 +63,7 @@ public class MoneyPayCommand extends TNECommand {
         max.addVariable("$currency", currency.getName());
         max.addVariable("$world", world);
         max.addVariable("$player", getPlayer(sender).getDisplayName());
-        max.translate(getWorld(sender), sender);
+        max.translate(IDFinder.findRealWorld(getPlayer(sender)), sender);
         return false;
       }
 
@@ -74,7 +74,7 @@ public class MoneyPayCommand extends TNECommand {
       }
 
       if(getPlayer(sender, arguments[0]) != null && IDFinder.getID(player).equals(IDFinder.getID(getPlayer(sender, arguments[0])))) {
-        new Message("Messages.Money.SelfPay").translate(IDFinder.getWorld(player), player);
+        new Message("Messages.Money.SelfPay").translate(IDFinder.findRealWorld(player), player);
         return false;
       }
 
@@ -84,7 +84,7 @@ public class MoneyPayCommand extends TNECommand {
         return false;
       }
 
-      if(AccountUtils.transaction(IDFinder.getID(player).toString(), null, value, TransactionType.MONEY_INQUIRY, IDFinder.getWorld(player))) {
+      if(AccountUtils.transaction(IDFinder.getID(player).toString(), null, value, TransactionType.MONEY_INQUIRY, IDFinder.findRealWorld(player))) {
         MISCUtils.debug("Player has funds");
         if(getPlayer(sender, arguments[0]) != null) {
           MISCUtils.debug("Player not null");
@@ -98,27 +98,27 @@ public class MoneyPayCommand extends TNECommand {
             return false;
           }
 
-          boolean transaction = AccountUtils.transaction(IDFinder.getID(player).toString(), IDFinder.getID(getPlayer(sender, arguments[0])).toString(), value, TransactionType.MONEY_PAY, IDFinder.getWorld(player));
+          boolean transaction = AccountUtils.transaction(IDFinder.getID(player).toString(), IDFinder.getID(getPlayer(sender, arguments[0])).toString(), value, TransactionType.MONEY_PAY, IDFinder.findRealWorld(player));
           MISCUtils.debug("" + transaction);
           if(transaction) {
             MISCUtils.debug("Paid player");
             Message paid = new Message("Messages.Money.Paid");
             paid.addVariable("$amount", CurrencyFormatter.format(player.getWorld().getName(), value));
             paid.addVariable("$player", arguments[0]);
-            paid.translate(IDFinder.getWorld(player), player);
+            paid.translate(IDFinder.findRealWorld(player), player);
 
             Message received = new Message("Messages.Money.Received");
-            MISCUtils.debug(received.grab(IDFinder.getWorld(getPlayer(sender, arguments[0])), getPlayer(sender, arguments[0])));
+            MISCUtils.debug(received.grab(IDFinder.findRealWorld(getPlayer(sender, arguments[0])), getPlayer(sender, arguments[0])));
             received.addVariable("$amount", CurrencyFormatter.format(player.getWorld().getName(), value));
             received.addVariable("$from", player.getName());
-            received.translate(IDFinder.getWorld(getPlayer(sender, arguments[0])), getPlayer(sender, arguments[0]));
+            received.translate(IDFinder.findRealWorld(getPlayer(sender, arguments[0])), getPlayer(sender, arguments[0]));
             return true;
           }
         }
       } else {
         Message insufficient = new Message("Messages.Money.Insufficient");
-        insufficient.addVariable("$amount", CurrencyFormatter.format(player.getWorld().getName(), CurrencyFormatter.translateBigDecimal(arguments[1], getWorld(sender))));
-        insufficient.translate(IDFinder.getWorld(player), player);
+        insufficient.addVariable("$amount", CurrencyFormatter.format(player.getWorld().getName(), CurrencyFormatter.translateBigDecimal(arguments[1], IDFinder.findRealWorld(getPlayer(sender)))));
+        insufficient.translate(IDFinder.findRealWorld(player), player);
         return false;
       }
     }

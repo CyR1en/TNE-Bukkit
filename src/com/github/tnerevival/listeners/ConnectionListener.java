@@ -48,15 +48,15 @@ public class ConnectionListener implements Listener {
 
     Account account = AccountUtils.getAccount(IDFinder.getID(player));
 
-    if(!MISCUtils.ecoDisabled(IDFinder.getWorld(player)) && TNE.instance().manager.enabled(IDFinder.getID(player), IDFinder.getWorld(player))) {
-      if(!TNE.instance().manager.confirmed(IDFinder.getID(player), IDFinder.getWorld(player))) {
+    if(!MISCUtils.ecoDisabled(IDFinder.findRealWorld(player)) && TNE.instance().manager.enabled(IDFinder.getID(player), IDFinder.findRealWorld(player))) {
+      if(!TNE.instance().manager.confirmed(IDFinder.getID(player), IDFinder.findRealWorld(player))) {
         String node = "Messages.Account.Confirm";
         if (account.getPin().equalsIgnoreCase("TNENOSTRINGVALUE")) {
           node = "Messages.Account.Set";
         }
 
         Message message = new Message(node);
-        message.translate(IDFinder.getWorld(player), player);
+        message.translate(IDFinder.findRealWorld(player), player);
       }
     }
   }
@@ -75,7 +75,7 @@ public class ConnectionListener implements Listener {
   @EventHandler
   public void onDeath(final PlayerDeathEvent event) {
     Player killed = event.getEntity();
-    String world = IDFinder.getWorld(killed);
+    String world = IDFinder.findRealWorld(killed);
     UUID id = IDFinder.getID(killed);
     if(TNE.instance().api().getBoolean("Core.Death.Lose", world, id)) {
       AccountUtils.setFunds(id, world, BigDecimal.ZERO, TNE.instance().manager.currencyManager.get(world).getName());

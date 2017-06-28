@@ -40,8 +40,8 @@ public class MoneyBalanceCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = getPlayer(sender);
-    String world = (arguments.length >= 1)? getWorld(sender, arguments[0]) : getWorld(sender);
-    world = IDFinder.getBalanceShareWorld(world);
+    String world = (arguments.length >= 1)? getWorld(sender, arguments[0]) : IDFinder.findRealWorld(getPlayer(sender));
+    world = IDFinder.findBalanceWorld(world);
     String currencyName = (arguments.length >= 2)? arguments[1] : TNE.instance().manager.currencyManager.get(world).getName();
     Currency currency = getCurrency(world, currencyName);
 

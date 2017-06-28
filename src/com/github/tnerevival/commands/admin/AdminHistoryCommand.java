@@ -63,7 +63,7 @@ public class AdminHistoryCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = getPlayer(sender);
-    String world = getWorld(sender);
+    String world = IDFinder.findRealWorld(getPlayer(sender));
     String type = "all";
     int page = 1;
 

@@ -29,6 +29,7 @@ public class Currency {
   private BigDecimal maxBalance;
   private boolean item;
   private boolean vault;
+  private boolean notable;
   private boolean bankChest;
   private boolean enderChest;
   private boolean trackChest;
@@ -96,6 +97,14 @@ public class Currency {
 
   public void setVault(boolean vault) {
     this.vault = vault;
+  }
+
+  public boolean isNotable() {
+    return notable;
+  }
+
+  public void setNotable(boolean notable) {
+    this.notable = notable;
   }
 
   public boolean canBankChest() {

@@ -33,25 +33,25 @@ public class InventoryTimeWorker extends BukkitRunnable {
       Player player = IDFinder.getPlayer(id.toString());
       Account account = AccountUtils.getAccount(id);
       String type = TNE.configurations.getObjectConfiguration().inventoryType(tracking.getType());
-      long timeRemaining = (int) (account.getTimeLeft(IDFinder.getWorld(tracking.getPlayer()), type) - TimeUnit.SECONDS.convert(System.nanoTime() - tracking.getOpened(), TimeUnit.NANOSECONDS));
+      long timeRemaining = (int) (account.getTimeLeft(IDFinder.findRealWorld(tracking.getPlayer()), type) - TimeUnit.SECONDS.convert(System.nanoTime() - tracking.getOpened(), TimeUnit.NANOSECONDS));
 
       if (timeRemaining <= 0) {
-        account.setTime(IDFinder.getWorld(id), type, 0);
+        account.setTime(IDFinder.findRealWorld(id), type, 0);
         iterator.remove();
         IDFinder.getPlayer(id.toString()).closeInventory();
         Message m = new Message("Messages.Inventory.NoTime");
         m.addVariable("$type", type);
-        m.translate(IDFinder.getWorld(player), player);
+        m.translate(IDFinder.findRealWorld(player), player);
         continue;
       }
 
       if(tracking.isClosed()) {
-        long timeUsed = account.getTimeLeft(IDFinder.getWorld(id), type) - timeRemaining;
+        long timeUsed = account.getTimeLeft(IDFinder.findRealWorld(id), type) - timeRemaining;
         Message m = new Message("Messages.Inventory.TimeRemoved");
         m.addVariable("$type", type);
         m.addVariable("$amount", timeUsed + ((timeUsed == 1) ? " second" : " seconds"));
-        m.translate(IDFinder.getWorld(id), player);
-        account.setTime(IDFinder.getWorld(id), type, timeRemaining);
+        m.translate(IDFinder.findRealWorld(id), player);
+        account.setTime(IDFinder.findRealWorld(id), type, timeRemaining);
         iterator.remove();
       }
       plugin.manager.accounts.put(account.getUid(), account);

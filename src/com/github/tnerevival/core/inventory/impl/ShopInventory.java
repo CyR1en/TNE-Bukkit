@@ -87,7 +87,7 @@ public class ShopInventory extends TNEInventory {
               Message insufficient = new Message("Messages.Money.Insufficient");
 
               insufficient.addVariable("$amount", CurrencyFormatter.format(
-                  IDFinder.getWorld(player),
+                  IDFinder.findRealWorld(player),
                   i.getCost()
               ));
               insufficient.translate(world, IDFinder.getPlayer(player.toString()));

@@ -46,8 +46,8 @@ public class MoneySetCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(arguments.length >= 2) {
-      String world = (arguments.length == 3)? getWorld(sender, arguments[2]) : getWorld(sender);
-      world = IDFinder.getBalanceShareWorld(world);
+      String world = (arguments.length == 3)? getWorld(sender, arguments[2]) : IDFinder.findRealWorld(getPlayer(sender));
+      world = IDFinder.findBalanceWorld(world);
       String currencyName = (arguments.length >= 4)? arguments[3] : TNE.instance().manager.currencyManager.get(world).getName();
       Account acc = AccountUtils.getAccount(IDFinder.getID(arguments[0]));
       if(acc.getBalances().containsKey(world + ":" + currencyName)) {
@@ -65,7 +65,7 @@ public class MoneySetCommand extends TNECommand {
         max.addVariable("$currency", currency.getName());
         max.addVariable("$world", world);
         max.addVariable("$player", getPlayer(sender).getDisplayName());
-        max.translate(getWorld(sender), sender);
+        max.translate(IDFinder.findRealWorld(getPlayer(sender)), sender);
         return false;
       }
 

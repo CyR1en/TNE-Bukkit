@@ -41,26 +41,26 @@ public class BankBuyCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = getPlayer(sender);
-    if(AccountUtils.getAccount(IDFinder.getID(player)).hasBank(getWorld(sender))) {
-      new Message("Messages.Bank.Already").translate(IDFinder.getWorld(player), player);
+    if(AccountUtils.getAccount(IDFinder.getID(player)).hasBank(IDFinder.findRealWorld(getPlayer(sender)))) {
+      new Message("Messages.Bank.Already").translate(IDFinder.findRealWorld(player), player);
       return false;
     }
 
     MISCUtils.debug("Has bypass? " + player.hasPermission("tne.bank.bypass"));
     if(!player.hasPermission("tne.bank.bypass")) {
-      if(AccountUtils.transaction(IDFinder.getID(player).toString(), null, Bank.cost(IDFinder.getWorld(player), IDFinder.getID(player).toString()), TransactionType.MONEY_INQUIRY, IDFinder.getWorld(player))) {
-        AccountUtils.transaction(IDFinder.getID(player).toString(), null, Bank.cost(IDFinder.getWorld(player), IDFinder.getID(player).toString()), TransactionType.MONEY_REMOVE, IDFinder.getWorld(player));
+      if(AccountUtils.transaction(IDFinder.getID(player).toString(), null, Bank.cost(IDFinder.findRealWorld(player), IDFinder.getID(player).toString()), TransactionType.MONEY_INQUIRY, IDFinder.findRealWorld(player))) {
+        AccountUtils.transaction(IDFinder.getID(player).toString(), null, Bank.cost(IDFinder.findRealWorld(player), IDFinder.getID(player).toString()), TransactionType.MONEY_REMOVE, IDFinder.findRealWorld(player));
       } else {
         Message insufficient = new Message("Messages.Money.Insufficient");
-        insufficient.addVariable("$amount",  CurrencyFormatter.format(IDFinder.getWorld(player), Bank.cost(player.getWorld().getName(), IDFinder.getID(player).toString())));
-        insufficient.translate(IDFinder.getWorld(player), player);
+        insufficient.addVariable("$amount",  CurrencyFormatter.format(IDFinder.findRealWorld(player), Bank.cost(player.getWorld().getName(), IDFinder.getID(player).toString())));
+        insufficient.translate(IDFinder.findRealWorld(player), player);
         return false;
       }
     }
     MISCUtils.debug(IDFinder.getID(player).toString());
-    Bank bank = new Bank(IDFinder.getID(player), IDFinder.getWorld(player));
-    AccountUtils.getAccount(IDFinder.getID(player)).getBanks().put(IDFinder.getWorld(player), bank);
-    new Message("Messages.Bank.Bought").translate(IDFinder.getWorld(player), player);
+    Bank bank = new Bank(IDFinder.getID(player), IDFinder.findRealWorld(player));
+    AccountUtils.getAccount(IDFinder.getID(player)).getBanks().put(IDFinder.findRealWorld(player), bank);
+    new Message("Messages.Bank.Bought").translate(IDFinder.findRealWorld(player), player);
     return true;
   }
 

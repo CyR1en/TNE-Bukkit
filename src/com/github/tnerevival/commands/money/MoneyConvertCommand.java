@@ -62,30 +62,30 @@ public class MoneyConvertCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     Player player = getPlayer(sender);
     if(arguments.length >= 2) {
-      String worldTo = (arguments[1].contains(":"))? arguments[1].split(":")[1] : getWorld(sender);
+      String worldTo = (arguments[1].contains(":"))? arguments[1].split(":")[1] : IDFinder.findRealWorld(getPlayer(sender));
       String currencyTo = (arguments[1].contains(":"))? arguments[1].split(":")[0] : arguments[1];
 
       if(!TNE.instance().manager.currencyManager.contains(worldTo, currencyTo)) {
         Message noCur = new Message("Messages.Money.NoCurrency");
         noCur.addVariable("$currency", currencyTo);
         noCur.addVariable("$world", worldTo);
-        noCur.translate(getWorld(sender), player);
+        noCur.translate(IDFinder.findRealWorld(getPlayer(sender)), player);
         return false;
       }
 
       Currency to = TNE.instance().manager.currencyManager.get(worldTo, currencyTo);
-      Currency from = TNE.instance().manager.currencyManager.get(getWorld(sender));
-      String worldFrom = getWorld(sender);
+      Currency from = TNE.instance().manager.currencyManager.get(IDFinder.findRealWorld(getPlayer(sender)));
+      String worldFrom = IDFinder.findRealWorld(getPlayer(sender));
 
       if(arguments.length >= 3) {
-        worldFrom = (arguments[2].contains(":"))? arguments[2].split(":")[1] : getWorld(sender);
+        worldFrom = (arguments[2].contains(":"))? arguments[2].split(":")[1] : IDFinder.findRealWorld(getPlayer(sender));
         String currencyFrom = (arguments[2].contains(":"))? arguments[2].split(":")[0] : arguments[2];
 
         if(!TNE.instance().manager.currencyManager.contains(worldFrom, currencyFrom)) {
           Message noCur = new Message("Messages.Money.NoCurrency");
           noCur.addVariable("$currency", currencyFrom);
           noCur.addVariable("$world", worldFrom);
-          noCur.translate(getWorld(sender), player);
+          noCur.translate(IDFinder.findRealWorld(getPlayer(sender)), player);
           return false;
         }
         from = TNE.instance().manager.currencyManager.get(worldFrom, currencyFrom);
@@ -97,7 +97,7 @@ public class MoneyConvertCommand extends TNECommand {
         max.addVariable("$currency", to.getName());
         max.addVariable("$world", worldTo);
         max.addVariable("$player", player.getDisplayName());
-        max.translate(getWorld(sender), player);
+        max.translate(IDFinder.findRealWorld(getPlayer(sender)), player);
         return false;
       }
 
@@ -107,10 +107,10 @@ public class MoneyConvertCommand extends TNECommand {
         return false;
       }
 
-      if(!AccountUtils.transaction(IDFinder.getID(player).toString(), null, value, from, TransactionType.MONEY_INQUIRY, IDFinder.getWorld(player))) {
+      if(!AccountUtils.transaction(IDFinder.getID(player).toString(), null, value, from, TransactionType.MONEY_INQUIRY, IDFinder.findRealWorld(player))) {
         Message insufficient = new Message("Messages.Money.Insufficient");
         insufficient.addVariable("$amount", CurrencyFormatter.format(player.getWorld().getName(), CurrencyFormatter.translateBigDecimal(arguments[1], worldTo)));
-        insufficient.translate(IDFinder.getWorld(player), player);
+        insufficient.translate(IDFinder.findRealWorld(player), player);
         return false;
       }
 
@@ -120,18 +120,18 @@ public class MoneyConvertCommand extends TNECommand {
         Message exceeds = new Message("Messages.Money.ExceedsPlayerMaximum");
         exceeds.addVariable("$max", CurrencyFormatter.format(to, currencyTo, to.getMaxBalance()));
         exceeds.addVariable("$player", arguments[0]);
-        exceeds.translate(getWorld(sender), sender);
+        exceeds.translate(IDFinder.findRealWorld(getPlayer(sender)), sender);
         return false;
       }
-      AccountUtils.transaction(IDFinder.getID(player).toString(), null, value, from, TransactionType.MONEY_REMOVE, IDFinder.getWorld(player));
-      AccountUtils.transaction(IDFinder.getID(player).toString(), null, converted, to, TransactionType.MONEY_GIVE, IDFinder.getWorld(player));
+      AccountUtils.transaction(IDFinder.getID(player).toString(), null, value, from, TransactionType.MONEY_REMOVE, IDFinder.findRealWorld(player));
+      AccountUtils.transaction(IDFinder.getID(player).toString(), null, converted, to, TransactionType.MONEY_GIVE, IDFinder.findRealWorld(player));
 
       Message success = new Message("Messages.Money.Converted");
-      success.addVariable("$from_amount", CurrencyFormatter.format(from, getWorld(sender), value));
+      success.addVariable("$from_amount", CurrencyFormatter.format(from, IDFinder.findRealWorld(getPlayer(sender)), value));
       success.addVariable("$amount", CurrencyFormatter.format(to, worldTo, converted));
       success.addVariable("$from_currency", from.toString());
       success.addVariable("$currency", to.toString());
-      success.translate(IDFinder.getWorld(player), player);
+      success.translate(IDFinder.findRealWorld(player), player);
       return false;
     }
     help(sender);

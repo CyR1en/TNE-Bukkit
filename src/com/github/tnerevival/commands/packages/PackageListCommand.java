@@ -6,7 +6,6 @@ import com.github.tnerevival.commands.TNECommand;
 import com.github.tnerevival.core.Message;
 import com.github.tnerevival.core.currency.CurrencyFormatter;
 import com.github.tnerevival.core.objects.TNEAccessPackage;
-import com.github.tnerevival.utils.MISCUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -43,18 +42,18 @@ public class PackageListCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(arguments.length == 1) {
       Player player = (Player)sender;
-      List<TNEAccessPackage> packages = TNE.configurations.getObjectConfiguration().getInventoryPackages(arguments[0], IDFinder.getWorld(player), IDFinder.getID(player).toString());
+      List<TNEAccessPackage> packages = TNE.configurations.getObjectConfiguration().getInventoryPackages(arguments[0], IDFinder.findRealWorld(player), IDFinder.getID(player).toString());
       sender.sendMessage(ChatColor.WHITE + "Name ~ Cost ~ Seconds Provided");
       sender.sendMessage(ChatColor.WHITE + "==============================");
       if(packages.size() > 0) {
         for(TNEAccessPackage p : packages) {
-          sender.sendMessage(ChatColor.WHITE + p.getName() + " ~ " + CurrencyFormatter.format(IDFinder.getWorld(player), p.getCost()) + ChatColor.WHITE + " ~ " + p.getTime());
+          sender.sendMessage(ChatColor.WHITE + p.getName() + " ~ " + CurrencyFormatter.format(IDFinder.findRealWorld(player), p.getCost()) + ChatColor.WHITE + " ~ " + p.getTime());
         }
         return true;
       } else {
         Message insufficient = new Message("Messages.Package.Empty");
         insufficient.addVariable("$type",  arguments[0]);
-        insufficient.translate(IDFinder.getWorld(player), player);
+        insufficient.translate(IDFinder.findRealWorld(player), player);
         return false;
       }
     }

@@ -78,7 +78,7 @@ public class AuctionStartCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-    String world = getWorld(sender);
+    String world = IDFinder.findRealWorld(getPlayer(sender));
     Player player = getPlayer(sender);
     Boolean silent = command.equalsIgnoreCase("sauction");
     Integer slot = player.getInventory().getHeldItemSlot();
@@ -131,7 +131,7 @@ public class AuctionStartCommand extends TNECommand {
             if(mat.equals(Material.AIR)) {
               Message invalidItem = new Message("Messages.Auction.InvalidItem");
               invalidItem.addVariable("$item", split[1]);
-              invalidItem.translate(IDFinder.getWorld(player), player);
+              invalidItem.translate(IDFinder.findRealWorld(player), player);
               return false;
             }
             stack = new ItemStack(mat);
@@ -147,7 +147,7 @@ public class AuctionStartCommand extends TNECommand {
             try {
               amount = Integer.parseInt(split[1]);
             } catch(NumberFormatException e) {
-              new Message("Messages.Item.InvalidAmount").translate(IDFinder.getWorld(player), player);
+              new Message("Messages.Item.InvalidAmount").translate(IDFinder.findRealWorld(player), player);
               return false;
             }
             break;

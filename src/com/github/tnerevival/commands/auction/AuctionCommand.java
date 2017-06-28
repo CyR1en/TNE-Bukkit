@@ -1,6 +1,7 @@
 package com.github.tnerevival.commands.auction;
 
 import com.github.tnerevival.TNE;
+import com.github.tnerevival.account.IDFinder;
 import com.github.tnerevival.commands.TNECommand;
 import com.github.tnerevival.core.Message;
 import com.github.tnerevival.utils.MISCUtils;
@@ -64,9 +65,9 @@ public class AuctionCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-    if(MISCUtils.ecoDisabled(getWorld(sender))) {
+    if(MISCUtils.ecoDisabled(IDFinder.findRealWorld(getPlayer(sender)))) {
       Message disabled = new Message("Messages.General.Disabled");
-      disabled.translate(getWorld(sender), sender);
+      disabled.translate(IDFinder.findRealWorld(getPlayer(sender)), sender);
       return false;
     }
     return super.execute(sender, command, arguments);

@@ -37,7 +37,7 @@ public class AdminPurgeCommand extends TNECommand {
   
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-    String world = (sender instanceof Player)? IDFinder.getWorld((Player)sender) : TNE.instance().defaultWorld;
+    String world = (sender instanceof Player)? IDFinder.findRealWorld((Player)sender) : TNE.instance().defaultWorld;
     boolean isWorld = arguments.length >= 1;
     if(isWorld) {
       if(Bukkit.getWorld(arguments[0]) == null)

@@ -53,9 +53,9 @@ public class ShopStockCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(sender instanceof Player && arguments.length >= 2) {
       Player player = getPlayer(sender);
-      if(Shop.exists(arguments[0], IDFinder.getWorld(player))) {
+      if(Shop.exists(arguments[0], IDFinder.findRealWorld(player))) {
         if(Shop.canModify(arguments[0], (Player)sender)) {
-          Shop s = Shop.getShop(arguments[0], IDFinder.getWorld(getPlayer(sender)));
+          Shop s = Shop.getShop(arguments[0], IDFinder.findRealWorld(getPlayer(sender)));
           ItemStack item = player.getInventory().getItemInMainHand().clone();
           boolean add = (arguments[1].equalsIgnoreCase("add"));
           short damage = 0;
@@ -73,9 +73,9 @@ public class ShopStockCommand extends TNECommand {
                 switch(split[0]) {
                   case "gold":
                     try {
-                      cost = CurrencyFormatter.translateBigDecimal(split[1], getWorld(sender));
+                      cost = CurrencyFormatter.translateBigDecimal(split[1], IDFinder.findRealWorld(getPlayer(sender)));
                     } catch(NumberFormatException e) {
-                      new Message("Messages.Shop.InvalidCost").translate(IDFinder.getWorld(player), player);
+                      new Message("Messages.Shop.InvalidCost").translate(IDFinder.findRealWorld(player), player);
                       return false;
                     }
                     break;
@@ -83,7 +83,7 @@ public class ShopStockCommand extends TNECommand {
                     try {
                       quantity = Integer.parseInt(split[1]);
                     } catch(NumberFormatException e) {
-                      new Message("Messages.Shop.InvalidStock").translate(IDFinder.getWorld(player), player);
+                      new Message("Messages.Shop.InvalidStock").translate(IDFinder.findRealWorld(player), player);
                       return false;
                     }
                     break;
@@ -94,7 +94,7 @@ public class ShopStockCommand extends TNECommand {
                     try {
                       amount = Integer.parseInt(split[1]);
                     } catch(NumberFormatException e) {
-                      new Message("Messages.Shop.InvalidAmount").translate(IDFinder.getWorld(player), player);
+                      new Message("Messages.Shop.InvalidAmount").translate(IDFinder.findRealWorld(player), player);
                       return false;
                     }
                     break;
@@ -103,7 +103,7 @@ public class ShopStockCommand extends TNECommand {
                     if(mat == null || mat.equals(Material.AIR)) {
                       Message invalidItem = new Message("Messages.Shop.ItemInvalid");
                       invalidItem.addVariable("$item", arguments[i]);
-                      invalidItem.translate(IDFinder.getWorld(player), player);
+                      invalidItem.translate(IDFinder.findRealWorld(player), player);
                       return false;
                     }
                     item = new ItemStack(mat);
@@ -121,7 +121,7 @@ public class ShopStockCommand extends TNECommand {
               if(mat == null || mat.equals(Material.AIR)) {
                 Message invalidItem = new Message("Messages.Shop.ItemInvalid");
                 invalidItem.addVariable("$item", arguments[i]);
-                invalidItem.translate(IDFinder.getWorld(player), player);
+                invalidItem.translate(IDFinder.findRealWorld(player), player);
                 return false;
               }
               item = new ItemStack(mat);
@@ -149,20 +149,20 @@ public class ShopStockCommand extends TNECommand {
               stock.addVariable("$shop", s.getName());
               stock.addVariable("$amount", quantity + "");
               stock.addVariable("$item", item.getType().name());
-              stock.translate(IDFinder.getWorld(player), player);
+              stock.translate(IDFinder.findRealWorld(player), player);
               return true;
             }
             Message invalidStock = new Message("Messages.Shop.NotEnough");
             invalidStock.addVariable("$amount", quantity + "");
             invalidStock.addVariable("$item", item.getType().name());
-            invalidStock.translate(IDFinder.getWorld(player), player);
+            invalidStock.translate(IDFinder.findRealWorld(player), player);
             return false;
           }
         }
-        new Message("Messages.Shop.Permission").translate(IDFinder.getWorld(player), player);
+        new Message("Messages.Shop.Permission").translate(IDFinder.findRealWorld(player), player);
         return false;
       }
-      new Message("Messages.Shop.None").translate(IDFinder.getWorld(player), player);
+      new Message("Messages.Shop.None").translate(IDFinder.findRealWorld(player), player);
       return false;
     } else {
       help(sender);

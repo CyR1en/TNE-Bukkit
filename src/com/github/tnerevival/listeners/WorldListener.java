@@ -3,6 +3,7 @@ package com.github.tnerevival.listeners;
 import com.github.tnerevival.TNE;
 import com.github.tnerevival.account.IDFinder;
 import com.github.tnerevival.core.Message;
+import com.github.tnerevival.core.WorldManager;
 import com.github.tnerevival.core.currency.CurrencyFormatter;
 import com.github.tnerevival.core.transaction.TransactionType;
 import com.github.tnerevival.utils.AccountUtils;
@@ -28,16 +29,16 @@ public class WorldListener implements Listener {
 
     if(!MISCUtils.ecoDisabled(world) && TNE.instance().api().getBoolean("Core.World.EnableChangeFee", world, IDFinder.getID(player).toString())) {
       if(!player.hasPermission("tne.bypass.world")) {
-        if(AccountUtils.transaction(IDFinder.getID(player).toString(), null, AccountUtils.getWorldCost(world), TransactionType.MONEY_INQUIRY, IDFinder.getWorld(player))) {
-          AccountUtils.transaction(IDFinder.getID(player).toString(), null, AccountUtils.getWorldCost(world), TransactionType.MONEY_REMOVE, IDFinder.getWorld(player));
+        if(AccountUtils.transaction(IDFinder.getID(player).toString(), null, AccountUtils.getWorldCost(world), TransactionType.MONEY_INQUIRY, world)) {
+          AccountUtils.transaction(IDFinder.getID(player).toString(), null, AccountUtils.getWorldCost(world), TransactionType.MONEY_REMOVE, world);
           AccountUtils.initializeWorldData(IDFinder.getID(player));
           Message change = new Message("Messages.World.Change");
-          change.addVariable("$amount", CurrencyFormatter.format(IDFinder.getWorld(player), AccountUtils.getWorldCost(world)));
+          change.addVariable("$amount", CurrencyFormatter.format(world, AccountUtils.getWorldCost(world)));
           change.translate(world, player);
         } else {
           player.teleport(event.getFrom().getSpawnLocation());
           Message changeFailed = new Message("Messages.World.ChangeFailed");
-          changeFailed.addVariable("$amount", CurrencyFormatter.format(IDFinder.getWorld(player), AccountUtils.getWorldCost(world)));
+          changeFailed.addVariable("$amount", CurrencyFormatter.format(world, AccountUtils.getWorldCost(world)));
           changeFailed.translate(world, player);
         }
       } else {
@@ -51,6 +52,9 @@ public class WorldListener implements Listener {
   @EventHandler
   public void onWorldLoad(final WorldLoadEvent event) {
     String world = event.getWorld().getName();
+    if(!TNE.instance().manager.worldManagers.containsKey(world)) {
+      TNE.instance().manager.worldManagers.put(world, new WorldManager(world));
+    }
     TNE.instance().manager.currencyManager.initializeWorld(world);
   }
 }

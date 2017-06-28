@@ -1,8 +1,8 @@
 package com.github.tnerevival.serializable;
 
-import java.io.Serializable;
-
 import org.bukkit.enchantments.Enchantment;
+
+import java.io.Serializable;
 
 
 public class SerializableEnchantment implements Serializable {

@@ -48,9 +48,9 @@ public class ShopCreateCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(arguments.length >= 1) {
       Player player = getPlayer(sender);
-      if(!Shop.exists(arguments[0], IDFinder.getWorld(getPlayer(sender)))) {
+      if(!Shop.exists(arguments[0], IDFinder.findRealWorld(getPlayer(sender)))) {
         if(arguments[0].length() > 16) {
-          new Message("Messages.Shop.Long").translate(IDFinder.getWorld(player), player);
+          new Message("Messages.Shop.Long").translate(IDFinder.findRealWorld(player), player);
           return false;
         }
 
@@ -63,14 +63,14 @@ public class ShopCreateCommand extends TNECommand {
           owner = null;
         }
 
-        Shop s = new Shop(arguments[0], IDFinder.getWorld(getPlayer(sender)));
+        Shop s = new Shop(arguments[0], IDFinder.findRealWorld(getPlayer(sender)));
         s.setOwner(owner);
         if(owner == null) {
           s.setAdmin(true);
         }
 
         if(!s.isAdmin() && Shop.amount(s.getOwner()) >= TNE.instance().api().getInteger("Core.Shops.Max", s.getWorld(), s.getOwner().toString())) {
-          new Message("Messages.Shop.Max").translate(IDFinder.getWorld(player), player);
+          new Message("Messages.Shop.Max").translate(IDFinder.findRealWorld(player), player);
           return false;
         }
 
@@ -80,12 +80,12 @@ public class ShopCreateCommand extends TNECommand {
 
         if(!s.isAdmin() && !AccountUtils.transaction(s.getOwner().toString(), null,
             TNE.instance().api().getBigDecimal("Core.Shops.Cost", s.getWorld(), s.getOwner().toString()),
-            TransactionType.MONEY_INQUIRY, IDFinder.getWorld(getPlayer(sender)))) {
+            TransactionType.MONEY_INQUIRY, IDFinder.findRealWorld(getPlayer(sender)))) {
 
           Message insufficient = new Message("Messages.Money.Insufficient");
 
           insufficient.addVariable("$amount", CurrencyFormatter.format(
-              IDFinder.getWorld(getPlayer(sender)),
+              IDFinder.findRealWorld(getPlayer(sender)),
               TNE.instance().api().getBigDecimal("Core.Shops.Cost", s.getWorld(), s.getOwner().toString())
           ));
           return false;
@@ -93,15 +93,15 @@ public class ShopCreateCommand extends TNECommand {
         if(!s.isAdmin()) {
           AccountUtils.transaction(s.getOwner().toString(), null,
               TNE.instance().api().getBigDecimal("Core.Shops.Cost", s.getWorld(), s.getOwner().toString()),
-              TransactionType.MONEY_REMOVE, IDFinder.getWorld(getPlayer(sender)));
+              TransactionType.MONEY_REMOVE, IDFinder.findRealWorld(getPlayer(sender)));
         }
         TNE.instance().manager.shops.put(s.getName() + ":" + s.getWorld(), s);
         Message created = new Message("Messages.Shop.Created");
         created.addVariable("$shop", s.getName());
-        created.translate(IDFinder.getWorld(player), player);
+        created.translate(IDFinder.findRealWorld(player), player);
         return true;
       }
-      new Message("Messages.Shop.Already").translate(IDFinder.getWorld(player), player);
+      new Message("Messages.Shop.Already").translate(IDFinder.findRealWorld(player), player);
       return false;
     } else {
       help(sender);

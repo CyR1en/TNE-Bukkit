@@ -471,16 +471,16 @@ public class Shop implements Serializable {
   }
 
   public static boolean shares(String name, UUID player) {
-    if(exists(name, IDFinder.getWorld(player))) {
-      return getShop(name, IDFinder.getWorld(player)).shares(player);
+    if(exists(name, IDFinder.findRealWorld(player))) {
+      return getShop(name, IDFinder.findRealWorld(player)).shares(player);
     }
     return false;
   }
 
   public static boolean canView(String name, UUID id) {
-    if(!TNE.instance().api().getBoolean("Core.Shops.Enabled", IDFinder.getWorld(id), id)) return false;
-    if(exists(name, IDFinder.getWorld(id))) {
-      Shop s = getShop(name, IDFinder.getWorld(id));
+    if(!TNE.instance().api().getBoolean("Core.Shops.Enabled", IDFinder.findRealWorld(id), id)) return false;
+    if(exists(name, IDFinder.findRealWorld(id))) {
+      Shop s = getShop(name, IDFinder.findRealWorld(id));
       if(s.isHidden() && !s.whitelisted(id)) return false;
       if(s.blacklisted(id)) return false;
 
@@ -490,8 +490,8 @@ public class Shop implements Serializable {
   }
 
   public static boolean canModify(String name, Player p) {
-    if(exists(name, IDFinder.getWorld(p))) {
-      Shop s = getShop(name, IDFinder.getWorld(p));
+    if(exists(name, IDFinder.findRealWorld(p))) {
+      Shop s = getShop(name, IDFinder.findRealWorld(p));
       return s.getOwner() == null && p.hasPermission("tne.shop.admin") ||
            s.getOwner() != null && s.getOwner().equals(IDFinder.getID(p)) ||
            s.isAdmin() && p.hasPermission("tne.shop.admin");

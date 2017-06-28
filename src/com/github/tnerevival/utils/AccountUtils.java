@@ -118,7 +118,7 @@ public class AccountUtils {
 
   private static BigDecimal getBalance(UUID id, String world, String currencyName) {
     MISCUtils.debug("getBalance(" + id.toString() + ", " + world + ", " + currencyName);
-    world = IDFinder.getBalanceShareWorld(world);
+    world = IDFinder.findBalanceWorld(world);
     MISCUtils.debug("getBalance(" + id.toString() + ", " + world + ", " + currencyName);
     Account account = getAccount(id);
     Currency currency = TNE.instance().manager.currencyManager.get(world, currencyName);
@@ -205,7 +205,7 @@ public class AccountUtils {
   }
 
   private static void setBalance(UUID id, String world, String currencyName, BigDecimal balance) {
-    world = IDFinder.getBalanceShareWorld(world);
+    world = IDFinder.findBalanceWorld(world);
     Currency currency = TNE.instance().manager.currencyManager.get(world, currencyName);
     Account account = getAccount(id);
 
@@ -242,7 +242,7 @@ public class AccountUtils {
 
   private static void removeItemFunds(UUID id, String world, String currencyName, BigDecimal amount) {
     Player player = IDFinder.getOffline(id.toString()).getPlayer();
-    world = IDFinder.getBalanceShareWorld(world);
+    world = IDFinder.findBalanceWorld(world);
     Currency currency = TNE.instance().manager.currencyManager.get(world, currencyName);
     BigDecimal rounded = round(world, currencyName, amount);
     Account account = getAccount(id);
@@ -416,7 +416,7 @@ public class AccountUtils {
   }
 
   public static boolean transaction(String initiator, String recipient, BigDecimal amount, TransactionType type, String world) {
-    return transaction(initiator, recipient, new TransactionCost(amount), type, world);
+    return transaction(initiator, recipient, new TransactionCost(amount), type, IDFinder.findBalanceWorld(world));
   }
 
   public static boolean transaction(String initiator, String recipient, BigDecimal amount, Currency currency, TransactionType type, String world) {
@@ -429,7 +429,7 @@ public class AccountUtils {
   }
 
   public static BigDecimal getFunds(UUID id) {
-    return getFunds(id, IDFinder.getWorld(id));
+    return getFunds(id, IDFinder.findWorld(id, true));
   }
 
   public static BigDecimal getFunds(UUID id, String world) {
@@ -461,7 +461,7 @@ public class AccountUtils {
 
   public static void initializeWorldData(UUID id) {
     Account account = getAccount(id);
-    String world = IDFinder.getWorld(id);
+    String world = IDFinder.findRealWorld(id);
     for(Currency c : TNE.instance().manager.currencyManager.getWorldCurrencies(world)) {
       if (!account.getBalances().containsKey(world + ":" + c.getName())) {
         account.setBalance(world, getInitialBalance(world, c.getName()), c.getName());

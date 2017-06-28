@@ -60,7 +60,7 @@ public class PinSetCommand extends TNECommand {
       TNE.instance().manager.accounts.put(acc.getUid(), acc);
       TNE.instance().manager.confirmed.add(IDFinder.getID(player));
       Message message = new Message("Messages.Pin.Set");
-      message.translate(IDFinder.getWorld(player), player);
+      message.translate(IDFinder.findRealWorld(player), player);
       return true;
     }
     help(sender);

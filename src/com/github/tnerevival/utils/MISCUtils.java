@@ -315,8 +315,8 @@ public class MISCUtils {
     MISCUtils.debug("TNEObjectInteractionEvent called");
 
     String id = IDFinder.getID(event.getPlayer()).toString();
-    String world = IDFinder.getWorld(event.getPlayer());
-    BigDecimal cost = event.getType().getCost(event.getIdentifier(), IDFinder.getWorld(event.getPlayer()), IDFinder.getID(event.getPlayer()).toString());
+    String world = IDFinder.findRealWorld(event.getPlayer());
+    BigDecimal cost = event.getType().getCost(event.getIdentifier(), IDFinder.findRealWorld(event.getPlayer()), IDFinder.getID(event.getPlayer()).toString());
     String message = event.getType().getCharged();
 
     if(cost.compareTo(BigDecimal.ZERO) != 0 && !event.isCancelled()) {

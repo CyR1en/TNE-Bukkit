@@ -42,8 +42,8 @@ public class MoneyGiveCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(arguments.length >= 2) {
-      String world = (arguments.length == 3)? getWorld(sender, arguments[2]) : getWorld(sender);
-      world = IDFinder.getBalanceShareWorld(world);
+      String world = (arguments.length == 3)? getWorld(sender, arguments[2]) : IDFinder.findRealWorld(getPlayer(sender));
+      world = IDFinder.findBalanceWorld(world);
       String currencyName = (arguments.length >= 4)? arguments[3] : TNE.instance().manager.currencyManager.get(world).getName();
       Currency currency = getCurrency(world, currencyName);
 
@@ -61,7 +61,7 @@ public class MoneyGiveCommand extends TNECommand {
         max.addVariable("$currency", currency.getName());
         max.addVariable("$world", world);
         max.addVariable("$player", getPlayer(sender).getDisplayName());
-        max.translate(getWorld(sender), sender);
+        max.translate(IDFinder.findRealWorld(getPlayer(sender)), sender);
         return false;
       }
 
@@ -101,7 +101,7 @@ public class MoneyGiveCommand extends TNECommand {
           Message received = new Message("Messages.Money.Received");
           received.addVariable("$amount", CurrencyFormatter.format(world, value));
           received.addVariable("$from", name);
-          received.translate(IDFinder.getWorld(getPlayer(sender, arguments[0])), getPlayer(sender, arguments[0]));
+          received.translate(IDFinder.findRealWorld(getPlayer(sender, arguments[0])), getPlayer(sender, arguments[0]));
         }
         return true;
       }

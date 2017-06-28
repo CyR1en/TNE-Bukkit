@@ -125,6 +125,9 @@ Core:
             #Will be used if no world-specific configurations are found if multiworld is enabled
             Balance: 200.0
 
+            #Whether or not this currency is able to be noted using the note command
+            Notable: true
+
             #Whether or not this currency is the world's default.
             Default: true
 

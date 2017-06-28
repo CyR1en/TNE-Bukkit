@@ -1,9 +1,8 @@
 package com.github.tnerevival.worker;
 
-import org.bukkit.scheduler.BukkitRunnable;
-
 import com.github.tnerevival.TNE;
 import com.github.tnerevival.core.Statistics;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class StatisticsWorker extends BukkitRunnable {
 

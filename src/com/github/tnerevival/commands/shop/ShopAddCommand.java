@@ -52,9 +52,9 @@ public class ShopAddCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(sender instanceof Player && arguments.length >= 1) {
       Player player = getPlayer(sender);
-      if(Shop.exists(arguments[0], IDFinder.getWorld(getPlayer(sender)))) {
+      if(Shop.exists(arguments[0], IDFinder.findRealWorld(getPlayer(sender)))) {
         if(Shop.canModify(arguments[0], (Player)sender)) {
-          Shop s = Shop.getShop(arguments[0], IDFinder.getWorld(getPlayer(sender)));
+          Shop s = Shop.getShop(arguments[0], IDFinder.findRealWorld(getPlayer(sender)));
           ItemStack item = player.getInventory().getItemInMainHand().clone();
           short damage = 0;
           int amount = 1;
@@ -72,9 +72,9 @@ public class ShopAddCommand extends TNECommand {
                 switch(split[0]) {
                   case "gold":
                     try {
-                      cost = CurrencyFormatter.translateBigDecimal(split[1], getWorld(sender));
+                      cost = CurrencyFormatter.translateBigDecimal(split[1], IDFinder.findRealWorld(getPlayer(sender)));
                     } catch(NumberFormatException e) {
-                      new Message("Messages.Shop.InvalidCost").translate(IDFinder.getWorld(player), player);
+                      new Message("Messages.Shop.InvalidCost").translate(IDFinder.findRealWorld(player), player);
                       return false;
                     }
                     break;
@@ -83,7 +83,7 @@ public class ShopAddCommand extends TNECommand {
                     if(mat.equals(Material.AIR)) {
                       Message invalidItem = new Message("Messages.Shop.InvalidTrade");
                       invalidItem.addVariable("$item", split[1]);
-                      invalidItem.translate(IDFinder.getWorld(player), player);
+                      invalidItem.translate(IDFinder.findRealWorld(player), player);
                       return false;
                     }
                     trade = new ItemStack(mat);
@@ -93,7 +93,7 @@ public class ShopAddCommand extends TNECommand {
                       trade.setDurability(tradeDamage);
                       trade.setAmount(tradeAmount);
                     } catch(NumberFormatException e) {
-                      new Message("Messages.Shop.InvalidTradeAmount").translate(IDFinder.getWorld(player), player);
+                      new Message("Messages.Shop.InvalidTradeAmount").translate(IDFinder.findRealWorld(player), player);
                       return false;
                     }
                     break;
@@ -106,7 +106,7 @@ public class ShopAddCommand extends TNECommand {
                     try {
                       stock = Integer.parseInt(split[1]);
                     } catch(NumberFormatException e) {
-                      new Message("Messages.Shop.InvalidStock").translate(IDFinder.getWorld(player), player);
+                      new Message("Messages.Shop.InvalidStock").translate(IDFinder.findRealWorld(player), player);
                       return false;
                     }
                     break;
@@ -117,7 +117,7 @@ public class ShopAddCommand extends TNECommand {
                     try {
                       amount = Integer.parseInt(split[1]);
                     } catch(NumberFormatException e) {
-                      new Message("Messages.Shop.InvalidAmount").translate(IDFinder.getWorld(player), player);
+                      new Message("Messages.Shop.InvalidAmount").translate(IDFinder.findRealWorld(player), player);
                       return false;
                     }
                     break;
@@ -126,7 +126,7 @@ public class ShopAddCommand extends TNECommand {
                     if(mat == null || mat.equals(Material.AIR)) {
                       Message invalidItem = new Message("Messages.Shop.ItemInvalid");
                       invalidItem.addVariable("$item", arguments[i]);
-                      invalidItem.translate(IDFinder.getWorld(player), player);
+                      invalidItem.translate(IDFinder.findRealWorld(player), player);
                       return false;
                     }
                     item = new ItemStack(mat);
@@ -144,7 +144,7 @@ public class ShopAddCommand extends TNECommand {
               if(mat == null || mat.equals(Material.AIR)) {
                 Message invalidItem = new Message("Messages.Shop.ItemInvalid");
                 invalidItem.addVariable("$item", arguments[i]);
-                invalidItem.translate(IDFinder.getWorld(player), player);
+                invalidItem.translate(IDFinder.findRealWorld(player), player);
                 return false;
               }
               item = new ItemStack(mat);
@@ -166,25 +166,25 @@ public class ShopAddCommand extends TNECommand {
               Message added = new Message("Messages.Shop.ItemAdded");
               added.addVariable("$shop", s.getName());
               added.addVariable("$item", item.getType().name());
-              added.translate(IDFinder.getWorld(player), player);
+              added.translate(IDFinder.findRealWorld(player), player);
               return true;
             }
             Message wrong = new Message("Messages.Shop.ItemWrong");
             wrong.addVariable("$shop", s.getName());
             wrong.addVariable("$item", item.getType().name());
-            wrong.translate(IDFinder.getWorld(player), player);
+            wrong.translate(IDFinder.findRealWorld(player), player);
             return false;
           }
           Message invalidStock = new Message("Messages.Shop.NotEnough");
           invalidStock.addVariable("$amount", stock + "");
           invalidStock.addVariable("$item", item.getType().name());
-          invalidStock.translate(IDFinder.getWorld(player), player);
+          invalidStock.translate(IDFinder.findRealWorld(player), player);
           return false;
         }
-        new Message("Messages.Shop.Permission").translate(IDFinder.getWorld(player), player);
+        new Message("Messages.Shop.Permission").translate(IDFinder.findRealWorld(player), player);
         return false;
       }
-      new Message("Messages.Shop.None").translate(IDFinder.getWorld(player), player);
+      new Message("Messages.Shop.None").translate(IDFinder.findRealWorld(player), player);
       return false;
     } else {
       help(sender);

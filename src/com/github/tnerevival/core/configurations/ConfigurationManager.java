@@ -235,14 +235,14 @@ public class ConfigurationManager {
   }
 
   private boolean worldEnabled(String node, String world) {
-    MISCUtils.debug("ConfigurationManager.worldEnabled(" + node + ", " + IDFinder.getConfigurationShare(world) + ")");
-    String path = ConfigurationType.WORLDS.getPrefix() + "." + IDFinder.getConfigurationShare(world) + "." + node;
+    MISCUtils.debug("ConfigurationManager.worldEnabled(" + node + ", " + IDFinder.findConfigurationWorld(world) + ")");
+    String path = ConfigurationType.WORLDS.getPrefix() + "." + IDFinder.findConfigurationWorld(world) + "." + node;
     return TNE.instance().worldConfigurations.contains(path);
   }
 
   private Object getWorldConfiguration(String node, String world) {
-    MISCUtils.debug("ConfigurationManager.getWorldConfigurations(" + node + ", " + IDFinder.getConfigurationShare(world) + ")");
-    String path = ConfigurationType.WORLDS.getPrefix() + "." + IDFinder.getConfigurationShare(world) + "." + node;
+    MISCUtils.debug("ConfigurationManager.getWorldConfigurations(" + node + ", " + IDFinder.findConfigurationWorld(world) + ")");
+    String path = ConfigurationType.WORLDS.getPrefix() + "." + IDFinder.findConfigurationWorld(world) + "." + node;
     return TNE.instance().worldConfigurations.get(path);
   }
 

@@ -24,11 +24,11 @@ public class Transaction {
   private BigDecimal recipientBalance;
 
   public Transaction(String initiator, String recipient, TransactionCost cost) {
-    this(initiator, recipient, cost, TransactionType.MONEY_GIVE, IDFinder.getWorld(IDFinder.getID(initiator)));
+    this(initiator, recipient, cost, TransactionType.MONEY_GIVE, IDFinder.findRealWorld(IDFinder.getID(initiator)));
   }
 
   public Transaction(String initiator, String recipient, TransactionCost cost, TransactionType type) {
-    this(initiator, recipient, cost, type, IDFinder.getWorld(IDFinder.getID(initiator)));
+    this(initiator, recipient, cost, type, IDFinder.findRealWorld(IDFinder.getID(initiator)));
   }
 
   public Transaction(String initiator, String recipient, TransactionCost cost, TransactionType type, String world) {

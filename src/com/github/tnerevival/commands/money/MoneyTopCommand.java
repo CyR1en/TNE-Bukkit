@@ -50,8 +50,8 @@ public class MoneyTopCommand extends TNECommand {
     int page = 1;
     int limit = (parsed.containsKey("limit") && MISCUtils.isInteger(parsed.get("limit")))? Integer.valueOf(parsed.get("limit")) : 10;
     boolean bank = (parsed.containsKey("bank") && MISCUtils.isBoolean(parsed.get("bank")))? Boolean.valueOf(parsed.get("bank")) : false;
-    String world = (parsed.containsKey("world"))? getWorld(sender, parsed.get("world")) : getWorld(sender);
-    world = IDFinder.getBalanceShareWorld(world);
+    String world = (parsed.containsKey("world"))? getWorld(sender, parsed.get("world")) : IDFinder.findRealWorld(getPlayer(sender));
+    world = IDFinder.findBalanceWorld(world);
     String currency = (parsed.containsKey("currency") &&
                        TNE.instance().manager.currencyManager.contains(world, parsed.get("currency")) ||
                        parsed.containsKey("currency") && parsed.get("currency").equalsIgnoreCase("overall")
@@ -73,7 +73,7 @@ public class MoneyTopCommand extends TNECommand {
     Message top = new Message("Messages.Money.Top");
     top.addVariable("$page", page + "");
     top.addVariable("$page_top", paginator.getMaxPages() + "");
-    top.translate(getWorld(sender), sender);
+    top.translate(IDFinder.findRealWorld(getPlayer(sender)), sender);
 
     for(Object o : p.getElements()) {
       TopBalance bal = (TopBalance)o;

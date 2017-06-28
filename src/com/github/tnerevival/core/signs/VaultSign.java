@@ -27,19 +27,19 @@ public class VaultSign extends TNESign {
     if(super.onRightClick(player, shift)) {
       if (player.hasPermission(SignType.VAULT.getUsePermission())) {
 
-        if (!AccountUtils.getAccount(IDFinder.getID(player)).hasBank(IDFinder.getWorld(player))) {
+        if (!AccountUtils.getAccount(IDFinder.getID(player)).hasBank(IDFinder.findRealWorld(player))) {
           Message none = new Message("Messages.Vault.None");
           none.addVariable("$amount",  CurrencyFormatter.format(player.getWorld().getName(), Vault.cost(player.getWorld().getName(), IDFinder.getID(player).toString())));
-          none.translate(IDFinder.getWorld(player), player);
+          none.translate(IDFinder.findRealWorld(player), player);
           return false;
         }
 
-        if (!Vault.sign(IDFinder.getWorld(player), IDFinder.getID(player).toString())) {
-          new Message("Messages.Vault.NoSign").translate(IDFinder.getWorld(player), player);
+        if (!Vault.sign(IDFinder.findRealWorld(player), IDFinder.getID(player).toString())) {
+          new Message("Messages.Vault.NoSign").translate(IDFinder.findRealWorld(player), player);
           return false;
         }
 
-        inventory = AccountUtils.getAccount(IDFinder.getID(player)).getVault(IDFinder.getWorld(player)).getInventory();
+        inventory = AccountUtils.getAccount(IDFinder.getID(player)).getVault(IDFinder.findRealWorld(player)).getInventory();
         if (super.onOpen(player)) {
           player.openInventory(inventory);
           return true;

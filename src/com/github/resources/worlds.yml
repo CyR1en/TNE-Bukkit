@@ -24,11 +24,13 @@ Worlds:
         #Configurations related to information sharing between worlds
         Share:
 
-          #If you want to share balances with another world.
-          Balances: worldname
+          #If you want other worlds to share balances with this world.
+          Balances:
+          - worldname
 
-          #If you want to share configurations with another world
-          Configurations: worldname
+          #If you want other worlds to share configurations with this world
+          Configurations:
+          - worldname
         
         #All configurations relating to currency.
         Currency:

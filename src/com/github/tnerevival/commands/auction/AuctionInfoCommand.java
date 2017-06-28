@@ -1,6 +1,7 @@
 package com.github.tnerevival.commands.auction;
 
 import com.github.tnerevival.TNE;
+import com.github.tnerevival.account.IDFinder;
 import com.github.tnerevival.commands.TNECommand;
 import com.github.tnerevival.core.Message;
 import com.github.tnerevival.core.inventory.impl.AuctionInventory;
@@ -63,7 +64,7 @@ public class AuctionInfoCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-    String world = getWorld(sender);
+    String world = IDFinder.findRealWorld(getPlayer(sender));
     Integer lot = (arguments.length >= 1 && MISCUtils.isInteger(arguments[0]))? Integer.parseInt(arguments[0]) : -1;
     if(lot == -1) {
       if(plugin.manager.auctionManager.requireLot(world)) {

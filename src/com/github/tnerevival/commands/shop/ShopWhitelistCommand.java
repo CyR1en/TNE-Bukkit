@@ -5,7 +5,6 @@ import com.github.tnerevival.account.IDFinder;
 import com.github.tnerevival.commands.TNECommand;
 import com.github.tnerevival.core.Message;
 import com.github.tnerevival.core.shops.Shop;
-import com.github.tnerevival.utils.MISCUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -46,23 +45,23 @@ public class ShopWhitelistCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(sender instanceof Player && arguments.length >= 1) {
       Player player = getPlayer(sender);
-      if(Shop.exists(arguments[0], IDFinder.getWorld(player))) {
+      if(Shop.exists(arguments[0], IDFinder.findRealWorld(player))) {
         if(Shop.canModify(arguments[0], player)) {
-          Shop s = Shop.getShop(arguments[0], IDFinder.getWorld(player));
+          Shop s = Shop.getShop(arguments[0], IDFinder.findRealWorld(player));
           UUID target = IDFinder.getID(arguments[1]);
           if(s.whitelisted(IDFinder.getID(arguments[1]))) {
             s.addWhitelist(target);
-            new Message("Messages.Shop.WhitelistRemoved").translate(IDFinder.getWorld(player), player);
+            new Message("Messages.Shop.WhitelistRemoved").translate(IDFinder.findRealWorld(player), player);
           } else {
             s.removeWhitelist(target);
-            new Message("Messages.Shop.WhitelistAdded").translate(IDFinder.getWorld(player), player);
+            new Message("Messages.Shop.WhitelistAdded").translate(IDFinder.findRealWorld(player), player);
           }
           return true;
         }
-        new Message("Messages.Shop.Permission").translate(IDFinder.getWorld(player), player);
+        new Message("Messages.Shop.Permission").translate(IDFinder.findRealWorld(player), player);
         return false;
       }
-      new Message("Messages.Shop.None").translate(IDFinder.getWorld(player), player);
+      new Message("Messages.Shop.None").translate(IDFinder.findRealWorld(player), player);
       return false;
     } else {
       help(sender);
