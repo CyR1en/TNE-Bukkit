@@ -12,9 +12,7 @@ import com.github.tnerevival.listeners.collections.ShopsListener;
 import com.github.tnerevival.listeners.collections.SignsListener;
 import com.github.tnerevival.serializable.SerializableLocation;
 import com.github.tnerevival.utils.AccountUtils;
-import com.github.tnerevival.utils.MISCUtils;
 import com.github.tnerevival.utils.TopBalance;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -28,13 +26,11 @@ public class EconomyManager {
    */
   public EventMap<UUID, Account> accounts = new EventMap<>();
   public EventMap<String, UUID> ecoIDs = new EventMap<>();
-  public  EventMap<String, Shop> shops = new EventMap<>();
+  public EventMap<String, Shop> shops = new EventMap<>();
   public List<UUID> confirmed = new ArrayList<>();
   public List<UUID> special = new ArrayList<>();
   public EventMap<SerializableLocation, TNESign> signs = new EventMap<>();
   public List<CommandSender> debuggers = new ArrayList<>();
-  public Map<String, WorldManager> worldManagers = new HashMap<>();
-
   public CurrencyManager currencyManager;
   public TransactionManager transactions;
   public AuctionManager auctionManager;
@@ -44,12 +40,6 @@ public class EconomyManager {
     ecoIDs.setListener(new IDSListener());
     shops.setListener(new ShopsListener());
     signs.setListener(new SignsListener());
-
-    //Initialize our world managers.
-    for(World world : TNE.instance().getServer().getWorlds()) {
-      MISCUtils.debug("Adding world manager for world: " + world.getName());
-      worldManagers.put(world.getName(), new WorldManager(world.getName()));
-    }
     currencyManager = new CurrencyManager();
     transactions = new TransactionManager();
     auctionManager = new AuctionManager();

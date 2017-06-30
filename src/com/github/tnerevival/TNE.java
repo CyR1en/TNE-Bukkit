@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
 public class TNE extends JavaPlugin {
 
   public List<String> modified = new ArrayList<>();
+  private Map<String, WorldManager> worldManagers = new HashMap<>();
 
   private static TNE instance;
   public EconomyManager manager;
@@ -100,6 +101,12 @@ public class TNE extends JavaPlugin {
 
     configurations = new ConfigurationManager();
 
+
+    //Initialize our world managers.
+    for(World world : TNE.instance().getServer().getWorlds()) {
+      MISCUtils.debug("Adding world manager for world: " + world.getName());
+      worldManagers.put(world.getName(), new WorldManager(world.getName()));
+    }
     manager = new EconomyManager();
     inventoryManager = new InventoryManager();
     commandManager = new CommandManager();
@@ -305,6 +312,23 @@ public class TNE extends JavaPlugin {
           YamlConfiguration config = YamlConfiguration.loadConfiguration(worldsStream);
           worldConfigurations.setDefaults(config);
       }
+  }
+
+  public void addWorldManager(WorldManager manager) {
+    worldManagers.put(manager.getWorld(), manager);
+  }
+
+  public WorldManager getWorldManager(String world) {
+    for(WorldManager manager : this.worldManagers.values()) {
+      if(manager.getWorld().equalsIgnoreCase(world)) {
+        return manager;
+      }
+    }
+    return null;
+  }
+
+  public Collection<WorldManager> getWorldManagers() {
+    return worldManagers.values();
   }
 
   private void setupVault() {

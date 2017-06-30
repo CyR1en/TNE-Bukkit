@@ -145,14 +145,16 @@ public class CurrencyManager {
     if(world.equalsIgnoreCase(TNE.instance().defaultWorld)) {
       globalCurrencies.put(world, currency);
     } else {
-      TNE.instance().manager.worldManagers.get(world).addCurrency(currency);
+      if(TNE.instance().getWorldManager(world) != null) {
+        TNE.instance().getWorldManager(world).addCurrency(currency);
+      }
     }
   }
 
   public void disableAll(String currency) {
     globalDisabled.add(currency);
-    for(String world : TNE.instance().manager.worldManagers.keySet()) {
-      TNE.instance().manager.worldManagers.get(world).disable(currency, true);
+    for(WorldManager manager : TNE.instance().getWorldManagers()) {
+      TNE.instance().getWorldManager(manager.getWorld()).disable(currency, true);
     }
   }
 
@@ -160,21 +162,21 @@ public class CurrencyManager {
     loadCurrency(TNE.instance().worldConfigurations, true, world);
     for(Currency currency : globalCurrencies.values()) {
       if(!globalDisabled.contains(currency.getName())) {
-        TNE.instance().manager.worldManagers.get(world).addCurrency(currency);
+        TNE.instance().getWorldManager(world).addCurrency(currency);
       }
     }
   }
 
   public Currency get(String world) {
-    for(Currency currency : TNE.instance().manager.worldManagers.get(world).getCurrencies()) {
+    for(Currency currency : TNE.instance().getWorldManager(world).getCurrencies()) {
       if(currency.isWorldDefault()) return currency;
     }
-    return TNE.instance().manager.worldManagers.get(TNE.instance().defaultWorld).getCurrency("Default");
+    return TNE.instance().getWorldManager(TNE.instance().defaultWorld).getCurrency("Default");
   }
 
   public Currency get(String world, String name) {
-    if(TNE.instance().manager.worldManagers.get(world).containsCurrency(name)) {
-      return TNE.instance().manager.worldManagers.get(world).getCurrency(name);
+    if(TNE.instance().getWorldManager(world).containsCurrency(name)) {
+      return TNE.instance().getWorldManager(world).getCurrency(name);
     }
     return get(world);
   }
@@ -198,11 +200,11 @@ public class CurrencyManager {
   }
 
   public boolean contains(String world) {
-    return TNE.instance().manager.worldManagers.containsKey(world);
+    return TNE.instance().getWorldManager(world) != null;
   }
 
   public Collection<Currency> getWorldCurrencies(String world) {
-    return TNE.instance().manager.worldManagers.get(world).getCurrencies();
+    return TNE.instance().getWorldManager(world).getCurrencies();
   }
 
   public List<Currency> getTrackedCurrencies(String world) {
@@ -233,6 +235,6 @@ public class CurrencyManager {
 
   public boolean contains(String world, String name) {
     MISCUtils.debug("CurrencyManager.contains(" + world + ", " + name + ")");
-    return TNE.instance().manager.worldManagers.get(world).containsCurrency(name);
+    return TNE.instance().getWorldManager(world).containsCurrency(name);
   }
 }

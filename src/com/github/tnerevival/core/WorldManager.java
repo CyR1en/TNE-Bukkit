@@ -36,6 +36,10 @@ public class WorldManager {
     else disabled.remove(currency);
   }
 
+  public boolean isDisabled(String currency) {
+    return disabled.contains(currency);
+  }
+
   public boolean containsCurrency(String currency) {
     for(String s : currencies.keySet()) {
       if(s.equalsIgnoreCase(currency)) return true;
@@ -49,5 +53,13 @@ public class WorldManager {
 
   public Object getConfiguration(String node) {
     return configurations.get(node);
+  }
+
+  public String getWorld() {
+    return world;
+  }
+
+  public void setWorld(String world) {
+    this.world = world;
   }
 }

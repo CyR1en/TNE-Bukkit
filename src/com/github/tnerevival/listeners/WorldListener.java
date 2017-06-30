@@ -52,8 +52,8 @@ public class WorldListener implements Listener {
   @EventHandler
   public void onWorldLoad(final WorldLoadEvent event) {
     String world = event.getWorld().getName();
-    if(!TNE.instance().manager.worldManagers.containsKey(world)) {
-      TNE.instance().manager.worldManagers.put(world, new WorldManager(world));
+    if(TNE.instance().getWorldManager(world) != null) {
+      TNE.instance().addWorldManager(new WorldManager(world));
     }
     TNE.instance().manager.currencyManager.initializeWorld(world);
   }
