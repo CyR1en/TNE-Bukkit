@@ -2,7 +2,7 @@ package net.tnemc.core.common.currency;
 
 import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
-import net.tnemc.core.common.MISCUtils;
+import net.tnemc.core.common.utils.MISCUtils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -32,20 +32,20 @@ public class CurrencyFormatter {
 
   public static String format(String world, BigDecimal amount) {
     MISCUtils.debug("CurrencyFormatter.format(" + world + ", " + amount.toPlainString() + ")");
-    return format(TNE.instance().manager.currencyManager.get(world), world, amount);
+    return format(TNE.instance().manager.getCurrencyManager().get(world), world, amount);
   }
 
   public static String format(String world, String name, BigDecimal amount) {
     MISCUtils.debug("CurrencyFormatter.format(" + name + ", " + world + ", " + amount.toPlainString() + ")");
-    return format(TNE.instance().manager.currencyManager.get(world, name), world, amount);
+    return format(TNE.instance().manager.getCurrencyManager().get(world, name), world, amount);
   }
 
   public static String format(Currency currency, String world, BigDecimal amount) {
     MISCUtils.debug("CurrencyFormatter.format(" + currency.getName() + ", " + world + ", " + amount.toPlainString() + ")");
 
-    if(currency == null) currency = TNE.instance().manager.currencyManager.get(TNE.instance().defaultWorld);
+    if(currency == null) currency = TNE.instance().manager.getCurrencyManager().get(TNE.instance().defaultWorld);
 
-    amount = AccountUtils.round(currency.getName(), world, amount);
+    amount = round(currency.getName(), world, amount);
     MISCUtils.debug(currency.getName() + " World: " + currency);
 
     String shortFormat = "<symbol><short.amount>";
@@ -107,6 +107,17 @@ public class CurrencyFormatter {
     return fromShort(currency, updated);
   }
 
+  public static BigDecimal round(String world, String currency, BigDecimal amount) {
+    if(TNE.instance().manager.getCurrencyManager().contains(world, currency)) {
+      return amount.setScale(TNE.instance().manager.getCurrencyManager().get(world, currency).getDecimalPlaces(), BigDecimal.ROUND_CEILING);
+    }
+
+    if(TNE.instance().manager.getCurrencyManager().contains(world)) {
+      return amount.setScale(TNE.instance().manager.getCurrencyManager().get(world).getDecimalPlaces(), BigDecimal.ROUND_CEILING);
+    }
+    return amount.setScale(TNE.instance().manager.getCurrencyManager().get(TNE.instance().defaultWorld).getDecimalPlaces(), BigDecimal.ROUND_CEILING);
+  }
+
   private static BigDecimal parseWeight(Currency currency, BigDecimal decimal) {
     String[] amountStr = (String.valueOf(decimal) + (decimal.toPlainString().contains(".")? "" : ".00")).split("\\.");
     BigInteger major = new BigInteger(amountStr[0]);
@@ -138,12 +149,12 @@ public class CurrencyFormatter {
   }
 
   public static boolean isBigDecimal(String value, String world) {
-    String major = TNE.instance().manager.currencyManager.get(world).getMajor();
+    String major = TNE.instance().manager.getCurrencyManager().get(world).getMajor();
     return isBigDecimal(value, major, world);
   }
 
   private static boolean isBigDecimal(String value, String currency, String world) {
-    String decimal = TNE.instance().manager.currencyManager.get(world, currency).getDecimal();
+    String decimal = TNE.instance().manager.getCurrencyManager().get(world, currency).getDecimal();
     try {
       new BigDecimal(value.replace(decimal, "."));
       return true;
@@ -153,12 +164,12 @@ public class CurrencyFormatter {
   }
 
   public static BigDecimal translateBigDecimal(String value, String world) {
-    String major = TNE.instance().manager.currencyManager.get(world).getMajor();
+    String major = TNE.instance().manager.getCurrencyManager().get(world).getMajor();
     return translateBigDecimal(value, major, world);
   }
 
   public static BigDecimal translateBigDecimal(String value, String currency, String world) {
-    String decimal = TNE.instance().manager.currencyManager.get(world, currency).getDecimal();
+    String decimal = TNE.instance().manager.getCurrencyManager().get(world, currency).getDecimal();
     return new BigDecimal(value.replace(decimal, "."));
   }
 }

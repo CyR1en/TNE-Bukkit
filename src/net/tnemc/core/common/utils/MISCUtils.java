@@ -1,4 +1,4 @@
-package net.tnemc.core.common;
+package net.tnemc.core.common.utils;
 
 import net.tnemc.core.TNE;
 import org.bukkit.Bukkit;

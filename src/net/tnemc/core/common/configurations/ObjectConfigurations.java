@@ -1,4 +1,11 @@
-package net.tnemc.core.common;
+package net.tnemc.core.common.configurations;
+
+import com.github.tnerevival.core.configurations.Configuration;
+import net.tnemc.core.TNE;
+import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -17,15 +24,16 @@ package net.tnemc.core.common;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Created by creatorfromhell on 06/30/2017.
  */
-public class EconomyManager {
-
-  private CurrencyManager currencyManager;
-
-  public EconomyManager() {
-    currencyManager = new CurrencyManager();
+public class ObjectConfigurations extends Configuration {
+  @Override
+  public FileConfiguration getConfiguration() {
+    return TNE.instance().objectConfigurations;
   }
 
-  public CurrencyManager getCurrencyManager() {
-    return currencyManager;
+  @Override
+  public List<String> node() {
+    List<String> nodes = new ArrayList<>();
+    nodes.add("Objects");
+    return nodes;
   }
 }
