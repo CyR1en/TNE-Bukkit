@@ -160,11 +160,11 @@ public class CurrencyManager {
 
   public void initializeWorld(String world) {
     loadCurrency(TNE.instance().worldConfigurations, true, world);
-    for(Currency currency : globalCurrencies.values()) {
-      if(!globalDisabled.contains(currency.getName())) {
-        TNE.instance().getWorldManager(world).addCurrency(currency);
+    globalCurrencies.forEach((key, value)->{
+      if(!globalDisabled.contains(value.getName())) {
+        TNE.instance().getWorldManager(world).addCurrency(value);
       }
-    }
+    });
   }
 
   public Currency get(String world) {
@@ -212,15 +212,15 @@ public class CurrencyManager {
 
     List<Currency> values = new ArrayList<>();
 
-    for(String s : globalCurrencies.keySet()) {
-      if(s.contains(world + ":")) {
+    globalCurrencies.keySet().forEach(str->{
+      if(str.contains(world + ":")) {
 
-        Currency currency = globalCurrencies.get(s);
+        Currency currency = globalCurrencies.get(str);
         if(currency.isItem() && currency.canTrackChest()) {
           values.add(currency);
         }
       }
-    }
+    });
 
     if(values.size() == 0) {
       Currency defaultCur = get(TNE.instance().defaultWorld);

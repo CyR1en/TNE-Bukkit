@@ -47,8 +47,6 @@ public class MainConfigurations  extends Configuration {
     configurations.put("Core.Server.Enabled", true);
     configurations.put("Core.Server.Name", "Server Account");
     configurations.put("Core.Server.Balance", 500);
-    configurations.put("Core.Pins.Enabled", false);
-    configurations.put("Core.Pins.Force", true);
     configurations.put("Core.Commands.PayShort", true);
     configurations.put("Core.Commands.BalanceShort", true);
     configurations.put("Core.Update.Check", true);
@@ -58,61 +56,6 @@ public class MainConfigurations  extends Configuration {
     configurations.put("Core.Transactions.Timezone", "US/Eastern");
     configurations.put("Core.AutoSaver.Enabled", true);
     configurations.put("Core.AutoSaver.Interval", 600);
-
-    configurations.put("Core.Auctions.Enabled", true);
-    configurations.put("Core.Auctions.Cost", 10.00);
-    configurations.put("Core.Auctions.AllowWorld", false);
-    configurations.put("Core.Auctions.Multiple", false);
-    configurations.put("Core.Auctions.MaxMultiple", 3);
-    configurations.put("Core.Auctions.PersonalQueue", 3);
-    configurations.put("Core.Auctions.MaxQueue", 10);
-    configurations.put("Core.Auctions.MaxStart", 2000);
-    configurations.put("Core.Auctions.MinStart", 1);
-    configurations.put("Core.Auctions.MaxIncrement", 1000);
-    configurations.put("Core.Auctions.MinIncrement", 1);
-    configurations.put("Core.Auctions.MaxTime", 60);
-    configurations.put("Core.Auctions.MinTime", 30);
-    configurations.put("Core.Auctions.AntiSnipe", true);
-    configurations.put("Core.Auctions.SnipePeriod", 30);
-    configurations.put("Core.Auctions.SnipeTime", 20);
-    configurations.put("Core.Auctions.Announce", true);
-    configurations.put("Core.Auctions.Interval", 10);
-    configurations.put("Core.Auctions.Countdown", true);
-    configurations.put("Core.Auctions.CountdownTime", 10);
-
-    configurations.put("Core.Shops.Enabled", false);
-    configurations.put("Core.Shops.Cost", 10.00);
-    configurations.put("Core.Shops.Max", 5);
-    configurations.put("Core.Shops.Rows", 3);
-    configurations.put("Core.Shops.Shoppers", 10);
-    configurations.put("Core.Shops.Shares.Enabled", true);
-    configurations.put("Core.Shops.Shares.Max", 3);
-
-    configurations.put("Core.Signs.Balance.Enabled", true);
-    configurations.put("Core.Signs.Balance.Currency", "Default");
-    configurations.put("Core.Signs.Balance.Place", 20.0);
-    configurations.put("Core.Signs.Balance.Use", 20.0);
-    configurations.put("Core.Signs.Bank.Enabled", true);
-    configurations.put("Core.Signs.Bank.Place", 20.0);
-    configurations.put("Core.Signs.Bank.Use", 20.0);
-    configurations.put("Core.Signs.Vault.Enabled", true);
-    configurations.put("Core.Signs.Vault.Place", 20.0);
-    configurations.put("Core.Signs.Vault.Use", 20.0);
-    configurations.put("Core.Signs.Shop.Enabled", true);
-    configurations.put("Core.Signs.Shop.Place", 20.0);
-    configurations.put("Core.Signs.Shop.Use", 20.0);
-    configurations.put("Core.Signs.Item.Enabled", true);
-    configurations.put("Core.Signs.Item.Place", 20.0);
-    configurations.put("Core.Signs.Item.Use", 20.0);
-    configurations.put("Core.Signs.Item.Max", 10);
-    configurations.put("Core.Signs.Item.Multiple", true);
-    configurations.put("Core.Signs.Item.MaxOffers", 9);
-    configurations.put("Core.Signs.Item.EnderChest", true);
-
-    configurations.put("Core.Death.Lose", false);
-    configurations.put("Core.Death.Vault.Drop", 0);
-    configurations.put("Core.Death.Vault.IncludeEmpty", true);
-    configurations.put("Core.Death.Vault.PlayerOnly", true);
 
     configurations.put("Core.Vault.Enabled", false);
     configurations.put("Core.Vault.Sign", false);
@@ -145,15 +88,6 @@ public class MainConfigurations  extends Configuration {
     configurations.put("Core.Database.MySQL.Password", "password");
     configurations.put("Core.Database.H2.File", "Economy");
     configurations.put("Core.Database.SQLite.File", "economy.db");
-
-    configurations.put("Core.Conversion.Convert", false);
-    configurations.put("Core.Conversion.Name", "iConomy");
-    configurations.put("Core.Conversion.Format", "MySQL");
-    configurations.put("Core.Conversion.Options.Host", "localhost");
-    configurations.put("Core.Conversion.Options.Port", 3306);
-    configurations.put("Core.Conversion.Options.Database", "sql_eco");
-    configurations.put("Core.Conversion.Options.User", "root");
-    configurations.put("Core.Conversion.Options.Password", "Password");
 
     super.load(configurationFile);
   }

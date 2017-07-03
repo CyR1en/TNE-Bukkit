@@ -1,13 +1,8 @@
-package net.tnemc.core.common.configurations;
+package net.tnemc.core.common.module;
 
-import com.github.tnerevival.core.configurations.Configuration;
-import net.tnemc.core.TNE;
-import org.bukkit.configuration.file.FileConfiguration;
+import java.lang.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
+/*
  * The New Economy Minecraft Server Plugin
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -22,18 +17,15 @@ import java.util.List;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by creatorfromhell on 06/30/2017.
+ * Created by creatorfromhell on 07/01/2017.
  */
-public class ObjectConfigurations extends Configuration {
-  @Override
-  public FileConfiguration getConfiguration() {
-    return TNE.instance().objectConfigurations;
-  }
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface ModuleInfo {
 
-  @Override
-  public List<String> node() {
-    List<String> nodes = new ArrayList<>();
-    nodes.add("Objects");
-    return nodes;
-  }
+  String name();
+  String author();
+  String version();
+  String[] dependencies() default "";
 }

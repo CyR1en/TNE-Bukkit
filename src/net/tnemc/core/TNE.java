@@ -7,8 +7,9 @@ import net.tnemc.core.common.EconomyManager;
 import net.tnemc.core.common.TNESQLManager;
 import net.tnemc.core.common.WorldManager;
 import net.tnemc.core.common.configurations.MainConfigurations;
+import net.tnemc.core.common.module.Module;
+import net.tnemc.core.common.module.ModuleLoader;
 import net.tnemc.core.common.utils.MISCUtils;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -35,6 +36,7 @@ import java.util.*;
  */
 public class TNE extends TNELib {
 
+  private Map<String, Module> modules = new HashMap<>();
   private Map<String, WorldManager> worldManagers = new HashMap<>();
 
   public List<CommandSender> debuggers = new ArrayList<>();
@@ -47,48 +49,65 @@ public class TNE extends TNELib {
 
   // Files & Custom Configuration Files
   public File items;
-  public File mobs;
   public File messages;
-  public File objects;
-  public File materials;
   public File players;
   public File worlds;
 
   public FileConfiguration itemConfigurations;
-  public FileConfiguration mobConfigurations;
   public FileConfiguration messageConfigurations;
-  public FileConfiguration materialConfigurations;
-  public FileConfiguration objectConfigurations;
   public FileConfiguration playerConfigurations;
   public FileConfiguration worldConfigurations;
 
   public void onEnable() {
+    //Run the ModuleLoader
+    modules = new ModuleLoader().load();
+
     instance = this;
     super.onEnable();
 
-    for(World world : TNE.instance().getServer().getWorlds()) {
+    getServer().getWorlds().forEach(world->{
       MISCUtils.debug("Adding world manager for world: " + world.getName());
       worldManagers.put(world.getName(), new WorldManager(world.getName()));
-    }
+    });
+
+    //Load modules
+    modules.forEach((key, value)->{
+      value.load(this);
+    });
+
+    //Commands
+    modules.forEach((key, value)->{
+      value.registerCommands(getCommandManager());
+    });
 
     //Configurations
     loadConfigurations();
-    configurations.loadAll();
-    configurations.add(new MainConfigurations(), "main");
-    configurations.updateLoad();
+    configurations().loadAll();
+    MainConfigurations main = new MainConfigurations();
+    modules.forEach((key, value)->{
+      value.registerMainConfigurations(main);
+    });
+    modules.forEach((key, value)->{
+      value.registerConfigurations(configurations());
+    });
+    configurations().add(main, "main");
+    configurations().updateLoad();
 
     //SQL-related variables
     cache = true;
     saveFormat = "mysql";
-    update = configurations.getInt("Core.SQL.Transactions.Update");
+    update = configurations().getInt("Core.SQL.Transactions.Update");
 
-    sqlManager = new TNESQLManager(configurations.getString("Core.SQL.Host"), configurations.getInt("Core.SQL.Port"),
-        configurations.getString("Core.SQL.Database"), configurations.getString("Core.SQL.User"),
-        configurations.getString("Core.SQL.Password"), configurations.getString("Core.SQL.Prefix"),
+    sqlManager = new TNESQLManager(configurations().getString("Core.SQL.Host"), configurations().getInt("Core.SQL.Port"),
+        configurations().getString("Core.SQL.Database"), configurations().getString("Core.SQL.User"),
+        configurations().getString("Core.SQL.Password"), configurations().getString("Core.SQL.Prefix"),
         "", "", ""
     );
     saveManager = new SaveManager(sqlManager);
     saveManager.initialize();
+    modules.forEach((key, value)->{
+      value.enableSave(saveManager);
+    });
 
     //Initialize our plugin's managers.
     manager = new EconomyManager();
@@ -96,7 +115,7 @@ public class TNE extends TNELib {
     //Version Checking
 
     //Metrics
-    if(configurations.getBoolean("Core.Metrics")) {
+    if(configurations().getBoolean("Core.Metrics")) {
       new Metrics(this);
       getLogger().info("Sending plugin statistics.");
     }
@@ -105,6 +124,12 @@ public class TNE extends TNELib {
   }
 
   public void onDisable() {
+    modules.forEach((key, value)->{
+      value.disableSave(saveManager);
+    });
+    modules.forEach((key, value)->{
+      value.unload(this);
+    });
     super.onDisable();
     getLogger().info("The New Economy has been disabled!");
   }
@@ -114,18 +139,15 @@ public class TNE extends TNELib {
   }
 
   private void initializeConfigurations() {
+    modules.forEach((key, value)->{
+      value.initializeConfigurations();
+    });
     items = new File(getDataFolder(), "items.yml");
-    mobs = new File(getDataFolder(), "mobs.yml");
     messages = new File(getDataFolder(), "messages.yml");
-    objects = new File(getDataFolder(), "objects.yml");
-    materials = new File(getDataFolder(), "materials.yml");
     players = new File(getDataFolder(), "players.yml");
     worlds = new File(getDataFolder(), "worlds.yml");
     itemConfigurations = YamlConfiguration.loadConfiguration(items);
-    mobConfigurations = YamlConfiguration.loadConfiguration(mobs);
     messageConfigurations = YamlConfiguration.loadConfiguration(messages);
-    objectConfigurations = YamlConfiguration.loadConfiguration(objects);
-    materialConfigurations = YamlConfiguration.loadConfiguration(materials);
     playerConfigurations = YamlConfiguration.loadConfiguration(players);
     worldConfigurations = YamlConfiguration.loadConfiguration(worlds);
     try {
@@ -137,43 +159,37 @@ public class TNE extends TNELib {
 
   @Override
   public void loadConfigurations() {
+    modules.forEach((key, value)->{
+      value.loadConfigurations();
+    });
     this.saveDefaultConfig();
     getConfig().options().copyDefaults(true);
     super.loadConfigurations();
     itemConfigurations.options().copyDefaults(true);
-    mobConfigurations.options().copyDefaults(true);
     messageConfigurations.options().copyDefaults(true);
-    objectConfigurations.options().copyDefaults(true);
-    materialConfigurations.options().copyDefaults(true);
     playerConfigurations.options().copyDefaults(true);
     worldConfigurations.options().copyDefaults(true);
     saveConfigurations(false);
   }
 
   private void saveConfigurations(boolean check) {
-    if(!check || !new File(getDataFolder(), "config.yml").exists() || configurations.changed.contains("config.yml")) {
+    if(!check || !new File(getDataFolder(), "config.yml").exists() || configurations().changed.contains("config.yml")) {
       saveConfig();
     }
     try {
-      if(!check || !items.exists() || configurations.changed.contains(itemConfigurations.getName())) {
+      modules.forEach((key, value)->{
+        value.saveConfigurations();
+      });
+      if(!check || !items.exists() || configurations().changed.contains(itemConfigurations.getName())) {
         itemConfigurations.save(items);
       }
-      if(!check || !mobs.exists() || configurations.changed.contains(mobConfigurations.getName())) {
-        mobConfigurations.save(mobs);
-      }
-      if(!check || !messages.exists() || configurations.changed.contains(messageConfigurations.getName())) {
+      if(!check || !messages.exists() || configurations().changed.contains(messageConfigurations.getName())) {
         messageConfigurations.save(messages);
       }
-      if(!check || !objects.exists() || configurations.changed.contains(objectConfigurations.getName())) {
-        objectConfigurations.save(objects);
-      }
-      if(!check || !materials.exists() || configurations.changed.contains(materialConfigurations.getName())) {
-        materialConfigurations.save(materials);
-      }
-      if(!check || !players.exists() || configurations.changed.contains(playerConfigurations.getName())) {
+      if(!check || !players.exists() || configurations().changed.contains(playerConfigurations.getName())) {
         playerConfigurations.save(players);
       }
-      if(!check || !worlds.exists() || configurations.changed.contains(worldConfigurations.getName())) {
+      if(!check || !worlds.exists() || configurations().changed.contains(worldConfigurations.getName())) {
         worldConfigurations.save(worlds);
       }
     } catch (IOException e) {
@@ -193,24 +209,10 @@ public class TNE extends TNELib {
       YamlConfiguration config = YamlConfiguration.loadConfiguration(itemsStream);
       itemConfigurations.setDefaults(config);
     }
-    if (mobsStream != null) {
-      YamlConfiguration config = YamlConfiguration.loadConfiguration(mobsStream);
-      mobConfigurations.setDefaults(config);
-    }
 
     if (messagesStream != null) {
       YamlConfiguration config = YamlConfiguration.loadConfiguration(messagesStream);
       messageConfigurations.setDefaults(config);
-    }
-
-    if (materialsStream != null) {
-      YamlConfiguration config = YamlConfiguration.loadConfiguration(materialsStream);
-      materialConfigurations.setDefaults(config);
-    }
-
-    if (objectsStream != null) {
-      YamlConfiguration config = YamlConfiguration.loadConfiguration(objectsStream);
-      objectConfigurations.setDefaults(config);
     }
 
     if (playersStream != null) {

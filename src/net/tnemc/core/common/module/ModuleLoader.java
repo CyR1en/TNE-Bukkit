@@ -1,10 +1,11 @@
-package net.tnemc.core.common.account;
+package net.tnemc.core.common.module;
 
-import org.bukkit.Location;
+import net.tnemc.core.TNE;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /*
  * The New Economy Minecraft Server Plugin
@@ -23,15 +24,30 @@ import java.util.UUID;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Created by creatorfromhell on 07/01/2017.
  */
-public class Account {
-  private Map<String, WorldAccount> worlds = new HashMap<>();
-  private Map<Location, TrackedItems> trackedItems = new HashMap<>();
 
-  private int accountNumber = 0;
-  private UUID uid;
-  private AccountStatus status;
-  private String pin;
-  private boolean special;
-  private String joined;
-  private long lastOnline;
+/**
+ * This class loads all modules from the modules directory, and loads the main class based on @Module.
+ **/
+public class ModuleLoader {
+
+  /**
+   * Loads all modules into a map for later usage.
+   * @return The map containing every module in format Name, ModuleInstance
+   */
+  public Map<String, Module> load() {
+    Map<String, Module> modules = new HashMap<>();
+
+    File[] jars = new File(TNE.instance().getDataFolder(), "/modules/").listFiles(new FilenameFilter() {
+      @Override
+      public boolean accept(File dir, String name) {
+        return name.endsWith(".jar");
+      }
+    });
+
+    for(File jar : jars) {
+      
+    }
+
+    return modules;
+  }
 }

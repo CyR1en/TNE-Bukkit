@@ -30,6 +30,12 @@ import java.util.regex.Pattern;
  */
 public class CurrencyFormatter {
 
+  /**
+   * Formats an amount into a readable format, based on various parameters, and configurations.
+   * @param world The world to use for configuration purposes.
+   * @param amount The amount to format
+   * @return The readable formatted amount.
+   */
   public static String format(String world, BigDecimal amount) {
     MISCUtils.debug("CurrencyFormatter.format(" + world + ", " + amount.toPlainString() + ")");
     return format(TNE.instance().manager.getCurrencyManager().get(world), world, amount);
