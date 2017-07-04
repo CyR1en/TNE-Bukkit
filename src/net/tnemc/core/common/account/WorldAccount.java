@@ -11,10 +11,7 @@ import java.util.Map;
 public class WorldAccount {
 
   private Map<String, BigDecimal> balances = new HashMap<>();
-
   private String world;
-  private Vault vault;
-  private Bank bank;
 
   public WorldAccount(String world) {
     this.world = world;
