@@ -45,7 +45,7 @@ public class ModuleLoader {
     });
 
     for(File jar : jars) {
-      
+      System.out.println(jar.getAbsolutePath());
     }
 
     return modules;

@@ -16,6 +16,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -136,6 +137,10 @@ public class TNE extends TNELib {
 
   public static TNE instance() {
     return (TNE)instance;
+  }
+
+  public Logger logger() {
+    return getServer().getLogger();
   }
 
   private void initializeConfigurations() {

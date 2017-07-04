@@ -27,12 +27,6 @@ import net.tnemc.core.common.configurations.MainConfigurations;
 /**
  * The base class for all TNE Modules.
  */
-@ModuleInfo(
-    name = "BaseModule",
-    author = "creatorfromhell",
-    version = "1.0.0",
-    dependencies = {}
-)
 public abstract class Module {
 
   /**
