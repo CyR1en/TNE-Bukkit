@@ -1,8 +1,8 @@
-package net.tnemc.banks;
+package net.tnemc.mobs;
 
 import com.github.tnerevival.commands.CommandManager;
+import com.github.tnerevival.core.configurations.ConfigurationManager;
 import net.tnemc.core.TNE;
-import net.tnemc.core.common.configurations.MainConfigurations;
 import net.tnemc.core.common.module.Module;
 import net.tnemc.core.common.module.ModuleInfo;
 
@@ -24,28 +24,25 @@ import net.tnemc.core.common.module.ModuleInfo;
  * All rights reserved.
  **/
 @ModuleInfo(
-    name = "Banks",
+    name = "Mobs",
     author = "creatorfromhell",
     version = "0.1.0"
 )
-public class BanksModule extends Module {
+public class MobsModule extends Module {
 
   @Override
   public void load(TNE tne) {
-    tne.logger().info("Banks Module loaded!");
+    tne.logger().info("Mobs Module loaded!");
   }
 
   @Override
   public void unload(TNE tne) {
-    tne.logger().info("Banks Module unloaded!");
+    tne.logger().info("Mobs Module unloaded!");
   }
 
   @Override
-  public void registerMainConfigurations(MainConfigurations configuration) {
-    configuration.configurations.put("Core.Bank.Enabled", false);
-    configuration.configurations.put("Core.Bank.Connected", false);
-    configuration.configurations.put("Core.Bank.Cost", 20.0);
-    configuration.configurations.put("Core.Bank.MultiManage", false);
+  public void registerConfigurations(ConfigurationManager manager) {
+    super.registerConfigurations(manager);
   }
 
   @Override

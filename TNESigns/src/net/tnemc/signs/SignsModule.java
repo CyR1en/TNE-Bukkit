@@ -1,4 +1,4 @@
-package net.tnemc.banks;
+package net.tnemc.signs;
 
 import com.github.tnerevival.commands.CommandManager;
 import net.tnemc.core.TNE;
@@ -24,28 +24,24 @@ import net.tnemc.core.common.module.ModuleInfo;
  * All rights reserved.
  **/
 @ModuleInfo(
-    name = "Banks",
+    name = "Signs",
     author = "creatorfromhell",
     version = "0.1.0"
 )
-public class BanksModule extends Module {
+public class SignsModule extends Module {
 
   @Override
   public void load(TNE tne) {
-    tne.logger().info("Banks Module loaded!");
+    tne.logger().info("Signs Module loaded!");
   }
 
   @Override
   public void unload(TNE tne) {
-    tne.logger().info("Banks Module unloaded!");
+    tne.logger().info("Signs Module unloaded!");
   }
 
   @Override
   public void registerMainConfigurations(MainConfigurations configuration) {
-    configuration.configurations.put("Core.Bank.Enabled", false);
-    configuration.configurations.put("Core.Bank.Connected", false);
-    configuration.configurations.put("Core.Bank.Cost", 20.0);
-    configuration.configurations.put("Core.Bank.MultiManage", false);
   }
 
   @Override

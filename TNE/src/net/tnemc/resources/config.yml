@@ -219,37 +219,37 @@ Core:
     #All configurations relating to the TNE Auctions System.
     Auctions:
 
-        #Whether or not auctions are enabled
+        #Whether or not credits are enabled
         Enabled: true
 
         #The cost to start an auction.
         Cost: 10
 
-        #Whether or not world-based auctions are allowed.
+        #Whether or not world-based credits are allowed.
         AllowWorld: true
 
-        #Whether or not multiple auctions can be run at once
+        #Whether or not multiple credits can be run at once
         Multiple: false
 
-        #The maximum amount of simultaneous auctions at once.
+        #The maximum amount of simultaneous credits at once.
         MaxMultiple: 3
 
-        #The maximum number of auctions a single player can have in the queue.
+        #The maximum number of credits a single player can have in the queue.
         PersonalQueue: 3
 
-        #The maximum number of auctions able to be in the queue for a single world.
+        #The maximum number of credits able to be in the queue for a single world.
         MaxQueue: 10
 
-        #The maximum start price for auctions
+        #The maximum start price for credits
         MaxStart: 2000
 
-        #The minimum start price for auctions
+        #The minimum start price for credits
         MinStart: 1
 
-        #The max increment amount for auctions
+        #The max increment amount for credits
         MaxIncrement: 1000
 
-        #The minimum increment amount for auctions
+        #The minimum increment amount for credits
         MinIncrement: 1
 
         #The max amount of time an auction can last(Seconds).
