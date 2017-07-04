@@ -2,11 +2,11 @@
 TNE uses a module-based system to provide extra features. Certain "extras" are provided in the TNE core to give modules 
 certain helper classes, such as item names, and inventory helpers.
 
-##About
+## About
 Modules are separate jars that provide extra features for TNE, and are located in the "modules" directory of the TNE folder.
 The module system allows features to be added without the need to update the main TNE Plugin, and allows third-party developers to easily add addition features to TNE.
 
-##Commands
+## Commands
 These are the base commands associated with modules.  
 
 | Command                                |    ShortCut                          | Permission          | Description                                                                           |
@@ -17,7 +17,7 @@ These are the base commands associated with modules.
 | /tnemodule unload                      | /\<base command\> u                  | tne.module.unload   | Used to unload a module.                                                              | 
 | /tnemodule info                        | /\<base command\> i                  | tne.module.info     | Shows basic information about a module, include the version and author.               |
 
-##Advantages
+## Advantages
 There's various advantages of switching to a module-based system. Here's the major ones:
 - Ability to update individual modules, without needed to mess with the core plugin itself
   - This allows bug fixes to be pushed out without everyone needing to update their version of TNE.
@@ -25,7 +25,7 @@ There's various advantages of switching to a module-based system. Here's the maj
 - Ability to add features to TNE without needing server owners to update TNE. This allows servers to add the latest TNE 
 features without needing to restart their server, or perform the ever risky /reload command. All you have to do is simply type /tnemodule update, or /tnemodule reload.
 
-##Official Modules
+## Official Modules
 These are the Official TNE Modules that are packaged with each TNE release. Notice some of these are planned features, please check the TNE Version column for confirmation.  
 
 Name - The name of the module  
