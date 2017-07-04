@@ -36,16 +36,19 @@ public class ModuleLoader {
    */
   public Map<String, Module> load() {
     Map<String, Module> modules = new HashMap<>();
+    if(TNE.configurations().getBoolean("Core.Modules.Enabled")) {
+      File directory = new File("plugins/TheNewEconomy/modules");
+      System.out.println("Modules Directory: " + directory.getAbsolutePath());
+      File[] jars = directory.listFiles(new FilenameFilter() {
+        @Override
+        public boolean accept(File dir, String name) {
+          return name.endsWith(".jar");
+        }
+      });
 
-    File[] jars = new File(TNE.instance().getDataFolder(), "/modules/").listFiles(new FilenameFilter() {
-      @Override
-      public boolean accept(File dir, String name) {
-        return name.endsWith(".jar");
+      for (File jar : jars) {
+        System.out.println(jar.getName());
       }
-    });
-
-    for(File jar : jars) {
-      System.out.println(jar.getAbsolutePath());
     }
 
     return modules;

@@ -82,6 +82,7 @@ public class TNE extends TNELib {
     });
 
     //Configurations
+    initializeConfigurations();
     loadConfigurations();
     configurations().loadAll();
     MainConfigurations main = new MainConfigurations();
@@ -95,13 +96,13 @@ public class TNE extends TNELib {
     configurations().updateLoad();
 
     //SQL-related variables
-    cache = true;
-    saveFormat = "mysql";
-    update = configurations().getInt("Core.SQL.Transactions.Update");
+    cache = configurations().getBoolean("Core.Database.Transactions.Cache");
+    saveFormat = configurations().getString("Core.Database.Type");
+    update = configurations().getInt("Core.Database.Transactions.Update");
 
-    sqlManager = new TNESQLManager(configurations().getString("Core.SQL.Host"), configurations().getInt("Core.SQL.Port"),
-        configurations().getString("Core.SQL.Database"), configurations().getString("Core.SQL.User"),
-        configurations().getString("Core.SQL.Password"), configurations().getString("Core.SQL.Prefix"),
+    sqlManager = new TNESQLManager(configurations().getString("Core.Database.MySQL.Host"), configurations().getInt("Core.Database.MySQL.Port"),
+        configurations().getString("Core.Database.MySQL.Database"), configurations().getString("Core.Database.MySQL.User"),
+        configurations().getString("Core.Database.MySQL.Password"), configurations().getString("Core.Database.Prefix"),
         "", "", ""
     );
     saveManager = new SaveManager(sqlManager);
