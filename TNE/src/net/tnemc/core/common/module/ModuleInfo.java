@@ -27,5 +27,4 @@ public @interface ModuleInfo {
   String name();
   String author();
   String version();
-  String[] dependencies() default "";
 }

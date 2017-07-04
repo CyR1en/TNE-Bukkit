@@ -29,6 +29,9 @@ import net.tnemc.core.common.configurations.MainConfigurations;
  */
 public abstract class Module {
 
+  public Module() {
+  }
+
   /**
    * Called when this @Module is loaded.
    * @param tne An instance of the main TNE class.

@@ -1,4 +1,4 @@
-package net.tnemc.module.example;
+package net.tnemc.banks;
 
 import net.tnemc.core.TNE;
 import net.tnemc.core.common.module.Module;
@@ -22,19 +22,19 @@ import net.tnemc.core.common.module.ModuleInfo;
  * All rights reserved.
  **/
 @ModuleInfo(
-    name = "ExampleModule",
+    name = "Banks",
     author = "creatorfromhell",
-    version = "1.0.0"
+    version = "0.1.0"
 )
-public class ExampleModule extends Module {
+public class BanksModule extends Module {
 
   @Override
   public void load(TNE tne) {
-    tne.logger().info("Example Module loaded!");
+    tne.logger().info("Banks Module loaded!");
   }
 
   @Override
   public void unload(TNE tne) {
-    tne.logger().info("Example Module unloaded!");
+    tne.logger().info("Banks Module unloaded!");
   }
 }

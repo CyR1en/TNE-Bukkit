@@ -7,7 +7,6 @@ import net.tnemc.core.common.EconomyManager;
 import net.tnemc.core.common.TNESQLManager;
 import net.tnemc.core.common.WorldManager;
 import net.tnemc.core.common.configurations.MainConfigurations;
-import net.tnemc.core.common.module.Module;
 import net.tnemc.core.common.module.ModuleLoader;
 import net.tnemc.core.common.utils.MISCUtils;
 import org.bukkit.command.CommandSender;
@@ -36,13 +35,13 @@ import java.util.logging.Logger;
  * Created by creatorfromhell on 06/30/2017.
  */
 public class TNE extends TNELib {
-
-  private Map<String, Module> modules = new HashMap<>();
   private Map<String, WorldManager> worldManagers = new HashMap<>();
 
   public List<CommandSender> debuggers = new ArrayList<>();
 
   public EconomyManager manager;
+
+  private ModuleLoader loader;
 
   public TNESQLManager sqlManager;
   public SaveManager saveManager;
@@ -60,11 +59,12 @@ public class TNE extends TNELib {
   public FileConfiguration worldConfigurations;
 
   public void onEnable() {
-    //Run the ModuleLoader
-    modules = new ModuleLoader().load();
-
     instance = this;
     super.onEnable();
+
+    //Run the ModuleLoader
+    loader = new ModuleLoader();
+    loader.load();
 
     getServer().getWorlds().forEach(world->{
       MISCUtils.debug("Adding world manager for world: " + world.getName());
@@ -72,13 +72,13 @@ public class TNE extends TNELib {
     });
 
     //Load modules
-    modules.forEach((key, value)->{
-      value.load(this);
+    loader.getModules().forEach((key, value)->{
+      value.getModule().load(this);
     });
 
     //Commands
-    modules.forEach((key, value)->{
-      value.registerCommands(getCommandManager());
+    loader.getModules().forEach((key, value)->{
+      value.getModule().registerCommands(getCommandManager());
     });
 
     //Configurations
@@ -86,11 +86,11 @@ public class TNE extends TNELib {
     loadConfigurations();
     configurations().loadAll();
     MainConfigurations main = new MainConfigurations();
-    modules.forEach((key, value)->{
-      value.registerMainConfigurations(main);
+    loader.getModules().forEach((key, value)->{
+      value.getModule().registerMainConfigurations(main);
     });
-    modules.forEach((key, value)->{
-      value.registerConfigurations(configurations());
+    loader.getModules().forEach((key, value)->{
+      value.getModule().registerConfigurations(configurations());
     });
     configurations().add(main, "main");
     configurations().updateLoad();
@@ -107,8 +107,8 @@ public class TNE extends TNELib {
     );
     saveManager = new SaveManager(sqlManager);
     saveManager.initialize();
-    modules.forEach((key, value)->{
-      value.enableSave(saveManager);
+    loader.getModules().forEach((key, value)->{
+      value.getModule().enableSave(saveManager);
     });
 
     //Initialize our plugin's managers.
@@ -126,11 +126,11 @@ public class TNE extends TNELib {
   }
 
   public void onDisable() {
-    modules.forEach((key, value)->{
-      value.disableSave(saveManager);
+    loader.getModules().forEach((key, value)->{
+      value.getModule().disableSave(saveManager);
     });
-    modules.forEach((key, value)->{
-      value.unload(this);
+    loader.getModules().forEach((key, value)->{
+      value.getModule().unload(this);
     });
     super.onDisable();
     getLogger().info("The New Economy has been disabled!");
@@ -145,8 +145,8 @@ public class TNE extends TNELib {
   }
 
   private void initializeConfigurations() {
-    modules.forEach((key, value)->{
-      value.initializeConfigurations();
+    loader.getModules().forEach((key, value)->{
+      value.getModule().initializeConfigurations();
     });
     items = new File(getDataFolder(), "items.yml");
     messages = new File(getDataFolder(), "messages.yml");
@@ -165,8 +165,8 @@ public class TNE extends TNELib {
 
   @Override
   public void loadConfigurations() {
-    modules.forEach((key, value)->{
-      value.loadConfigurations();
+    loader.getModules().forEach((key, value)->{
+      value.getModule().loadConfigurations();
     });
     this.saveDefaultConfig();
     getConfig().options().copyDefaults(true);
@@ -183,8 +183,8 @@ public class TNE extends TNELib {
       saveConfig();
     }
     try {
-      modules.forEach((key, value)->{
-        value.saveConfigurations();
+      loader.getModules().forEach((key, value)->{
+        value.getModule().saveConfigurations();
       });
       if(!check || !items.exists() || configurations().changed.contains(itemConfigurations.getName())) {
         itemConfigurations.save(items);
