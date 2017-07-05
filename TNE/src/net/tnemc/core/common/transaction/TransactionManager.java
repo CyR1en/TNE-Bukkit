@@ -1,5 +1,11 @@
 package net.tnemc.core.common.transaction;
 
+import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.Account;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The New Economy Minecraft Server Plugin
  * <p>
@@ -19,5 +25,42 @@ package net.tnemc.core.common.transaction;
  */
 public class TransactionManager {
 
+  /**
+   * Dictionary is a {@link Map} collection that contains {@link String Transaction Type Identifier} as
+   * the key and {@link TransactionType Transaction Type} as the value.
+   */
+  private Map<String, TransactionType> types = new HashMap<>();
 
+  /**
+   * Dictionary is a {@link Map} collection that contains {@link String Transaction Result Identifier} as
+   * the key and {@link TransactionResult Transaction Result} as the value.
+   */
+  private Map<String, TransactionResult> results = new HashMap<>();
+
+
+  public TransactionManager() {
+    initialize();
+  }
+
+  private void initialize() {
+    //TODO: Initialize core Transaction Types & Results
+  }
+
+  public TransactionResult perform(Transaction transaction) {
+    TransactionResult result = transaction.handle();
+    if(result.proceed() || TNE.configurations().getBoolean("Core.Transactions.TrackFailed")) {
+
+    }
+    return transaction.handle();
+  }
+
+  void log(Transaction transaction) {
+    if(transaction.getInitiator() != null) {
+      Account.getAccount(transaction.getInitiator());
+    }
+
+    if(transaction.getRecipient() != null) {
+      Account.getAccount(transaction.getRecipient());
+    }
+  }
 }

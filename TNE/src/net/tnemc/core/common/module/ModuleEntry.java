@@ -5,12 +5,18 @@ package net.tnemc.core.common.module;
  * All rights reserved.
  **/
 public class ModuleEntry {
+
+  //TODO: Module Injectors.
+
   private ModuleInfo info;
   private Module module;
 
   public ModuleEntry(ModuleInfo info, Module module) {
     this.info = info;
     this.module = module;
+  }
+
+  public void test() {
   }
 
   public ModuleInfo getInfo() {

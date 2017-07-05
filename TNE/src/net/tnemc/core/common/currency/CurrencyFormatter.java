@@ -2,7 +2,6 @@ package net.tnemc.core.common.currency;
 
 import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
-import net.tnemc.core.common.utils.MISCUtils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -37,22 +36,22 @@ public class CurrencyFormatter {
    * @return The readable formatted amount.
    */
   public static String format(String world, BigDecimal amount) {
-    MISCUtils.debug("CurrencyFormatter.format(" + world + ", " + amount.toPlainString() + ")");
+    TNE.debug("CurrencyFormatter.format(" + world + ", " + amount.toPlainString() + ")");
     return format(TNE.instance().manager.getCurrencyManager().get(world), world, amount);
   }
 
   public static String format(String world, String name, BigDecimal amount) {
-    MISCUtils.debug("CurrencyFormatter.format(" + name + ", " + world + ", " + amount.toPlainString() + ")");
+    TNE.debug("CurrencyFormatter.format(" + name + ", " + world + ", " + amount.toPlainString() + ")");
     return format(TNE.instance().manager.getCurrencyManager().get(world, name), world, amount);
   }
 
   public static String format(Currency currency, String world, BigDecimal amount) {
-    MISCUtils.debug("CurrencyFormatter.format(" + currency.getName() + ", " + world + ", " + amount.toPlainString() + ")");
+    TNE.debug("CurrencyFormatter.format(" + currency.getName() + ", " + world + ", " + amount.toPlainString() + ")");
 
     if(currency == null) currency = TNE.instance().manager.getCurrencyManager().get(TNE.instance().defaultWorld);
 
     amount = round(currency.getName(), world, amount);
-    MISCUtils.debug(currency.getName() + " World: " + currency);
+    TNE.debug(currency.getName() + " World: " + currency);
 
     String shortFormat = "<symbol><short.amount>";
     String format = currency.getFormat();

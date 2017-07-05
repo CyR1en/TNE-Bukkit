@@ -39,8 +39,12 @@ public abstract class TransactionType {
   /**
    * Handles the transaction.
    * @return True if everything is ready to proceed to the next step.
+   * @param initiator The transaction initiator's identifier.
+   * @param recipient The transaction recipient's identifier.
+   * @param world The world the transaction occurred in.
+   * @param cost The money and/or items this transaction consists of.
    */
-  public abstract boolean handle();
+  public abstract boolean handle(String initiator, String recipient, String world, TransactionCost cost);
 
   /**
    * Handles the initiator side of the transaction.

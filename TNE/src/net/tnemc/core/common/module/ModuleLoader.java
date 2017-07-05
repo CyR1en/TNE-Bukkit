@@ -1,7 +1,6 @@
 package net.tnemc.core.common.module;
 
 import net.tnemc.core.TNE;
-import net.tnemc.core.common.utils.MISCUtils;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -71,7 +70,7 @@ public class ModuleLoader {
     try {
       mainClass = Class.forName(moduleMain, true, getClass().getClassLoader());
     } catch (ClassNotFoundException e) {
-      MISCUtils.debug(e);
+      TNE.debug(e);
     }
 
     URLClassLoader urlClassLoader = null;
@@ -118,7 +117,7 @@ public class ModuleLoader {
         try {
           jar.close();
         } catch(IOException e) {
-          MISCUtils.debug(e);
+          TNE.debug(e);
         }
       }
 
@@ -126,7 +125,7 @@ public class ModuleLoader {
         try {
           in.close();
         } catch(IOException e) {
-          MISCUtils.debug(e);
+          TNE.debug(e);
         }
       }
 
@@ -134,7 +133,7 @@ public class ModuleLoader {
         try {
           reader.close();
         } catch(IOException e) {
-          MISCUtils.debug(e);
+          TNE.debug(e);
         }
       }
     }

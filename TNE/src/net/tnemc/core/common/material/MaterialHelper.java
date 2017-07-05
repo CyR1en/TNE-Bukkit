@@ -1,7 +1,6 @@
 package net.tnemc.core.common.material;
 
 import net.tnemc.core.TNE;
-import net.tnemc.core.common.utils.MISCUtils;
 import net.tnemc.core.common.utils.MaterialUtils;
 import org.bukkit.Material;
 
@@ -35,7 +34,7 @@ public class MaterialHelper {
       String[] names = nameList.toArray(new String[nameList.size()]);
       validNames.add(new MaterialNameHelper(mat, MaterialUtils.formatMaterialName(mat), names));
     }
-    MISCUtils.debug("Materials Using: " + validNames.size());
+    TNE.debug("Materials Using: " + validNames.size());
   }
 
   public static String getShopName(Material material) {
@@ -50,7 +49,7 @@ public class MaterialHelper {
   }
 
   public static Material getMaterial(String search) {
-    MISCUtils.debug("MaterialHelper.getMaterial(" + search + ")");
+    TNE.debug("MaterialHelper.getMaterial(" + search + ")");
     if(Material.getMaterial(search.toUpperCase()) != null && !Material.getMaterial(search.toUpperCase()).equals(Material.AIR)) {
       return Material.getMaterial(search.toUpperCase());
     }

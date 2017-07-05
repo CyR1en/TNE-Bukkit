@@ -3,7 +3,6 @@ package net.tnemc.core.common;
 import net.tnemc.core.TNE;
 import net.tnemc.core.common.currency.Currency;
 import net.tnemc.core.common.currency.Tier;
-import net.tnemc.core.common.utils.MISCUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.math.BigDecimal;
@@ -55,7 +54,7 @@ public class CurrencyManager {
     if(configuration.contains(curBase)) {
 
       Set<String> currencies = configuration.getConfigurationSection(curBase).getKeys(false);
-      MISCUtils.debug(currencies.toArray().toString());
+      TNE.debug(currencies.toArray().toString());
 
       for(String cur : currencies) {
         if (configuration.contains("Core.Currency." + cur + ".Disabled") &&
@@ -63,7 +62,7 @@ public class CurrencyManager {
               return;
         }
 
-        MISCUtils.debug("[Loop]Loading Currency: " + cur + " for world: " + worldName);
+        TNE.debug("[Loop]Loading Currency: " + cur + " for world: " + worldName);
         String base = curBase + "." + cur;
         BigDecimal balance = configuration.contains(base + ".Balance")?  new BigDecimal(configuration.getString(base + ".Balance")) : new BigDecimal(200.00);
         String decimal = configuration.contains(base + ".Decimal")? configuration.getString(base + ".Decimal") : ".";
@@ -141,7 +140,7 @@ public class CurrencyManager {
   }
 
   public void addCurrency(String world, Currency currency) {
-    MISCUtils.debug("[Add]Loading Currency: " + currency.getName() + " for world: " + world);
+    TNE.debug("[Add]Loading Currency: " + currency.getName() + " for world: " + world);
     if(world.equalsIgnoreCase(TNE.instance().defaultWorld)) {
       globalCurrencies.put(world, currency);
     } else {
@@ -234,7 +233,7 @@ public class CurrencyManager {
   }
 
   public boolean contains(String world, String name) {
-    MISCUtils.debug("CurrencyManager.contains(" + world + ", " + name + ")");
+    TNE.debug("CurrencyManager.contains(" + world + ", " + name + ")");
     return TNE.instance().getWorldManager(world).containsCurrency(name);
   }
 }

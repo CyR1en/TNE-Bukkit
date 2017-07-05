@@ -1,8 +1,6 @@
 package net.tnemc.core.common.utils;
 
-import net.tnemc.core.TNE;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -58,29 +56,5 @@ public class MISCUtils {
    */
   public static boolean isOneTwelve() {
     return Bukkit.getVersion().contains("1.12");
-  }
-
-  //True MISC Utils
-  public static void debug(String message) {
-    if(TNE.debugMode) {
-      TNE.instance().getLogger().info("[DEBUG MODE]" + message);
-    }
-    if(TNE.instance().manager != null) {
-      for (CommandSender sender : TNE.instance().debuggers) {
-        sender.sendMessage(message);
-      }
-    }
-  }
-
-  public static void debug(StackTraceElement[] stack) {
-    for(StackTraceElement element : stack) {
-      debug(element.toString());
-    }
-  }
-
-  public static void debug(Exception e) {
-    if(TNE.debugMode) {
-      e.printStackTrace();
-    }
   }
 }

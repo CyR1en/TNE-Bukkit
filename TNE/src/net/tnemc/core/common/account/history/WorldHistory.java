@@ -1,10 +1,9 @@
-package net.tnemc.core.common;
+package net.tnemc.core.common.account.history;
 
-import net.tnemc.core.common.account.Account;
+import net.tnemc.core.common.transaction.Transaction;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -21,32 +20,23 @@ import java.util.UUID;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by creatorfromhell on 06/30/2017.
+ * Created by creatorfromhell on 07/05/2017.
  */
-public class EconomyManager {
+public class WorldHistory {
 
-  private Map<UUID, Account> accounts = new HashMap<>();
+  private List<Transaction> history = new ArrayList<>();
 
-  private CurrencyManager currencyManager;
+  private String world;
 
-  public EconomyManager() {
-    currencyManager = new CurrencyManager();
+  public WorldHistory(String world) {
+    this.world = world;
   }
 
-  public CurrencyManager getCurrencyManager() {
-    return currencyManager;
+  public void addTransaction(Transaction transaction) {
+    history.add(transaction);
   }
 
-  public boolean exists(UUID id) {
-    return accounts.containsKey(id);
-  }
-
-  public Account getAccount(UUID id) {
-    if(!exists(id)) {
-      Account account = new Account(id);
-      accounts.put(id, account);
-      return account;
-    }
-    return accounts.get(id);
+  public String getWorld() {
+    return world;
   }
 }

@@ -33,11 +33,12 @@ public class Transaction {
     this.type = type;
   }
 
-  public boolean handle() {
-    return type.handle();
+  TransactionResult handle() {
+    type.handle(initiator, recipient, world, cost);
+    return type.getResult();
   }
 
-  public void setBalances() {
+  void setBalances() {
     if(initiator != null) {
       //TODO: Set initiator balance.
     }

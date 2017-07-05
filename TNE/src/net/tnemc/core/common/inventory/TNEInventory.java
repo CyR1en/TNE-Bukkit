@@ -17,6 +17,7 @@
 package net.tnemc.core.common.inventory;
 
 import com.github.tnerevival.user.IDFinder;
+import net.tnemc.core.TNE;
 import net.tnemc.core.common.utils.MISCUtils;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
@@ -130,9 +131,9 @@ public class TNEInventory {
       ItemStack current = view.getItem(i);
       String oldString = (old == null)? "Air" : old.toString();
       String currentString = (old == null)? "Air" : current.toString();
-      MISCUtils.debug("Slot: " + i);
-      MISCUtils.debug("Old: " + oldString);
-      MISCUtils.debug("Current: " + currentString);
+      TNE.debug("Slot: " + i);
+      TNE.debug("Old: " + oldString);
+      TNE.debug("Current: " + currentString);
       if(old != null && old.getType().equals(material)) {
         if(current == null || !current.equals(old)) {
           changes.put(i, current);

@@ -8,7 +8,6 @@ import net.tnemc.core.common.TNESQLManager;
 import net.tnemc.core.common.WorldManager;
 import net.tnemc.core.common.configurations.MainConfigurations;
 import net.tnemc.core.common.module.ModuleLoader;
-import net.tnemc.core.common.utils.MISCUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -67,7 +66,7 @@ public class TNE extends TNELib {
     loader.load();
 
     getServer().getWorlds().forEach(world->{
-      MISCUtils.debug("Adding world manager for world: " + world.getName());
+      debug("Adding world manager for world: " + world.getName());
       worldManagers.put(world.getName(), new WorldManager(world.getName()));
     });
 
@@ -95,6 +94,11 @@ public class TNE extends TNELib {
     configurations().add(main, "main");
     configurations().updateLoad();
 
+    //General Variables based on configuration values
+    consoleName = configurations().getString("Core.Server.Name");
+    debugMode = configurations().getBoolean("Core.Debug");
+    useUUID = configurations().getBoolean("Core.UUID");
+
     //SQL-related variables
     cache = configurations().getBoolean("Core.Database.Transactions.Cache");
     saveFormat = configurations().getString("Core.Database.Type");
@@ -110,6 +114,8 @@ public class TNE extends TNELib {
     loader.getModules().forEach((key, value)->{
       value.getModule().enableSave(saveManager);
     });
+
+    //TODO: Load offlineIDS.
 
     //Initialize our plugin's managers.
     manager = new EconomyManager();

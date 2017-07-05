@@ -1,16 +1,12 @@
-package net.tnemc.core.common.account;
+package net.tnemc.core.common.account.history;
 
-import com.github.tnerevival.user.IDFinder;
-import net.tnemc.core.TNE;
-import net.tnemc.core.common.account.history.AccountHistory;
 import net.tnemc.core.common.transaction.Transaction;
-import org.bukkit.Location;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-/*
+/**
  * The New Economy Minecraft Server Plugin
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -25,31 +21,26 @@ import java.util.UUID;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by creatorfromhell on 07/01/2017.
+ * Created by creatorfromhell on 07/05/2017.
  */
-public class Account {
-  private Map<String, WorldAccount> worlds = new HashMap<>();
-  private Map<Location, TrackedItems> trackedItems = new HashMap<>();
+public class AccountHistory {
 
-  private AccountHistory history;
 
-  private int accountNumber = 0;
+  /**
+   * Dictionary is a {@link Map} collection that contains {@link String World Name} as
+   * the key and {@link WorldHistory World Transaction History} as the value.
+   */
+  private Map<String, WorldHistory> worldHistory = new HashMap<>();
+
+  /**
+   * The {@link UUID} of the player this history is about.
+   */
   private UUID id;
-  private AccountStatus status;
-  private String pin;
-  private boolean special;
-  private String joined;
-  private long lastOnline;
-
-  public Account(UUID id) {
-    this.id = id;
-  }
 
   public void log(Transaction transaction) {
-    history.log(transaction);
-  }
-
-  public static Account getAccount(String identifier) {
-    return TNE.instance().manager.getAccount(IDFinder.getID(identifier));
+    WorldHistory history = (worldHistory.containsKey(transaction.getWorld()))? worldHistory.get(transaction.getWorld())
+                                                                             : new WorldHistory(transaction.getWorld());
+    history.addTransaction(transaction);
+    worldHistory.put(history.getWorld(), history);
   }
 }
