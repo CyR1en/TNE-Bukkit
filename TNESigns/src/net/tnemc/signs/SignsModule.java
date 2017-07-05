@@ -42,6 +42,26 @@ public class SignsModule extends Module {
 
   @Override
   public void registerMainConfigurations(MainConfigurations configuration) {
+    configuration.configurations.put("Core.Signs.Balance.Enabled", true);
+    configuration.configurations.put("Core.Signs.Balance.Currency", "Default");
+    configuration.configurations.put("Core.Signs.Balance.Place", 20.0);
+    configuration.configurations.put("Core.Signs.Balance.Use", 20.0);
+    configuration.configurations.put("Core.Signs.Bank.Enabled", true);
+    configuration.configurations.put("Core.Signs.Bank.Place", 20.0);
+    configuration.configurations.put("Core.Signs.Bank.Use", 20.0);
+    configuration.configurations.put("Core.Signs.Vault.Enabled", true);
+    configuration.configurations.put("Core.Signs.Vault.Place", 20.0);
+    configuration.configurations.put("Core.Signs.Vault.Use", 20.0);
+    configuration.configurations.put("Core.Signs.Shop.Enabled", true);
+    configuration.configurations.put("Core.Signs.Shop.Place", 20.0);
+    configuration.configurations.put("Core.Signs.Shop.Use", 20.0);
+    configuration.configurations.put("Core.Signs.Item.Enabled", true);
+    configuration.configurations.put("Core.Signs.Item.Place", 20.0);
+    configuration.configurations.put("Core.Signs.Item.Use", 20.0);
+    configuration.configurations.put("Core.Signs.Item.Max", 10);
+    configuration.configurations.put("Core.Signs.Item.Multiple", true);
+    configuration.configurations.put("Core.Signs.Item.MaxOffers", 9);
+    configuration.configurations.put("Core.Signs.Item.EnderChest", true);
   }
 
   @Override
