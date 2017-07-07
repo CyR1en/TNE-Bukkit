@@ -18,26 +18,18 @@ package net.tnemc.core.common.currency;
  * Created by creatorfromhell on 10/22/2016.
  */
 public class Tier {
-  private String symbol;
   private String single;
   private String plural;
-  private String material;
   private Integer weight;
 
-  public String getMaterial() {
-    return material;
+  private ItemTier itemInfo;
+
+  public ItemTier getItemInfo() {
+    return itemInfo;
   }
 
-  public void setMaterial(String material) {
-    this.material = material;
-  }
-
-  public String getSymbol() {
-    return symbol;
-  }
-
-  public void setSymbol(String symbol) {
-    this.symbol = symbol;
+  public void setItemInfo(ItemTier itemInfo) {
+    this.itemInfo = itemInfo;
   }
 
   public String getSingle() {

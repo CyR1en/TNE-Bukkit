@@ -91,6 +91,16 @@ Core:
 
         #Name of the currency
         Default:
+
+            #Configurations relating to this currency's name for formatting purposes.
+            Name:
+
+               #The singular form of this currency's name
+               Single: "Dollar"
+
+               #The plural form of this currency's name
+               Plural: "Dollars"
+
             #The format to use when outputting this currency into chat.
             #The variables you're able to use here.
             #<symbol> - The currency's symbol
@@ -135,7 +145,7 @@ Core:
             Balance: 200.0
 
             #Whether or not this currency is able to be noted using the note command
-            Notable: true
+            Notable: false
 
             #Whether or not this currency is the world's default.
             Default: true
@@ -170,19 +180,62 @@ Core:
             #Temporarily modifies inventory behaviour for chests.
             TrackChest: false
 
+            #Configurations relating to currency tiers.
+            Tiers:
+
+               #The tier, this may be anything, but for organizational purposes it's best to use the singular name.
+               One:
+                  #The type of tier this is(Major, or Minor)
+                  Type: 'Major'
+
+                  #The weight of the tier. E.X. 20USD would equal 20
+                  Weight: 1
+
+                  #Configurations relating to if this tier is item-based.
+                  Item:
+
+                     #The material used for this item.
+                     Material: 'PAPER'
+
+                     #The damage value used for this item. Defaults to 0.
+                     Damage: 0
+
+                     #The custom name this item must have in order to be considered currency.
+                     Name: 'One'
+
+                     #The lore string this item must have  in order to be considered currency.
+                     Lore: 'Server Currency'
+
+                     #All configurations relating to enchantment identification for currency tiers
+                     Enchantments:
+
+                         #The format is Enchantment Name: Enchantment Level, or * for all levels
+                         ExampleEnchantment: '*'
+
+                  #Configurations relating to the naming of this tier
+                  Name:
+
+                     #The singular name of this tier.
+                     Single: 'Ones'
+
+                     #The plural name of this tier.
+                     Plural: 'One'
+
+               Penny:
+
+                  Type: 'Minor'
+
+                  Weight: 1
+
+                  Name:
+
+                      Single: 'Penny'
+
+                      Plural: 'Pennies'
+
             #Configurations relating to the major tier of currency
             #Example: Dollars
             Major:
-
-                #The singular name. Example: Dollar
-                Single: Dollar
-
-                #The plural name. Example: Dollars
-                Plural: Dollars
-
-                #If you want to use an item, which one?(Please use the name of the item)
-                #Example: GOLD_INGOT
-                Item: GOLD_INGOT
 
                 #Whether or not the major value should be separated every three numeric places.
                 Separate: true
@@ -193,16 +246,6 @@ Core:
             #Configurations relating to the minor tier of currency
             #Example: Cents
             Minor:
-
-                #The singular name. Example: Cent
-                Single: Cent
-
-                #The plural name. Example: Cents
-                Plural: Cents
-
-                #The minor item currency item.
-                #Example: for USD this might be quarters or dimes
-                Item: IRON_INGOT
 
                 #This is used to determine how many of minor it takes to make one major
                 Weight: 100
@@ -551,6 +594,12 @@ Core:
         H2:
             #The H2 Database file.
             File: Economy
+
+    #All configurations relating to currency conversion.
+    CurrencyConversion:
+
+        #The old name of the currency you wish to update
+        CurrencyOldName: 'CurrencyNewName'
 
     #All configurations relating to converter from another economy plugin.
     #Please make sure you have the plugin's directory in your plugin's folder as we

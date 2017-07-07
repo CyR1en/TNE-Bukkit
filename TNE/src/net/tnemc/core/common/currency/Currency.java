@@ -1,8 +1,9 @@
 package net.tnemc.core.common.currency;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.TreeMap;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -22,7 +23,10 @@ import java.util.Map;
  * Created by creatorfromhell on 10/21/2016.
  */
 public class Currency {
-  private Map<String, Tier> tiers = new HashMap<>();
+
+  private Map<Integer, Tier> majorTiers = new TreeMap<>();
+
+  private Map<Integer, Tier> minorTiers = new TreeMap<>();
 
   private boolean worldDefault = true;
   private BigDecimal balance;
@@ -35,7 +39,10 @@ public class Currency {
   private boolean trackChest;
   private boolean separateMajor;
   private String majorSeparator;
-  private String name;
+  private Integer minorWeight;
+  private String single;
+  private String plural;
+  private String symbol;
   private String format;
   private String prefixes;
   private double rate;
@@ -47,12 +54,53 @@ public class Currency {
   private double interestRate = 0.2;
   private long interestInterval = 1800;
 
-  public void addTier(Tier tier) {
-    addTier(tier.getSingle(), tier);
+  //Tier-related methods.
+  public TreeMap<Integer, Tier> getMajorTiers() {
+    return (TreeMap<Integer, Tier>)majorTiers;
   }
 
-  public void addTier(String id, Tier tier) {
-    tiers.put(id, tier);
+  public void setMajorTiers(TreeMap<Integer, Tier> tiers) {
+    majorTiers = tiers;
+  }
+
+  public void addMajorTier(Tier tier) {
+    majorTiers.put(tier.getWeight(), tier);
+  }
+
+  public Optional<Tier> getMajorTier(Integer weight) {
+    return Optional.of(majorTiers.get(weight));
+  }
+
+  public Optional<Tier> getMajorTier(String name) {
+    for(Tier tier : majorTiers.values()) {
+      if(tier.getSingle().equalsIgnoreCase(name) || tier.getPlural().equalsIgnoreCase(name))
+        return Optional.of(tier);
+    }
+    return Optional.empty();
+  }
+
+  public TreeMap<Integer, Tier> getMinorTiers() {
+    return (TreeMap<Integer, Tier>)minorTiers;
+  }
+
+  public void setMinorTiers(TreeMap<Integer, Tier> tiers) {
+    minorTiers = tiers;
+  }
+
+  public void addMinorTier(Tier tier) {
+    minorTiers.put(tier.getWeight(), tier);
+  }
+
+  public Optional<Tier> getMinorTier(Integer weight) {
+    return Optional.of(minorTiers.get(weight));
+  }
+
+  public Optional<Tier> getMinorTier(String name) {
+    for(Tier tier : minorTiers.values()) {
+      if(tier.getSingle().equalsIgnoreCase(name) || tier.getPlural().equalsIgnoreCase(name))
+        return Optional.of(tier);
+    }
+    return Optional.empty();
   }
 
   public boolean shorten() {
@@ -147,12 +195,36 @@ public class Currency {
     this.majorSeparator = majorSeparator;
   }
 
-  public String getName() {
-    return name;
+  public Integer getMinorWeight() {
+    return minorWeight;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setMinorWeight(Integer minorWeight) {
+    this.minorWeight = minorWeight;
+  }
+
+  public String getSingle() {
+    return single;
+  }
+
+  public void setSingle(String single) {
+    this.single = single;
+  }
+
+  public String getPlural() {
+    return plural;
+  }
+
+  public void setPlural(String plural) {
+    this.plural = plural;
+  }
+
+  public String getSymbol() {
+    return symbol;
+  }
+
+  public void setSymbol(String symbol) {
+    this.symbol = symbol;
   }
 
   public String getFormat() {
@@ -193,50 +265,6 @@ public class Currency {
 
   public void setDecimalPlaces(int decimalPlaces) {
     this.decimalPlaces = decimalPlaces;
-  }
-
-  public String getMajor() {
-    return tiers.get("Major").getSingle();
-  }
-
-  public String getMajor(boolean singular) {
-    return (singular)? getMajor() : getMajorPlural();
-  }
-
-  public void setMajor(String singular) {
-    tiers.get("Major").setSingle(singular);
-  }
-
-  public String getMajorPlural() {
-    return tiers.get("Major").getPlural();
-  }
-
-  public void setMajorPlural(String plural) {
-    tiers.get("Major").setPlural(plural);
-  }
-
-  public String getMinor() {
-    return tiers.get("Minor").getSingle();
-  }
-
-  public String getMinor(boolean singular) {
-    return (singular)? getMinor() : getMinorPlural();
-  }
-
-  public void setMinor(String singular) {
-    tiers.get("Minor").setSingle(singular);
-  }
-
-  public String getMinorPlural() {
-    return tiers.get("Minor").getPlural();
-  }
-
-  public void setMinorPlural(String plural) {
-    tiers.get("Minor").setPlural(plural);
-  }
-
-  public Tier getTier(String id) {
-    return tiers.get(id);
   }
 
   public boolean isInterestEnabled() {

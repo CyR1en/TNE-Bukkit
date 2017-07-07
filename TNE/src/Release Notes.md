@@ -11,6 +11,22 @@ Alpha 5.6
   - Added ability for server owners to change the weight of the minor currency
   - Added ability to separate the major value every three numeric places 
     - The character used to separate is configurable per currency.
+  - Revamped currency tiers from being fixed(Major, and Minor) to completely customizable
+    - This allows server owners to create currencies that are exactly like real-world counterparts
+  - Item-based currencies got major improvements
+    - You may now define an item currency by the following:
+      - Material Type
+      - Damage(this allows for items such as red wool, blue wool, etc to be distinguished from each other)
+      - Custom Name
+        - Note that player who wish to counterfeit must pay a price.
+      - Lore String
+      - Enchantment and/or level
+      - These new parameters allow for multiple currency tiers to share the same item, but may be distringuished from
+      each other be it by a custom name, or another parameter.
+  - Added the ability to note money using /note
+    - This allows players to withdraw their funds and store it away, or use it for trading.
+    - Simply right click with the note in hand to regain funds to balance
+  - Added ability to convert currencies that you wish to rename.
 - Accounts
   - We now track when the account owner was last online
 - Bug Fixes
