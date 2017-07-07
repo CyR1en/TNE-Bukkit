@@ -7,6 +7,7 @@ import net.tnemc.core.common.EconomyManager;
 import net.tnemc.core.common.TNESQLManager;
 import net.tnemc.core.common.WorldManager;
 import net.tnemc.core.common.configurations.MainConfigurations;
+import net.tnemc.core.common.configurations.WorldConfigurations;
 import net.tnemc.core.common.module.ModuleLoader;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -85,6 +86,7 @@ public class TNE extends TNELib {
     loadConfigurations();
     configurations().loadAll();
     MainConfigurations main = new MainConfigurations();
+    WorldConfigurations world = new WorldConfigurations();
     loader.getModules().forEach((key, value)->{
       value.getModule().registerMainConfigurations(main);
     });
@@ -92,6 +94,7 @@ public class TNE extends TNELib {
       value.getModule().registerConfigurations(configurations());
     });
     configurations().add(main, "main");
+    configurations().add(world, "world");
     configurations().updateLoad();
 
     //General Variables based on configuration values

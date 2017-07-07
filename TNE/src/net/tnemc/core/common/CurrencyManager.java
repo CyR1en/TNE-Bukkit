@@ -138,10 +138,10 @@ public class CurrencyManager {
       Integer weight = configuration.getInt(tierBase + ".Weight", 1);
 
       //ItemTier variables
-      String material = configuration.getString(tierBase + ".", "PAPER");
-      short damage = (short)configuration.getInt(tierBase + ".", 0);
-      String customName = configuration.getString(tierBase + ".", null);
-      String lore = configuration.getString(tierBase + ".", null);
+      String material = configuration.getString(tierBase + ".Item.Material", "PAPER");
+      short damage = (short)configuration.getInt(tierBase + ".Item.Damage", 0);
+      String customName = configuration.getString(tierBase + ".Item.Name", null);
+      String lore = configuration.getString(tierBase + ".Item.Lore", null);
 
       ItemTier item = new ItemTier(material, damage);
       item.setName(customName);

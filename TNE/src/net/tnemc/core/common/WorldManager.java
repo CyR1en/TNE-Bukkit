@@ -34,7 +34,7 @@ public class WorldManager {
   }
 
   public void addCurrency(Currency currency) {
-    currencies.put(currency.getName(), currency);
+    currencies.put(currency.getSingle(), currency);
   }
 
   public Currency getCurrency(String currency) {
@@ -59,6 +59,10 @@ public class WorldManager {
       if(s.equalsIgnoreCase(currency)) return true;
     }
     return false;
+  }
+
+  public void setConfiguration(String node, Object value) {
+    configurations.put(node, value);
   }
 
   public boolean configExists(String node) {
