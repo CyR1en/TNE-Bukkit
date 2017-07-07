@@ -1,6 +1,9 @@
 package net.tnemc.core.common;
 
+import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.Account;
+import net.tnemc.core.event.account.TNEAccountCreationEvent;
+import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,10 +46,23 @@ public class EconomyManager {
 
   public Account getAccount(UUID id) {
     if(!exists(id)) {
-      Account account = new Account(id);
-      accounts.put(id, account);
-      return account;
+      if(!createAccount(id)) {
+        return null;
+      }
     }
     return accounts.get(id);
+  }
+
+  public boolean createAccount(UUID id) {
+    Account account = new Account(id);
+    account.setSpecial(TNE.instance().special.contains(id));
+
+    TNEAccountCreationEvent event = new TNEAccountCreationEvent(id, account);
+    Bukkit.getServer().getPluginManager().callEvent(event);
+    if(event.isCancelled()) {
+      return false;
+    }
+    accounts.put(account.getId(), account);
+    return true;
   }
 }

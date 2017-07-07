@@ -2,6 +2,8 @@ package net.tnemc.core.common.transaction;
 
 import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.Account;
+import net.tnemc.core.event.TNETransactionEvent.TNEPreTransaction;
+import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +49,12 @@ public class TransactionManager {
   }
 
   public TransactionResult perform(Transaction transaction) {
+    TNEPreTransaction event = new TNEPreTransaction(transaction);
+    Bukkit.getServer().getPluginManager().callEvent(event);
+    if(event.isCancelled()) {
+      //TODO: Return generic failed result.
+    }
+
     TransactionResult result = transaction.handle();
     if(result.proceed() || TNE.configurations().getBoolean("Core.Transactions.TrackFailed")) {
 

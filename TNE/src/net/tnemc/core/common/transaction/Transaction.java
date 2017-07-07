@@ -1,5 +1,8 @@
 package net.tnemc.core.common.transaction;
 
+import net.tnemc.core.event.TNETransactionEvent.TNETransactionEvent;
+import org.bukkit.Bukkit;
+
 /**
  * The New Economy Minecraft Server Plugin
  * <p>
@@ -35,10 +38,15 @@ public class Transaction {
 
   TransactionResult handle() {
     type.handle(initiator, recipient, world, cost);
+    TNETransactionEvent event = new TNETransactionEvent(this);
+    Bukkit.getServer().getPluginManager().callEvent(event);
+    if(type.getResult().proceed()) {
+      setBalances();
+    }
     return type.getResult();
   }
 
-  void setBalances() {
+  private void setBalances() {
     if(initiator != null) {
       //TODO: Set initiator balance.
     }

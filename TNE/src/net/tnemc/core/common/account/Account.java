@@ -52,4 +52,68 @@ public class Account {
   public static Account getAccount(String identifier) {
     return TNE.instance().manager.getAccount(IDFinder.getID(identifier));
   }
+
+  public AccountHistory getHistory() {
+    return history;
+  }
+
+  public void setHistory(AccountHistory history) {
+    this.history = history;
+  }
+
+  public int getAccountNumber() {
+    return accountNumber;
+  }
+
+  public void setAccountNumber(int accountNumber) {
+    this.accountNumber = accountNumber;
+  }
+
+  public UUID getId() {
+    return id;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
+  }
+
+  public AccountStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(AccountStatus status) {
+    this.status = status;
+  }
+
+  public String getPin() {
+    return pin;
+  }
+
+  public void setPin(String pin) {
+    this.pin = pin;
+  }
+
+  public boolean isSpecial() {
+    return special;
+  }
+
+  public void setSpecial(boolean special) {
+    this.special = special;
+  }
+
+  public String getJoined() {
+    return joined;
+  }
+
+  public void setJoined(String joined) {
+    this.joined = joined;
+  }
+
+  public long getLastOnline() {
+    return lastOnline;
+  }
+
+  public void setLastOnline(long lastOnline) {
+    this.lastOnline = lastOnline;
+  }
 }
