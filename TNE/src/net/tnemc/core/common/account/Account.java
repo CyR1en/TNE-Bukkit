@@ -7,9 +7,7 @@ import net.tnemc.core.common.transaction.Transaction;
 import org.bukkit.Location;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /*
  * The New Economy Minecraft Server Plugin
@@ -31,6 +29,7 @@ import java.util.UUID;
 public class Account {
   private Map<String, WorldAccount> worlds = new HashMap<>();
   private Map<Location, TrackedItems> trackedItems = new HashMap<>();
+  private List<String> confirmed = new ArrayList<>();
 
   private AccountHistory history;
 
@@ -51,7 +50,7 @@ public class Account {
   }
 
   public void setBalance(String world, String currency, BigDecimal balance) {
-
+    //TODO: Balance setting.
   }
 
   public BigDecimal getBalance(String world, String currency) {
@@ -60,6 +59,12 @@ public class Account {
 
   public static Account getAccount(String identifier) {
     return TNE.instance().manager().getAccount(IDFinder.getID(identifier));
+  }
+
+  public boolean confirmed(String world) {
+    //TODO: Pins
+    return false;
+
   }
 
   public AccountHistory getHistory() {

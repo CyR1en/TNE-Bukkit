@@ -50,6 +50,15 @@ public class WorldManager {
     else disabled.remove(currency);
   }
 
+  public boolean pinsEnabled() {
+    return configExists("Worlds." + world + ".Pins.Enabled")
+           && (boolean)configurations.get("Worlds." + world + ".Pins.Enabled");
+  }
+
+  public boolean isEconomyDisabled() {
+    return configExists("Worlds." + world + ".DisableEconomy")
+           && (boolean) configurations.get("Worlds." + world + ".DisableEconomy");
+  }
   public boolean isDisabled(String currency) {
     return disabled.contains(currency);
   }

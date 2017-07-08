@@ -3,6 +3,7 @@ package net.tnemc.core;
 import com.github.tnerevival.Metrics;
 import com.github.tnerevival.TNELib;
 import com.github.tnerevival.core.SaveManager;
+import com.github.tnerevival.core.UpdateChecker;
 import net.tnemc.core.common.EconomyManager;
 import net.tnemc.core.common.TNESQLManager;
 import net.tnemc.core.common.WorldManager;
@@ -11,6 +12,7 @@ import net.tnemc.core.common.configurations.WorldConfigurations;
 import net.tnemc.core.common.module.ModuleLoader;
 import net.tnemc.core.event.module.TNEModuleLoadEvent;
 import net.tnemc.core.event.module.TNEModuleUnloadEvent;
+import net.tnemc.core.listeners.ConnectionListener;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -48,6 +50,7 @@ public class TNE extends TNELib {
 
   public TNESQLManager sqlManager;
   public SaveManager saveManager;
+  public UpdateChecker updater;
   public static boolean debugMode = false;
 
   // Files & Custom Configuration Files
@@ -64,6 +67,7 @@ public class TNE extends TNELib {
   public void onEnable() {
     instance = this;
     super.onEnable();
+    updater = new UpdateChecker("https://creatorfromhell.com/tne/tnebuild.txt", getDescription().getVersion());
 
     //Run the ModuleLoader
     loader = new ModuleLoader();
@@ -129,6 +133,7 @@ public class TNE extends TNELib {
 
     //Initialize our plugin's managers.
     manager = new EconomyManager();
+    getServer().getPluginManager().registerEvents(new ConnectionListener(this), this);
 
     //Version Checking
 

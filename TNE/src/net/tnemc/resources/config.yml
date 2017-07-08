@@ -68,9 +68,6 @@ Core:
         #Whether or not to track transaction history.
         Track: true
 
-        #Whether or not to track failed transactions.
-        TrackFailed: false
-
         #The time format to use when displaying transaction history data.
         Format: M, d y
 

@@ -1,7 +1,7 @@
 package net.tnemc.core.common.transaction;
 
-import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.Account;
+import net.tnemc.core.common.transaction.result.TransactionFailed;
 import net.tnemc.core.event.transaction.TNEPreTransaction;
 import org.bukkit.Bukkit;
 
@@ -29,18 +29,6 @@ import java.util.UUID;
 public class TransactionManager {
 
   /**
-   * Dictionary is a {@link Map} collection that contains {@link String Transaction Type Identifier} as
-   * the key and {@link TransactionType Transaction Type} as the value.
-   */
-  private Map<String, TransactionType> types = new HashMap<>();
-
-  /**
-   * Dictionary is a {@link Map} collection that contains {@link String Transaction Result Identifier} as
-   * the key and {@link TransactionResult Transaction Result} as the value.
-   */
-  private Map<String, TransactionResult> results = new HashMap<>();
-
-  /**
    * Dictionary is a {@link Map} collection that contains {@link UUID Transaction Identifier} as
    * the key and {@link Transaction Transaction} as the value.
    */
@@ -52,24 +40,19 @@ public class TransactionManager {
   }
 
   private void initialize() {
-    //TODO: Initialize core Transaction Types & Results
   }
 
   public TransactionResult perform(Transaction transaction) {
     TNEPreTransaction event = new TNEPreTransaction(transaction);
     Bukkit.getServer().getPluginManager().callEvent(event);
     if(event.isCancelled()) {
-      //TODO: Return generic failed result.
-    }
-
-    TransactionResult result = transaction.handle();
-    if(result.proceed() || TNE.configurations().getBoolean("Core.Transactions.TrackFailed")) {
-
+      return new TransactionFailed();
     }
     return transaction.handle();
   }
 
   void log(Transaction transaction) {
+    transactions.put(transaction.getUuid(), transaction);
     if(transaction.getInitiator() != null) {
       Account.getAccount(transaction.getInitiator());
     }
