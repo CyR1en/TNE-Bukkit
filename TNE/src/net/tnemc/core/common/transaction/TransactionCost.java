@@ -32,7 +32,7 @@ public class TransactionCost {
   private Currency currency;
 
   public TransactionCost(BigDecimal amount) {
-    this(amount, TNE.instance().manager.getCurrencyManager().get(TNE.instance().defaultWorld).get());
+    this(amount, TNE.instance().manager().currencyManager().get(TNE.instance().defaultWorld).get());
   }
 
   public TransactionCost(BigDecimal amount, Currency currency) {

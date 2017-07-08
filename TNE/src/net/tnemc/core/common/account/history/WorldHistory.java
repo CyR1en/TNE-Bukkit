@@ -4,6 +4,7 @@ import net.tnemc.core.common.transaction.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -24,7 +25,7 @@ import java.util.List;
  */
 public class WorldHistory {
 
-  private List<Transaction> history = new ArrayList<>();
+  private List<UUID> history = new ArrayList<>();
 
   private String world;
 
@@ -33,7 +34,7 @@ public class WorldHistory {
   }
 
   public void addTransaction(Transaction transaction) {
-    history.add(transaction);
+    history.add(transaction.getUuid());
   }
 
   public String getWorld() {

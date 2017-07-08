@@ -2,6 +2,7 @@ package net.tnemc.core.common;
 
 import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.Account;
+import net.tnemc.core.common.transaction.TransactionManager;
 import net.tnemc.core.event.account.TNEAccountCreationEvent;
 import org.bukkit.Bukkit;
 
@@ -31,13 +32,19 @@ public class EconomyManager {
   private Map<UUID, Account> accounts = new HashMap<>();
 
   private CurrencyManager currencyManager;
+  private TransactionManager transactionManager;
 
   public EconomyManager() {
     currencyManager = new CurrencyManager();
+    transactionManager = new TransactionManager();
   }
 
-  public CurrencyManager getCurrencyManager() {
+  public CurrencyManager currencyManager() {
     return currencyManager;
+  }
+
+  public TransactionManager transactionManager() {
+    return transactionManager;
   }
 
   public boolean exists(UUID id) {

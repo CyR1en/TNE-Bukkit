@@ -32,19 +32,14 @@ public abstract class TransactionType {
   public abstract boolean console();
 
   /**
-   * @return The result of this transaction.
-   */
-  public abstract TransactionResult getResult();
-
-  /**
    * Handles the transaction.
-   * @return True if everything is ready to proceed to the next step.
+   * @return The {@TransactionResult result} of this transaction.
    * @param initiator The transaction initiator's identifier.
    * @param recipient The transaction recipient's identifier.
    * @param world The world the transaction occurred in.
    * @param cost The money and/or items this transaction consists of.
    */
-  public abstract boolean handle(String initiator, String recipient, String world, TransactionCost cost);
+  public abstract TransactionResult handle(String initiator, String recipient, String world, TransactionCost cost);
 
   /**
    * Handles the initiator side of the transaction.

@@ -2,11 +2,12 @@ package net.tnemc.core.common.transaction;
 
 import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.Account;
-import net.tnemc.core.event.TNETransactionEvent.TNEPreTransaction;
+import net.tnemc.core.event.transaction.TNEPreTransaction;
 import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -39,6 +40,12 @@ public class TransactionManager {
    */
   private Map<String, TransactionResult> results = new HashMap<>();
 
+  /**
+   * Dictionary is a {@link Map} collection that contains {@link UUID Transaction Identifier} as
+   * the key and {@link Transaction Transaction} as the value.
+   */
+  private Map<UUID, Transaction> transactions = new HashMap<>();
+
 
   public TransactionManager() {
     initialize();
@@ -70,5 +77,14 @@ public class TransactionManager {
     if(transaction.getRecipient() != null) {
       Account.getAccount(transaction.getRecipient());
     }
+  }
+
+  public UUID generateTransactionID() {
+    UUID id = UUID.randomUUID();
+
+    while(transactions.containsKey(id)) {
+      id = UUID.randomUUID();
+    }
+    return id;
   }
 }

@@ -1,7 +1,8 @@
-package net.tnemc.core.event.TNETransactionEvent;
+package net.tnemc.core.event.transaction;
 
 import net.tnemc.core.common.transaction.Transaction;
-import org.bukkit.event.Cancellable;
+import net.tnemc.core.common.transaction.TransactionResult;
+import net.tnemc.core.event.TNEEvent;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -20,21 +21,29 @@ import org.bukkit.event.Cancellable;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Created by Daniel on 7/7/2017.
  */
-public class TNEPreTransaction extends TNETransactionEvent implements Cancellable {
+public class TNETransactionEvent extends TNEEvent {
 
-  private boolean cancelled = false;
+  private Transaction transaction;
+  private TransactionResult result;
 
-  public TNEPreTransaction(Transaction transaction) {
-    super(transaction);
+  public TNETransactionEvent(Transaction transaction, TransactionResult result) {
+    this.transaction = transaction;
+    this.result = result;
   }
 
-  @Override
-  public boolean isCancelled() {
-    return cancelled;
+  public Transaction getTransaction() {
+    return transaction;
   }
 
-  @Override
-  public void setCancelled(boolean cancelled) {
-    this.cancelled = cancelled;
+  public void setTransaction(Transaction transaction) {
+    this.transaction = transaction;
+  }
+
+  public TransactionResult getResult() {
+    return result;
+  }
+
+  public void setResult(TransactionResult result) {
+    this.result = result;
   }
 }

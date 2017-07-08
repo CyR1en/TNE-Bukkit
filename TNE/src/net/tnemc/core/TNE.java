@@ -39,7 +39,7 @@ public class TNE extends TNELib {
 
   public List<CommandSender> debuggers = new ArrayList<>();
 
-  public EconomyManager manager;
+  private EconomyManager manager;
 
   private ModuleLoader loader;
 
@@ -147,6 +147,10 @@ public class TNE extends TNELib {
 
   public static TNE instance() {
     return (TNE)instance;
+  }
+
+  public EconomyManager manager() {
+    return manager;
   }
 
   public Logger logger() {

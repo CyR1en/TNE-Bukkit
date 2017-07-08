@@ -6,6 +6,7 @@ import net.tnemc.core.common.account.history.AccountHistory;
 import net.tnemc.core.common.transaction.Transaction;
 import org.bukkit.Location;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -49,8 +50,16 @@ public class Account {
     history.log(transaction);
   }
 
+  public void setBalance(String world, String currency, BigDecimal balance) {
+
+  }
+
+  public BigDecimal getBalance(String world, String currency) {
+    return null;
+  }
+
   public static Account getAccount(String identifier) {
-    return TNE.instance().manager.getAccount(IDFinder.getID(identifier));
+    return TNE.instance().manager().getAccount(IDFinder.getID(identifier));
   }
 
   public AccountHistory getHistory() {
