@@ -4,6 +4,9 @@ import net.tnemc.core.TNE;
 import net.tnemc.core.common.currency.Currency;
 import net.tnemc.core.common.currency.ItemTier;
 import net.tnemc.core.common.currency.Tier;
+import net.tnemc.core.event.currency.TNECurrencyLoadEvent;
+import net.tnemc.core.event.currency.TNECurrencyTierLoadedEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 
@@ -119,14 +122,18 @@ public class CurrencyManager {
         currency.setInterestRate(interestRate);
         currency.setInterestInterval(interestInterval);
 
-        loadTiers(currency, configuration, base + ".Tiers");
+        loadTiers(worldName, currency, configuration, base + ".Tiers");
 
-        addCurrency(worldName, currency);
+        TNECurrencyLoadEvent event = new TNECurrencyLoadEvent(worldName, currency.getSingle());
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if(!event.isCancelled()) {
+          addCurrency(worldName, currency);
+        }
       }
     }
   }
 
-  private void loadTiers(Currency currency, FileConfiguration configuration, String baseNode) {
+  private void loadTiers(String world, Currency currency, FileConfiguration configuration, String baseNode) {
     Set<String> tiers = configuration.getConfigurationSection(baseNode).getKeys(false);
     for(String tierName : tiers) {
       String tierBase = baseNode + "." + tierName;
@@ -161,11 +168,16 @@ public class CurrencyManager {
       tier.setPlural(plural);
       tier.setWeight(weight);
 
-      if(type.equalsIgnoreCase("minor")) {
-        currency.addMinorTier(tier);
-        continue;
+      TNECurrencyTierLoadedEvent event = new TNECurrencyTierLoadedEvent(world, currency.getSingle(), tier.getSingle(), type);
+      Bukkit.getServer().getPluginManager().callEvent(event);
+
+      if(!event.isCancelled()) {
+        if (type.equalsIgnoreCase("minor")) {
+          currency.addMinorTier(tier);
+          continue;
+        }
+        currency.addMajorTier(tier);
       }
-      currency.addMajorTier(tier);
     }
   }
 

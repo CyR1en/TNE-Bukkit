@@ -9,6 +9,9 @@ import net.tnemc.core.common.WorldManager;
 import net.tnemc.core.common.configurations.MainConfigurations;
 import net.tnemc.core.common.configurations.WorldConfigurations;
 import net.tnemc.core.common.module.ModuleLoader;
+import net.tnemc.core.event.module.TNEModuleLoadEvent;
+import net.tnemc.core.event.module.TNEModuleUnloadEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -73,7 +76,11 @@ public class TNE extends TNELib {
 
     //Load modules
     loader.getModules().forEach((key, value)->{
-      value.getModule().load(this);
+      TNEModuleLoadEvent event = new TNEModuleLoadEvent(key, value.getInfo().version());
+      Bukkit.getServer().getPluginManager().callEvent(event);
+      if(!event.isCancelled()) {
+        value.getModule().load(this);
+      }
     });
 
     //Commands
@@ -139,6 +146,8 @@ public class TNE extends TNELib {
       value.getModule().disableSave(saveManager);
     });
     loader.getModules().forEach((key, value)->{
+      TNEModuleUnloadEvent event = new TNEModuleUnloadEvent(key, value.getInfo().version());
+      Bukkit.getServer().getPluginManager().callEvent(event);
       value.getModule().unload(this);
     });
     super.onDisable();
