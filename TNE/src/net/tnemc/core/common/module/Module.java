@@ -49,6 +49,14 @@ public abstract class Module {
   }
 
   /**
+   * Called when data is being backed up to the "backup/" directory.
+   * @param saveManager An instance of TNE's Save Manager.
+   */
+  public void backup(SaveManager saveManager) {
+
+  }
+
+  /**
    * Used to perform any data loading, manipulation, layout updating, etc.
    * @param saveManager An instance of TNE's Save Manager
    */

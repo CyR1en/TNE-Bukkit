@@ -4,6 +4,13 @@ import com.github.tnerevival.Metrics;
 import com.github.tnerevival.TNELib;
 import com.github.tnerevival.core.SaveManager;
 import com.github.tnerevival.core.UpdateChecker;
+import net.tnemc.core.commands.admin.AdminCommand;
+import net.tnemc.core.commands.config.ConfigCommand;
+import net.tnemc.core.commands.currency.CurrencyCommand;
+import net.tnemc.core.commands.module.ModuleCommand;
+import net.tnemc.core.commands.money.MoneyCommand;
+import net.tnemc.core.commands.pin.PinCommand;
+import net.tnemc.core.commands.transaction.TransactionCommand;
 import net.tnemc.core.common.EconomyManager;
 import net.tnemc.core.common.TNESQLManager;
 import net.tnemc.core.common.WorldManager;
@@ -88,6 +95,13 @@ public class TNE extends TNELib {
     });
 
     //Commands
+    registerCommand(new String[] { "tne" }, new AdminCommand(this));
+    registerCommand(new String[] { "tneconfig", "tnec" }, new ConfigCommand(this));
+    registerCommand(new String[] { "currency", "cur" }, new CurrencyCommand(this));
+    registerCommand(new String[] { "tnemodule", "tnem" }, new ModuleCommand(this));
+    registerCommand(new String[] { "money", "bal", "balance" }, new MoneyCommand(this));
+    registerCommand(new String[] { "pin" }, new PinCommand(this));
+    registerCommand(new String[] { "transaction", "trans" }, new TransactionCommand(this));
     loader.getModules().forEach((key, value)->{
       value.getModule().registerCommands(getCommandManager());
     });

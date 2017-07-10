@@ -34,14 +34,6 @@ public class TransactionManager {
    */
   private Map<UUID, Transaction> transactions = new HashMap<>();
 
-
-  public TransactionManager() {
-    initialize();
-  }
-
-  private void initialize() {
-  }
-
   public TransactionResult perform(Transaction transaction) {
     TNEPreTransaction event = new TNEPreTransaction(transaction);
     Bukkit.getServer().getPluginManager().callEvent(event);

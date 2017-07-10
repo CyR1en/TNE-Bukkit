@@ -51,6 +51,10 @@ public class EconomyManager {
     return accounts.containsKey(id);
   }
 
+  public void addAccount(Account account) {
+    accounts.put(account.getId(), account);
+  }
+
   public Account getAccount(UUID id) {
     if(!exists(id)) {
       if(!createAccount(id)) {

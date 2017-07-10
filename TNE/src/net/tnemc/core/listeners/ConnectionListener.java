@@ -11,7 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -60,9 +62,20 @@ public class ConnectionListener implements Listener {
         if (account.getPin().equalsIgnoreCase("TNENOSTRINGVALUE")) {
           node = "Messages.Account.Set";
         }
-
         new Message(node).translate(WorldFinder.getWorld(player), player);
       }
+    }
+    //TODO: Process transactions that happened offline for item-based currencies.
+  }
+
+  @EventHandler
+  public void onQuit(final PlayerQuitEvent event) {
+    Player player = event.getPlayer();
+    UUID id = IDFinder.getID(player);
+    if(TNE.instance().manager().exists(id)) {
+      Account account = Account.getAccount(id.toString());
+      account.setLastOnline(new Date().getTime());
+      TNE.instance().manager().addAccount(account);
     }
   }
 }
