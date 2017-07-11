@@ -90,7 +90,8 @@ public class TNE extends TNELib {
       TNEModuleLoadEvent event = new TNEModuleLoadEvent(key, value.getInfo().version());
       Bukkit.getServer().getPluginManager().callEvent(event);
       if(!event.isCancelled()) {
-        value.getModule().load(this);
+        //TODO: Determine last version of module used.
+        value.getModule().load(this, value.getInfo().version());
       }
     });
 

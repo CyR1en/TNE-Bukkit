@@ -28,6 +28,8 @@ public class WorldManager {
   private List<String> disabled = new ArrayList<>();
 
   private String world;
+  private String balanceWorld = null;
+  private String configurationWorld = null;
 
   public WorldManager(String world) {
     this.world = world;
@@ -88,5 +90,21 @@ public class WorldManager {
 
   public void setWorld(String world) {
     this.world = world;
+  }
+
+  public String getBalanceWorld() {
+    return balanceWorld;
+  }
+
+  public void setBalanceWorld(String balanceWorld) {
+    this.balanceWorld = balanceWorld;
+  }
+
+  public String getConfigurationWorld() {
+    return configurationWorld;
+  }
+
+  public void setConfigurationWorld(String configurationWorld) {
+    this.configurationWorld = configurationWorld;
   }
 }

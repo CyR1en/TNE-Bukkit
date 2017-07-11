@@ -2,7 +2,6 @@ package net.tnemc.core.common;
 
 import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.Account;
-import net.tnemc.core.common.transaction.TransactionManager;
 import net.tnemc.core.event.account.TNEAccountCreationEvent;
 import org.bukkit.Bukkit;
 
@@ -29,9 +28,22 @@ import java.util.UUID;
  */
 public class EconomyManager {
 
+
+  /**
+   * Used to hold all accounts.
+   * Dictionary is a {@link Map} collection that contains {@link UUID Player UUID} as
+   * the key and {@link Account account} as the value.
+   */
   private Map<UUID, Account> accounts = new HashMap<>();
 
+  /**
+   * The {@link CurrencyManager currency manager}, which manages all loaded currencies, and their respective tiers.
+   */
   private CurrencyManager currencyManager;
+
+  /**
+   * The {@link TransactionManager transaction manager}, which manages all transactions performed on the server.
+   */
   private TransactionManager transactionManager;
 
   public EconomyManager() {

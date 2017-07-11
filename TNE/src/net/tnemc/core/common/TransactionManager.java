@@ -1,6 +1,8 @@
-package net.tnemc.core.common.transaction;
+package net.tnemc.core.common;
 
 import net.tnemc.core.common.account.Account;
+import net.tnemc.core.common.transaction.Transaction;
+import net.tnemc.core.common.transaction.TransactionResult;
 import net.tnemc.core.common.transaction.result.TransactionFailed;
 import net.tnemc.core.event.transaction.TNEPreTransaction;
 import org.bukkit.Bukkit;
@@ -46,11 +48,11 @@ public class TransactionManager {
   void log(Transaction transaction) {
     transactions.put(transaction.getUuid(), transaction);
     if(transaction.getInitiator() != null) {
-      Account.getAccount(transaction.getInitiator());
+      Account.getAccount(transaction.getInitiator()).log(transaction);
     }
 
     if(transaction.getRecipient() != null) {
-      Account.getAccount(transaction.getRecipient());
+      Account.getAccount(transaction.getRecipient()).log(transaction);
     }
   }
 

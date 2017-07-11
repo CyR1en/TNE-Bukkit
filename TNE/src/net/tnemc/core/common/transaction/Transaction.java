@@ -46,7 +46,7 @@ public class Transaction {
     this.type = type;
   }
 
-  TransactionResult handle() {
+  public TransactionResult handle() {
     TransactionResult result = type.handle(initiator, recipient, world, cost);
     TNETransactionEvent event = new TNETransactionEvent(this, result);
     Bukkit.getServer().getPluginManager().callEvent(event);
@@ -60,14 +60,14 @@ public class Transaction {
     if(initiator != null) {
       Account initiatorAccount = Account.getAccount(initiator);
       if(initiatorAccount != null) {
-        initiatorAccount.setBalance(world, cost.getCurrency().getSingle(), type.initiatorBalance());
+        initiatorAccount.setHoldings(world, cost.getCurrency().getSingle(), type.initiatorBalance());
       }
     }
 
     if(recipient != null) {
       Account recipientAccount = Account.getAccount(recipient);
       if(recipientAccount != null) {
-        recipientAccount.setBalance(world, cost.getCurrency().getSingle(), type.recipientBalance());
+        recipientAccount.setHoldings(world, cost.getCurrency().getSingle(), type.recipientBalance());
       }
     }
   }
@@ -76,47 +76,23 @@ public class Transaction {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
-    this.uuid = uuid;
-  }
-
   public String getInitiator() {
     return initiator;
-  }
-
-  public void setInitiator(String initiator) {
-    this.initiator = initiator;
   }
 
   public String getRecipient() {
     return recipient;
   }
 
-  public void setRecipient(String recipient) {
-    this.recipient = recipient;
-  }
-
   public String getWorld() {
     return world;
-  }
-
-  public void setWorld(String world) {
-    this.world = world;
   }
 
   public TransactionCost getCost() {
     return cost;
   }
 
-  public void setCost(TransactionCost cost) {
-    this.cost = cost;
-  }
-
   public TransactionType getType() {
     return type;
-  }
-
-  public void setType(TransactionType type) {
-    this.type = type;
   }
 }

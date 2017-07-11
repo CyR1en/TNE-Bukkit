@@ -27,7 +27,7 @@ import java.util.*;
  * Created by creatorfromhell on 07/01/2017.
  */
 public class Account {
-  private Map<String, WorldAccount> worlds = new HashMap<>();
+  private Map<String, WorldHoldings> holdings = new HashMap<>();
   private Map<Location, TrackedItems> trackedItems = new HashMap<>();
   private List<String> confirmed = new ArrayList<>();
 
@@ -49,12 +49,15 @@ public class Account {
     history.log(transaction);
   }
 
-  public void setBalance(String world, String currency, BigDecimal balance) {
-    //TODO: Balance setting.
+  public void setHoldings(String world, String currency, BigDecimal newHoldings) {
+    WorldHoldings worldHoldings = holdings.containsKey(world)? holdings.get(world) : new WorldHoldings(world);
+    worldHoldings.setHoldings(currency, newHoldings);
+    holdings.put(world, worldHoldings);
   }
 
-  public BigDecimal getBalance(String world, String currency) {
-    return null;
+  public BigDecimal getHoldings(String world, String currency) {
+    WorldHoldings worldHoldings = holdings.containsKey(world)? holdings.get(world) : new WorldHoldings(world);
+    return worldHoldings.getHoldings(currency);
   }
 
   public static Account getAccount(String identifier) {
@@ -64,7 +67,6 @@ public class Account {
   public boolean confirmed(String world) {
     //TODO: Pins
     return false;
-
   }
 
   public AccountHistory getHistory() {

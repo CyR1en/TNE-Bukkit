@@ -35,8 +35,9 @@ public abstract class Module {
   /**
    * Called when this @Module is loaded.
    * @param tne An instance of the main TNE class.
+   * @param version The last version of this module used on this server.
    */
-  public void load(TNE tne) {
+  public void load(TNE tne, String version) {
 
   }
 
