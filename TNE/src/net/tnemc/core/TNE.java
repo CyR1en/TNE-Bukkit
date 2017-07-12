@@ -17,6 +17,7 @@ import net.tnemc.core.common.WorldManager;
 import net.tnemc.core.common.configurations.MainConfigurations;
 import net.tnemc.core.common.configurations.WorldConfigurations;
 import net.tnemc.core.common.module.ModuleLoader;
+import net.tnemc.core.common.version.Alpha56;
 import net.tnemc.core.event.module.TNEModuleLoadEvent;
 import net.tnemc.core.event.module.TNEModuleUnloadEvent;
 import net.tnemc.core.listeners.ConnectionListener;
@@ -139,6 +140,7 @@ public class TNE extends TNELib {
         "", "", ""
     );
     saveManager = new SaveManager(sqlManager);
+    saveManager.addVersion(new Alpha56(sqlManager), true);
     saveManager.initialize();
     loader.getModules().forEach((key, value)->{
       value.getModule().enableSave(saveManager);

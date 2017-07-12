@@ -2,6 +2,7 @@ package net.tnemc.core.commands.money;
 
 import com.github.tnerevival.commands.TNECommand;
 import net.tnemc.core.TNE;
+import org.bukkit.command.CommandSender;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -44,5 +45,16 @@ public class MoneyPayCommand extends TNECommand {
   @Override
   public boolean console() {
     return false;
+  }
+
+  @Override
+  public String getHelp() {
+    return "Messages.Money.Pay";
+  }
+
+  @Override
+  public boolean execute(CommandSender sender, String command, String[] arguments) {
+
+    return true;
   }
 }

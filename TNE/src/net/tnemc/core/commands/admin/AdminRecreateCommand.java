@@ -2,6 +2,7 @@ package net.tnemc.core.commands.admin;
 
 import com.github.tnerevival.commands.TNECommand;
 import net.tnemc.core.TNE;
+import org.bukkit.command.CommandSender;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -43,6 +44,17 @@ public class AdminRecreateCommand extends TNECommand {
 
   @Override
   public boolean console() {
+    return true;
+  }
+
+  @Override
+  public String getHelp() {
+    return "Messages.Admin.Recreate";
+  }
+
+  @Override
+  public boolean execute(CommandSender sender, String command, String[] arguments) {
+
     return true;
   }
 }

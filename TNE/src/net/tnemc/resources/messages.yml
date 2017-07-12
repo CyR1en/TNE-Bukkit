@@ -101,7 +101,7 @@ Messages:
        Received: <white>You were paid <gold>$amount <white> by <white> $from.
        Taken: <white>$from took <gold>$amount<white> from you.
        Insufficient: <red>I'm sorry, but you do not have <gold>$amount<red>.
-       Balance: <white>You currently have <gold>$amount<white> on you.
+       Holdings: <white>You currently have <gold>$amount<white> on you.
        Gave: <white>Successfully gave $player <gold>$amount<white>.
        Set: <white>Successfully set $player's balance to <gold>$amount<white>.
        Paid: <white>Successfully paid $player <gold>$amount<white>.
@@ -251,6 +251,52 @@ Messages:
        PlacingPaid: <white> You were given <gold>$amount<white> for placing one "$name" block.
        ItemUseCharged: <white> You were charged <gold>$amount<white> for using item "$name".
        ItemUsePaid: <white> You were given <gold>$amount<white> for using item "$name".
+
+    Commands:
+       Admin:
+          Backup: ""
+          Balance: ""
+          Caveats: ""
+          Create: ""
+          Delete: ""
+          ID: ""
+          Purge: ""
+          Recreate: ""
+          Reload: ""
+          Report: ""
+          Save: ""
+          Status: ""
+          Version: ""
+       Config:
+          Get: ""
+          Set: ""
+          TNEGet: ""
+          Undo: ""
+       Currency:
+          Create: ""
+          List: ""
+          Modify: ""
+          Tiers: ""
+       Module:
+          Info: ""
+          Load: ""
+          Reload: ""
+          Unload: ""
+       Money:
+          Balance: ""
+          Convert: ""
+          Give: ""
+          Pay: ""
+          Set: ""
+          Take: ""
+          Top: ""
+       Pin:
+          Confirm: ""
+          Set: ""
+       Transaction:
+          History: ""
+          Info: ""
+          Void: ""
        
     Mob:
        Killed: <white>You received $reward <white>for killing a <green>$mob<white>.

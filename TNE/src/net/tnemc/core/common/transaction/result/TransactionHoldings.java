@@ -1,8 +1,6 @@
-package net.tnemc.core.commands.pin;
+package net.tnemc.core.common.transaction.result;
 
-import com.github.tnerevival.commands.TNECommand;
-import net.tnemc.core.TNE;
-import org.bukkit.command.CommandSender;
+import net.tnemc.core.common.transaction.TransactionResult;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -19,42 +17,22 @@ import org.bukkit.command.CommandSender;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/10/2017.
+ * Created by Daniel on 7/12/2017.
  */
-public class PinSetCommand extends TNECommand {
+public class TransactionHoldings implements TransactionResult {
 
-  public PinSetCommand(TNE plugin) {
-    super(plugin);
+  @Override
+  public String initiatorMessage() {
+    return "Messages.Money.Paid";
   }
 
   @Override
-  public String getName() {
-    return "set";
+  public String recipientMessage() {
+    return "";
   }
 
   @Override
-  public String[] getAliases() {
-    return new String[0];
-  }
-
-  @Override
-  public String getNode() {
-    return "tne.pin.set";
-  }
-
-  @Override
-  public boolean console() {
-    return true;
-  }
-
-  @Override
-  public String getHelp() {
-    return "Messages.Pin.Set";
-  }
-
-  @Override
-  public boolean execute(CommandSender sender, String command, String[] arguments) {
-
+  public boolean proceed() {
     return true;
   }
 }
