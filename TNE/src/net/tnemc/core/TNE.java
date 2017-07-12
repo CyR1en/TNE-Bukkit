@@ -72,7 +72,6 @@ public class TNE extends TNELib {
   public FileConfiguration worldConfigurations;
 
   public void onEnable() {
-    writeEventHandlers();
     instance = this;
     super.onEnable();
     updater = new UpdateChecker("https://creatorfromhell.com/tne/tnebuild.txt", getDescription().getVersion());
@@ -179,6 +178,10 @@ public class TNE extends TNELib {
     return (TNE)instance;
   }
 
+  public ModuleLoader loader() {
+    return loader;
+  }
+
   public EconomyManager manager() {
     return manager;
   }
@@ -204,10 +207,6 @@ public class TNE extends TNELib {
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
     }
-  }
-
-  public void writeEventHandlers() {
-
   }
 
   @Override

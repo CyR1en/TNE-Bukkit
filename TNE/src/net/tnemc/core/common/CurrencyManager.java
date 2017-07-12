@@ -9,6 +9,7 @@ import net.tnemc.core.event.currency.TNECurrencyTierLoadedEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -272,6 +273,11 @@ public class CurrencyManager {
 
     trackedCurrencies.put(world, values);
     return values;
+  }
+
+  public Optional<String> currencyFromItem(ItemStack stack) {
+    //TODO: Item Currencies.
+    return Optional.empty();
   }
 
   public boolean contains(String world, String name) {

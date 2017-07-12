@@ -20,9 +20,15 @@ import net.tnemc.core.common.transaction.TransactionResult;
  * Created by Daniel on 7/7/2017.
  */
 public class TransactionFailed implements TransactionResult {
+
   @Override
-  public String message() {
-    return null;
+  public String initiatorMessage() {
+    return "Messages.Money.Failed";
+  }
+
+  @Override
+  public String recipientMessage() {
+    return "";
   }
 
   @Override

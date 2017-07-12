@@ -5,6 +5,7 @@ import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.history.AccountHistory;
 import net.tnemc.core.common.transaction.Transaction;
 import org.bukkit.Location;
+import org.bukkit.inventory.Inventory;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -85,9 +86,17 @@ public class Account {
     //TODO: Item Currencies
   }
 
-  public BigDecimal getCurrencyItems(net.tnemc.core.common.currency.Currency currency) {
+  public BigDecimal getCurrencyItems(net.tnemc.core.common.currency.Currency currency, Inventory inventory) {
     //TODO: Item Currencies
     return new BigDecimal(0.0);
+  }
+
+  public void recalculateItemHoldings(String world, Inventory inventory) {
+    //TODO: Item Currencies.
+  }
+
+  public void recalculateCurrencyHoldings(String world, Inventory inventory, String currency) {
+    //TODO: Item Currencies.
   }
 
   public AccountHistory getHistory() {

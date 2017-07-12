@@ -1,9 +1,14 @@
 package net.tnemc.core.listeners;
 
+import com.github.tnerevival.user.IDFinder;
+import net.tnemc.core.common.account.WorldFinder;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+
+import java.util.UUID;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -26,16 +31,22 @@ public class PlayerListener {
 
   @EventHandler
   public void onPickup(PlayerPickupItemEvent event) {
-
+    Player player = event.getPlayer();
+    UUID id = IDFinder.getID(player);
+    String world = WorldFinder.getWorld(player);
   }
 
   @EventHandler
   public void onDrop(PlayerDropItemEvent event) {
-
+    Player player = event.getPlayer();
+    UUID id = IDFinder.getID(player);
+    String world = WorldFinder.getWorld(player);
   }
 
   @EventHandler
   public void onInventoryClose(InventoryCloseEvent event) {
-
+    Player player = (Player)event.getPlayer();
+    UUID id = IDFinder.getID(player);
+    String world = WorldFinder.getWorld(player);
   }
 }

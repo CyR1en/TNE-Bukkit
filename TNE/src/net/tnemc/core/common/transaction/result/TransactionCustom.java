@@ -21,17 +21,24 @@ import net.tnemc.core.common.transaction.TransactionResult;
  */
 public class TransactionCustom implements TransactionResult {
 
-  private String message;
+  private String initiator;
+  private String recipient;
   private boolean proceed;
 
-  public TransactionCustom(String message, boolean proceed) {
-    this.message = message;
+  public TransactionCustom(String initiator, String recipient, boolean proceed) {
+    this.initiator = initiator;
+    this.recipient = recipient;
     this.proceed = proceed;
   }
 
   @Override
-  public String message() {
-    return message;
+  public String initiatorMessage() {
+    return initiator;
+  }
+
+  @Override
+  public String recipientMessage() {
+    return recipient;
   }
 
   @Override

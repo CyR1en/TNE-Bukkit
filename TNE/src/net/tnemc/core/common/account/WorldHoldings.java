@@ -1,5 +1,8 @@
 package net.tnemc.core.common.account;
 
+import net.tnemc.core.TNE;
+import net.tnemc.core.common.module.injectors.InjectMethod;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,11 +21,17 @@ public class WorldHoldings {
   }
 
   public BigDecimal getHoldings(String currency) {
+    BigDecimal current = new BigDecimal(0.0);
     if(holdings.containsKey(currency)) {
       return holdings.get(currency);
     }
     //TODO: Initialize currency holdings with default holdings.
-    return new BigDecimal(0.0);
+    InjectMethod injector = new InjectMethod("WorldHoldings.getHoldings", new HashMap<>());
+    injector.setParameter("currency", currency);
+    injector.setParameter("holdings", current);
+    TNE.instance().loader().call(injector);
+
+    return (BigDecimal)injector.getParameter("holdings");
   }
 
   public void setHoldings(String currency, BigDecimal newHoldings) {

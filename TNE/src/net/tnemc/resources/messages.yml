@@ -96,6 +96,7 @@ Messages:
        Already: <white>Your pin has already been confirmed.
 
     Money:
+       Failed: <red>Unable to process your transaction at this time.
        Given: <white>You were given <gold>$amount<white>.
        Received: <white>You were paid <gold>$amount <white> by <white> $from.
        Taken: <white>$from took <gold>$amount<white> from you.

@@ -20,9 +20,14 @@ package net.tnemc.core.common.transaction;
 public interface TransactionResult {
 
   /**
-   * @return The configuration node that corresponds to the message the player sees, or "" for no message.
+   * @return The configuration node that corresponds to the message the initiator sees, or "" for no message.
    */
-  String message();
+  String initiatorMessage();
+
+  /**
+   * @return The configuration node that corresponds to the message the recipient sees, or "" for no message.
+   */
+  String recipientMessage();
 
   /**
    * @return True if the transaction may proceed, otherwise false.
