@@ -25,6 +25,7 @@ import java.util.*;
 public class WorldManager {
   private Map<String, Currency> currencies = new HashMap<>();
   private Map<String, Object> configurations = new HashMap<>();
+  private List<String> itemCurrencies = new ArrayList<>();
   private List<String> disabled = new ArrayList<>();
 
   private String world;
@@ -36,6 +37,9 @@ public class WorldManager {
   }
 
   public void addCurrency(Currency currency) {
+    if(currency.isItem()) {
+      itemCurrencies.add(currency.getSingle());
+    }
     currencies.put(currency.getSingle(), currency);
   }
 
@@ -45,6 +49,10 @@ public class WorldManager {
 
   public Collection<Currency> getCurrencies() {
     return currencies.values();
+  }
+
+  public List<String> getItemCurrencies() {
+    return itemCurrencies;
   }
 
   public void disable(String currency, boolean disable) {

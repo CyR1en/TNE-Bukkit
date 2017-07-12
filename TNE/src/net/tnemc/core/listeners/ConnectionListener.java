@@ -65,7 +65,10 @@ public class ConnectionListener implements Listener {
         new Message(node).translate(WorldFinder.getWorld(player), player);
       }
     }
-    //TODO: Process transactions that happened offline for item-based currencies.
+
+    TNE.instance().getWorldManager(world).getItemCurrencies().forEach(value->{
+      account.setHoldings(WorldFinder.getBalanceWorld(id.toString()), value, account.getHoldings(world, value));
+    });
   }
 
   @EventHandler
