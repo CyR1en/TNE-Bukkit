@@ -26,7 +26,6 @@ public class CurrencyCommand extends TNECommand {
     super(plugin);
     subCommands.add(new CurrencyCreateCommand(plugin));
     subCommands.add(new CurrencyListCommand(plugin));
-    subCommands.add(new CurrencyModifyCommand(plugin));
     subCommands.add(new CurrencyTiersCommand(plugin));
   }
 

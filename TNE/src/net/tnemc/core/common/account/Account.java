@@ -37,7 +37,6 @@ public class Account {
   private int accountNumber = 0;
   private UUID id;
   private AccountStatus status;
-  private String pin;
   private boolean special;
   private String joined;
   private long lastOnline;
@@ -75,11 +74,6 @@ public class Account {
 
   public static Account getAccount(String identifier) {
     return TNE.instance().manager().getAccount(IDFinder.getID(identifier));
-  }
-
-  public boolean confirmed(String world) {
-    //TODO: Pins
-    return false;
   }
 
   public void setCurrencyItems(net.tnemc.core.common.currency.Currency currency, BigDecimal amount) {
@@ -129,14 +123,6 @@ public class Account {
 
   public void setStatus(AccountStatus status) {
     this.status = status;
-  }
-
-  public String getPin() {
-    return pin;
-  }
-
-  public void setPin(String pin) {
-    this.pin = pin;
   }
 
   public boolean isSpecial() {

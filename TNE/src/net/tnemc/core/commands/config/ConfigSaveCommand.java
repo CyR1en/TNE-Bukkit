@@ -1,4 +1,4 @@
-package net.tnemc.core.commands.pin;
+package net.tnemc.core.commands.config;
 
 import com.github.tnerevival.commands.TNECommand;
 import net.tnemc.core.TNE;
@@ -19,17 +19,17 @@ import org.bukkit.command.CommandSender;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/10/2017.
+ * Created by Daniel on 7/12/2017.
  */
-public class PinSetCommand extends TNECommand {
+public class ConfigSaveCommand extends TNECommand {
 
-  public PinSetCommand(TNE plugin) {
+  public ConfigSaveCommand(TNE plugin) {
     super(plugin);
   }
 
   @Override
   public String getName() {
-    return "set";
+    return "save";
   }
 
   @Override
@@ -39,7 +39,7 @@ public class PinSetCommand extends TNECommand {
 
   @Override
   public String getNode() {
-    return "tne.pin.set";
+    return "tne.config.save";
   }
 
   @Override
@@ -49,7 +49,7 @@ public class PinSetCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Pin.Set";
+    return "Messages.Config.Save";
   }
 
   @Override

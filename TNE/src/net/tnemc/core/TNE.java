@@ -9,7 +9,6 @@ import net.tnemc.core.commands.config.ConfigCommand;
 import net.tnemc.core.commands.currency.CurrencyCommand;
 import net.tnemc.core.commands.module.ModuleCommand;
 import net.tnemc.core.commands.money.MoneyCommand;
-import net.tnemc.core.commands.pin.PinCommand;
 import net.tnemc.core.commands.transaction.TransactionCommand;
 import net.tnemc.core.common.EconomyManager;
 import net.tnemc.core.common.TNESQLManager;
@@ -102,7 +101,6 @@ public class TNE extends TNELib {
     registerCommand(new String[] { "currency", "cur" }, new CurrencyCommand(this));
     registerCommand(new String[] { "tnemodule", "tnem" }, new ModuleCommand(this));
     registerCommand(new String[] { "money", "bal", "balance" }, new MoneyCommand(this));
-    registerCommand(new String[] { "pin" }, new PinCommand(this));
     registerCommand(new String[] { "transaction", "trans" }, new TransactionCommand(this));
     loader.getModules().forEach((key, value)->{
       value.getModule().registerCommands(getCommandManager());

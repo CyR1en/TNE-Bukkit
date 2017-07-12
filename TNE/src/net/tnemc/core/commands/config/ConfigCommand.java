@@ -25,6 +25,7 @@ public class ConfigCommand extends TNECommand {
   public ConfigCommand(TNE plugin) {
     super(plugin);
     subCommands.add(new ConfigGetCommand(plugin));
+    subCommands.add(new ConfigSaveCommand(plugin));
     subCommands.add(new ConfigSetCommand(plugin));
     subCommands.add(new ConfigTNEGetCommand(plugin));
     subCommands.add(new ConfigUndoCommand(plugin));

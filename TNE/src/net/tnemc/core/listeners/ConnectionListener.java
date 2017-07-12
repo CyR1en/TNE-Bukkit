@@ -1,6 +1,5 @@
 package net.tnemc.core.listeners;
 
-import com.github.tnerevival.core.Message;
 import com.github.tnerevival.core.version.ReleaseType;
 import com.github.tnerevival.user.IDFinder;
 import net.tnemc.core.TNE;
@@ -54,16 +53,6 @@ public class ConnectionListener implements Listener {
         message = ChatColor.GREEN + "[TNE] Prerelease! Thank you for testing TNE Build: " + TNE.instance().updater.getCurrentBuild() + ".";
       }
       player.sendMessage(message);
-    }
-
-    if (plugin.getWorldManager(world) != null && !plugin.getWorldManager(world).isEconomyDisabled() || plugin.getWorldManager(world) == null) {
-      if (!account.confirmed(WorldFinder.getWorld(player))) {
-        String node = "Messages.Account.Confirm";
-        if (account.getPin().equalsIgnoreCase("TNENOSTRINGVALUE")) {
-          node = "Messages.Account.Set";
-        }
-        new Message(node).translate(WorldFinder.getWorld(player), player);
-      }
     }
 
     TNE.instance().getWorldManager(world).getItemCurrencies().forEach(value->{

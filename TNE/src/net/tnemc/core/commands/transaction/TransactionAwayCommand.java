@@ -1,4 +1,4 @@
-package net.tnemc.core.commands.pin;
+package net.tnemc.core.commands.transaction;
 
 import com.github.tnerevival.commands.TNECommand;
 import net.tnemc.core.TNE;
@@ -19,17 +19,17 @@ import org.bukkit.command.CommandSender;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/10/2017.
+ * Created by Daniel on 7/12/2017.
  */
-public class PinConfirmCommand extends TNECommand {
+public class TransactionAwayCommand extends TNECommand {
 
-  public PinConfirmCommand(TNE plugin) {
+  public TransactionAwayCommand(TNE plugin) {
     super(plugin);
   }
 
   @Override
   public String getName() {
-    return "confirm";
+    return "away";
   }
 
   @Override
@@ -39,17 +39,17 @@ public class PinConfirmCommand extends TNECommand {
 
   @Override
   public String getNode() {
-    return "tne.pin.confirm";
+    return "tne.transaction.away";
   }
 
   @Override
   public boolean console() {
-    return true;
+    return false;
   }
 
   @Override
   public String getHelp() {
-    return "Messages.Pin.Confirm";
+    return "Messages.Transaction.Away";
   }
 
   @Override

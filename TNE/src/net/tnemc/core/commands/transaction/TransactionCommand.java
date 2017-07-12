@@ -24,6 +24,7 @@ public class TransactionCommand extends TNECommand {
 
   public TransactionCommand(TNE plugin) {
     super(plugin);
+    subCommands.add(new TransactionAwayCommand(plugin));
     subCommands.add(new TransactionHistoryCommand(plugin));
     subCommands.add(new TransactionInfoCommand(plugin));
     subCommands.add(new TransactionVoidCommand(plugin));
