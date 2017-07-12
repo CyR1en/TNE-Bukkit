@@ -1,8 +1,13 @@
 package net.tnemc.core.common.module;
 
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.module.injectors.InjectMethod;
+import net.tnemc.core.common.module.injectors.ModuleInjector;
+import net.tnemc.core.common.module.injectors.ModuleInjectorHandler;
+import net.tnemc.core.common.module.injectors.ModuleInjectorWrapper;
 
 import java.io.*;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -36,6 +41,8 @@ public class ModuleLoader {
 
   public Map<String, ModuleEntry> modules = new HashMap<>();
 
+  private Map<String, ModuleInjectorHandler> injectors = new HashMap<>();
+
   /**
    * Loads all modules into a map for later usage.
    * @return The map containing every module in format Name, ModuleInstance
@@ -59,6 +66,30 @@ public class ModuleLoader {
     }
   }
 
+  public void call(InjectMethod method) {
+    if(injectors.containsKey(method.getIdentifier())) {
+      injectors.get(method.getIdentifier()).call(method);
+    }
+  }
+
+  private void registerInjectors(Class clazz) {
+    for(final Method m : clazz.getMethods()) {
+      if(m.isAnnotationPresent(ModuleInjector.class)) {
+        ModuleInjector injector = m.getAnnotation(ModuleInjector.class);
+        ModuleInjectorWrapper wrapper = new ModuleInjectorWrapper(clazz, m);
+        addInjector(injector, wrapper);
+      }
+    }
+  }
+
+  private void addInjector(ModuleInjector injector, ModuleInjectorWrapper wrapper) {
+    ModuleInjectorHandler handler = (injectors.containsKey(injector.method()))? injectors.get(injector.method())
+                                                                              : new ModuleInjectorHandler();
+    handler.addInjector(injector, wrapper);
+
+    injectors.put(injector.method(), handler);
+  }
+
   private Module getModuleClass(String modulePath) {
     Module module = null;
 
@@ -79,6 +110,7 @@ public class ModuleLoader {
       mainClass = urlClassLoader.loadClass(moduleMain);
       moduleClass = mainClass.asSubclass(Module.class);
       module = moduleClass.newInstance();
+      module.moduleInjectors().forEach(value->registerInjectors(value));
     } catch (MalformedURLException e) {
       e.printStackTrace();
     } catch (IllegalAccessException e) {

@@ -6,6 +6,9 @@ import com.github.tnerevival.core.configurations.ConfigurationManager;
 import net.tnemc.core.TNE;
 import net.tnemc.core.common.configurations.MainConfigurations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * The New Economy Minecraft Server Plugin
  * <p>
@@ -30,6 +33,13 @@ import net.tnemc.core.common.configurations.MainConfigurations;
 public abstract class Module {
 
   public Module() {
+  }
+
+  /**
+   * @return a list of the classes that contain {@link net.tnemc.core.common.module.injectors.ModuleInjector module injectors} for this module.
+   */
+  public List<Class> moduleInjectors() {
+    return new ArrayList<>();
   }
 
   /**
