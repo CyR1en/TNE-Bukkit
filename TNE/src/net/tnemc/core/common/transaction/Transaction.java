@@ -58,9 +58,11 @@ public class Transaction {
 
   private void setBalances() {
     if(initiator != null) {
-      Account initiatorAccount = Account.getAccount(initiator);
-      if(initiatorAccount != null) {
-        initiatorAccount.setHoldings(world, cost.getCurrency().getSingle(), type.initiatorBalance());
+      if(recipient == null || !recipient.equalsIgnoreCase(initiator)) {
+        Account initiatorAccount = Account.getAccount(initiator);
+        if (initiatorAccount != null) {
+          initiatorAccount.setHoldings(world, cost.getCurrency().getSingle(), type.initiatorBalance());
+        }
       }
     }
 
