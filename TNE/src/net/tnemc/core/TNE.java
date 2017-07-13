@@ -251,10 +251,7 @@ public class TNE extends TNELib {
 
   private void setConfigurationDefaults() throws UnsupportedEncodingException {
     Reader itemsStream = new InputStreamReader(this.getResource("items.yml"), "UTF8");
-    Reader mobsStream = new InputStreamReader(this.getResource("mobs.yml"), "UTF8");
     Reader messagesStream = new InputStreamReader(this.getResource("messages.yml"), "UTF8");
-    Reader objectsStream = new InputStreamReader(this.getResource("objects.yml"), "UTF8");
-    Reader materialsStream = new InputStreamReader(this.getResource("materials.yml"), "UTF8");
     Reader playersStream = new InputStreamReader(this.getResource("players.yml"), "UTF8");
     Reader worldsStream = new InputStreamReader(this.getResource("worlds.yml"), "UTF8");
     if (itemsStream != null) {
