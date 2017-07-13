@@ -1,7 +1,9 @@
 package net.tnemc.core.commands.module;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.module.ModuleEntry;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -56,7 +58,37 @@ public class ModuleLoadCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    if(arguments.length >= 1) {
+      String moduleName = arguments[0];
+      String world = TNE.instance().defaultWorld;
+      ModuleEntry module = TNE.instance().loader().getModule(moduleName);
+      String author = module.getInfo().author();
+      String version = module.getInfo().version();
 
-    return true;
+      if(TNE.instance().loader().getModule(moduleName) == null) {
+        Message message = new Message("Messages.Module.Invalid");
+        message.addVariable("$module", moduleName);
+        message.translate(world, sender);
+        return false;
+      }
+
+
+      boolean loaded = TNE.instance().loader().load(moduleName);
+      if(!loaded) {
+        Message message = new Message("Messages.Module.Invalid");
+        message.addVariable("$module", moduleName);
+        message.translate(world, sender);
+        return false;
+      }
+
+      Message message = new Message("Messages.Module.Loaded");
+      message.addVariable("$module", moduleName);
+      message.addVariable("$author", author);
+      message.addVariable("$version", version);
+      message.translate(world, sender);
+      return true;
+    }
+    help(sender);
+    return false;
   }
 }

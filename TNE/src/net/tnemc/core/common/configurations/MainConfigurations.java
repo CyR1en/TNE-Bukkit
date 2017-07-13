@@ -58,21 +58,6 @@ public class MainConfigurations  extends Configuration {
     configurations.put("Core.AutoSaver.Enabled", true);
     configurations.put("Core.AutoSaver.Interval", 600);
 
-    configurations.put("Core.Vault.Enabled", false);
-    configurations.put("Core.Vault.Sign", false);
-    configurations.put("Core.Vault.Command", true);
-    configurations.put("Core.Vault.NPC", false);
-    configurations.put("Core.Vault.Connected", false);
-    configurations.put("Core.Vault.Cost", 20.0);
-    configurations.put("Core.Vault.Rows", 3);
-    configurations.put("Core.Vault.MultiManage", false);
-    configurations.put("Core.Vault.MaxViewers", 1);
-
-    configurations.put("Core.Bank.Enabled", false);
-    configurations.put("Core.Bank.Connected", false);
-    configurations.put("Core.Bank.Cost", 20.0);
-    configurations.put("Core.Bank.MultiManage", false);
-
     configurations.put("Core.World.EnableChangeFee", false);
     configurations.put("Core.World.ChangeFee", 5.0);
 

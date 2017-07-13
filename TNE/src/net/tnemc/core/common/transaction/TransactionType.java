@@ -42,6 +42,12 @@ public abstract class TransactionType {
   public abstract TransactionResult handle(String initiator, String recipient, String world, TransactionCost cost);
 
   /**
+   * Handles the voiding of a transaction.
+   * @return True if this transaction may be voided.
+   */
+  public abstract boolean voidTransaction();
+
+  /**
    * Handles the initiator side of the transaction.
    * @return True if everything is ready to proceed on the initiator's side of the transaction.
    */

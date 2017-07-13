@@ -41,6 +41,11 @@ public class TransactionConversion extends TransactionType {
   }
 
   @Override
+  public boolean voidTransaction() {
+    return false;
+  }
+
+  @Override
   public boolean handleInitiator() {
     return false;
   }

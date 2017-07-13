@@ -40,6 +40,11 @@ public class TransactionPay extends TransactionType {
   }
 
   @Override
+  public boolean voidTransaction() {
+    return false;
+  }
+
+  @Override
   public boolean handleInitiator() {
     return false;
   }

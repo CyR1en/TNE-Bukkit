@@ -1,7 +1,9 @@
 package net.tnemc.core.commands.module;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.module.ModuleEntry;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -56,7 +58,25 @@ public class ModuleInfoCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    if(arguments.length >= 1) {
+      String moduleName = arguments[0];
+      String world = TNE.instance().defaultWorld;
+      ModuleEntry module = TNE.instance().loader().getModule(moduleName);
+      if(module == null) {
+        Message message = new Message("Messages.Module.Invalid");
+        message.addVariable("$module", moduleName);
+        message.translate(world, sender);
+        return false;
+      }
 
-    return true;
+      Message message = new Message("Messages.Module.Info");
+      message.addVariable("$module", moduleName);
+      message.addVariable("$author", module.getInfo().author());
+      message.addVariable("$version", module.getInfo().version());
+      message.translate(world, sender);
+      return true;
+    }
+    help(sender);
+    return false;
   }
 }

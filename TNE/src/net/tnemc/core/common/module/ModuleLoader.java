@@ -39,7 +39,7 @@ import java.util.jar.JarFile;
  **/
 public class ModuleLoader {
 
-  public Map<String, ModuleEntry> modules = new HashMap<>();
+  private Map<String, ModuleEntry> modules = new HashMap<>();
 
   private Map<String, ModuleInjectorHandler> injectors = new HashMap<>();
 
@@ -64,6 +64,52 @@ public class ModuleLoader {
         modules.put(entry.getInfo().name(), entry);
       }
     }
+  }
+
+  public boolean hasModule(String moduleName) {
+    return modules.containsKey(moduleName);
+  }
+
+  public ModuleEntry getModule(String moduleName) {
+    return modules.get(moduleName);
+  }
+
+  public String findPath(String moduleName) {
+    File directory = new File("plugins/TheNewEconomy/modules");
+    File[] jars = directory.listFiles((dir, name) -> name.endsWith(".jar"));
+
+    if(jars != null) {
+      for (File jar : jars) {
+        if(jar.getAbsolutePath().toLowerCase().contains(moduleName.toLowerCase() + ".jar")) {
+          return jar.getAbsolutePath();
+        }
+      }
+    }
+    return null;
+  }
+
+  public void unload(String moduleName) {
+    if(hasModule(moduleName)) {
+      getModule(moduleName).getModule().unload(TNE.instance());
+      modules.remove(moduleName);
+    }
+  }
+
+  public boolean load(String moduleName) {
+    String path = findPath(moduleName);
+    if(path != null) {
+      Module module = getModuleClass(path);
+      if (!module.getClass().isAnnotationPresent(ModuleInfo.class)) {
+        TNE.instance().getLogger().info("Invalid module format! Module File: " + moduleName);
+        return false;
+      }
+      ModuleInfo info = module.getClass().getAnnotation(ModuleInfo.class);
+      ModuleEntry entry = new ModuleEntry(info, module);
+      TNE.instance().getLogger().info("Found module: " + info.name() + " version: " + info.version());
+      modules.put(entry.getInfo().name(), entry);
+      return true;
+    }
+    return false;
   }
 
   public void call(InjectMethod method) {
