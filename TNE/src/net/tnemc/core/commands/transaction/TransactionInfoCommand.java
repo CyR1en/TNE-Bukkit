@@ -1,8 +1,12 @@
 package net.tnemc.core.commands.transaction;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.transaction.Transaction;
 import org.bukkit.command.CommandSender;
+
+import java.util.UUID;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -55,8 +59,29 @@ public class TransactionInfoCommand extends TNECommand {
   }
 
   @Override
-  public boolean execute(CommandSender sender, String command, String[] arguments) {
+  public boolean execute(CommandSender sender, String command, String[] arguments) {if(arguments.length >= 1) {
+    UUID uuid = null;
+    try {
+      uuid = UUID.fromString(arguments[0]);
+    } catch(IllegalArgumentException exception) {
+      TNE.debug(exception);
+    }
+    if(uuid == null || !TNE.instance().manager().transactionManager().isValid(uuid)) {
+      Message message = new Message("Messages.Transaction.Invalid");
+      message.addVariable("$transaction", arguments[0]);
+      return false;
+    }
 
+    //TODO: Handle Server Account.
+    Transaction transaction = TNE.instance().manager().transactionManager().get(uuid);
+    Message message = new Message("Messages.Transaction.Info");
+    message.addVariable("$id", arguments[0]);
+    message.addVariable("$initiator", (transaction.getInitiator() == null)? "Server" : transaction.getInitiator());
+    message.addVariable("$recipient", (transaction.getRecipient() == null)? "Server" : transaction.getRecipient());
+    message.addVariable("$cost", transaction.getCost().toString());
     return true;
+  }
+    help(sender);
+    return false;
   }
 }

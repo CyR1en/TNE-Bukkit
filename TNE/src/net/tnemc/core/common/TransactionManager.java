@@ -36,6 +36,18 @@ public class TransactionManager {
    */
   private Map<UUID, Transaction> transactions = new HashMap<>();
 
+  public Transaction get(UUID id) {
+    return transactions.get(id);
+  }
+
+  public void add(Transaction transaction) {
+    if(!transactions.containsKey(transaction.getUuid())) {
+      log(transaction);
+      return;
+    }
+    transactions.put(transaction.getUuid(), transaction);
+  }
+
   public TransactionResult perform(Transaction transaction) {
     TNEPreTransaction event = new TNEPreTransaction(transaction);
     Bukkit.getServer().getPluginManager().callEvent(event);
@@ -63,5 +75,17 @@ public class TransactionManager {
       id = UUID.randomUUID();
     }
     return id;
+  }
+
+  public boolean isValid(UUID id) {
+    return transactions.containsKey(id);
+  }
+
+  public boolean isVoided(UUID id) {
+    return transactions.get(id).isVoided();
+  }
+
+  public boolean voidTransaction(UUID id) {
+    return transactions.get(id).getType().voidTransaction();
   }
 }

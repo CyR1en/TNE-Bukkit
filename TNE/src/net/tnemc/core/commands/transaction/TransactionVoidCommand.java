@@ -1,8 +1,12 @@
 package net.tnemc.core.commands.transaction;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.transaction.Transaction;
 import org.bukkit.command.CommandSender;
+
+import java.util.UUID;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -54,7 +58,37 @@ public class TransactionVoidCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    if(arguments.length >= 1) {
+      UUID uuid = null;
+      try {
+        uuid = UUID.fromString(arguments[0]);
+      } catch(IllegalArgumentException exception) {
+        TNE.debug(exception);
+      }
+      if(uuid == null || !TNE.instance().manager().transactionManager().isValid(uuid)) {
+        Message message = new Message("Messages.Transaction.Invalid");
+        message.addVariable("$transaction", arguments[0]);
+        return false;
+      }
 
-    return true;
+      Transaction transaction = TNE.instance().manager().transactionManager().get(uuid);
+      if(transaction.isVoided()) {
+        Message message = new Message("Messages.Transaction.Already");
+        message.addVariable("$transaction", arguments[0]);
+        return false;
+      }
+
+      boolean result = transaction.voidTransaction();
+      if(!result) {
+        Message message = new Message("Messages.Transaction.Unable");
+        message.addVariable("$transaction", arguments[0]);
+        return false;
+      }
+      Message message = new Message("Messages.Transaction.Voided");
+      message.addVariable("$transaction", arguments[0]);
+      return true;
+    }
+    help(sender);
+    return false;
   }
 }

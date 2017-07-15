@@ -8,7 +8,9 @@ import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /*
  * The New Economy Minecraft Server Plugin
@@ -30,7 +32,6 @@ import java.util.*;
 public class Account {
   private Map<String, WorldHoldings> holdings = new HashMap<>();
   private Map<Location, TrackedItems> trackedItems = new HashMap<>();
-  private List<String> confirmed = new ArrayList<>();
 
   private AccountHistory history;
 

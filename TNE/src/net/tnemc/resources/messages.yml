@@ -286,7 +286,7 @@ Messages:
           Take: "/money take <player> <amount> [world] [currency] - Removes money from your economy, specifically from a player's balance."
           Top: ""
        Transaction:
-          Away: "/transaction away - Displays transactions that you missed since the last time you were on."
+          Away: "/transaction away [page:#] - Displays transactions that you missed since the last time you were on."
           History: "/transaction history [page:#] [world:name/all] [type:type/all] - See a detailed break down of your transaction history.<newline>- Page ~ The page number you wish to view.<newline>- World ~ The world name you wish to filter, or all for every world. Defaults to current world.<newline>- Type ~ The transaction type you wish to filter, or all for every transaction."
           Info: "/transaction info <uuid> - Displays information about a transaction.<newline>- UUID ~ The id of the transaction."
           Void: "/transaction void <uuid> - Undoes a previously completed transaction.<newline>- UUID ~ The id of the transaction."

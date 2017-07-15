@@ -68,4 +68,9 @@ public class TransactionCost {
   public void setItems(List<ItemStack> items) {
     this.items = items;
   }
+
+  public String toString() {
+    //TODO: Return friendly version of the transaction cost.
+    return "";
+  }
 }

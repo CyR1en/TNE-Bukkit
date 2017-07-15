@@ -26,6 +26,8 @@ import java.util.UUID;
  */
 public class Transaction {
 
+  private boolean voided = false;
+
   private UUID uuid;
   private String initiator;
   private String recipient;
@@ -76,6 +78,19 @@ public class Transaction {
 
   public UUID getUuid() {
     return uuid;
+  }
+
+  public boolean voidTransaction() {
+    voided = type.voidTransaction();
+    return voided;
+  }
+
+  public boolean isVoided() {
+    return voided;
+  }
+
+  public void setVoided(boolean voided) {
+    this.voided = voided;
   }
 
   public String getInitiator() {
