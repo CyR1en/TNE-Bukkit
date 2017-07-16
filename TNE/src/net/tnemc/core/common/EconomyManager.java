@@ -5,6 +5,7 @@ import net.tnemc.core.common.account.Account;
 import net.tnemc.core.event.account.TNEAccountCreationEvent;
 import org.bukkit.Bukkit;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -87,5 +88,18 @@ public class EconomyManager {
     }
     accounts.put(account.getId(), account);
     return true;
+  }
+
+  public BigDecimal getInitialBalance(String world, String currency) {
+    //TODO: Initial Balance
+    return new BigDecimal(0.0);
+  }
+
+  public void purge(String world) {
+    //TODO: Data handling.
+  }
+
+  public void purgeAll() {
+    //TODO: Data handling.
   }
 }

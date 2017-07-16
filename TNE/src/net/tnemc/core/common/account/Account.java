@@ -59,13 +59,20 @@ public class Account {
     worldHoldings.setHoldings(currency, newHoldings);
 
     if(!skipInventory) {
-      net.tnemc.core.common.currency.Currency cur = TNE.instance().manager().currencyManager().get(world, currency).get();
+      net.tnemc.core.common.currency.Currency cur = TNE.instance().manager().currencyManager().get(world, currency);
       if(cur.isItem()) {
         setCurrencyItems(cur, newHoldings);
       }
     }
 
     holdings.put(world, worldHoldings);
+  }
+
+  public boolean hasHoldings(String world, String currency) {
+    if(holdings.containsKey(world)) {
+      return holdings.get(world).hasHoldings(currency);
+    }
+    return false;
   }
 
   public BigDecimal getHoldings(String world, String currency) {

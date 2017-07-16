@@ -55,10 +55,10 @@ public class TNE extends TNELib {
 
   private ModuleLoader loader;
 
-  public TNESQLManager sqlManager;
-  public SaveManager saveManager;
+  private TNESQLManager sqlManager;
+  private SaveManager saveManager;
   public UpdateChecker updater;
-  public static boolean debugMode = false;
+  private static boolean debugMode = false;
 
   // Files & Custom Configuration Files
   public File items;
@@ -184,6 +184,14 @@ public class TNE extends TNELib {
 
   public EconomyManager manager() {
     return manager;
+  }
+
+  public TNESQLManager sqlManager() {
+    return sqlManager;
+  }
+
+  public SaveManager saveManager() {
+    return saveManager;
   }
 
   public Logger logger() {

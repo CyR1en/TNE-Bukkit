@@ -80,6 +80,7 @@ Messages:
        PurgeWorld: <white>Successfully purged economy accounts in $world.
        ResetPin: <white>Successfully set pin for $player to $pin.
        StatusChange: <white>Status for $player has been changed to <green>$status<white>.
+       Status: <white>Status for $player is <green>$status<white>.
        Reset: <white>Performed an economy reset using these parameters - world = $world, currency = $currency, and player = $player.
 
     Account:
@@ -260,7 +261,7 @@ Messages:
           Reload: "/tne reload <configuration> - Saves modifications made via command, and reloads a configuration file.<newline>- Configuration ~ The identifier of the configuration to reload. Default is all."
           Report: "/tne report <report> - File a bug report.<newline>- Report ~ The link to the pastebin with the bug report, use the following format: https://github.com/TheNewEconomy/TNE-Bukkit/blob/master/Report%20Format.md."
           Save: "/tne save - Force saves all TNE data."
-          Status: "/tne status <player> - Displays the current account status of an account.<newline>- Player ~ The account owner."
+          Status: "/tne status <player> [status] - Displays, or sets, the current account status of an account.<newline>- Player ~ The account owner."
           Version: "/tne version - Displays the version of TNE currently running."
        Config:
           Get: "/tnec get <node> [configuration] - Returns the value of a configuration.<newline>- Node ~ The configuration node to use.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
@@ -269,7 +270,7 @@ Messages:
           TNEGet: "/tnec tneget <node> [configuration] - Returns the value of a configuration after TNE takes into account player & world configurations.<newline>- Node ~ The configuration node to use.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
           Undo: "/tnec undo [node:<node>] [configuration:<configuration>] [world:<world>] [player:<player>] [all] - Undoes modifications made to configurations."
        Currency:
-          Create: "/currency create <name> <plural> [world] - Creates a new currency for a world.<newline>- Name ~ The currency's name.<newline>- Plural ~ The currency's plural name.<newline>- World ~ The world to create the currency in."
+          Rename: "/currency rename <currency> <new name> - Renames a currency toa different name."
           List: "/currency list [world] - Displays the currencies available for a world.<newline> - World ~ The world to use."
           Tiers: "/currency tiers <currency> [world] - Displays the tiers for a currency.<newline>- Currency ~ The currency to check.<newline>- World ~ The world that the currency belongs to."
        Module:

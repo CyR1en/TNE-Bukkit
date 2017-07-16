@@ -3,6 +3,8 @@ package net.tnemc.core.common.account;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 /**
  * The New Economy Minecraft Server Plugin
  * <p>
@@ -32,6 +34,10 @@ public class WorldFinder {
 
   public static String getWorld(String identifier) {
     return null;
+  }
+
+  public static String getWorld(UUID id) {
+    return getWorld(id.toString());
   }
 
   public static String getBalanceWorld(Player player) {

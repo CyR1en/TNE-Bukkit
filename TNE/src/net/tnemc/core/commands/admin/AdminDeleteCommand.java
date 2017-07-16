@@ -1,7 +1,10 @@
 package net.tnemc.core.commands.admin;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
+import com.github.tnerevival.user.IDFinder;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.WorldFinder;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -54,7 +57,22 @@ public class AdminDeleteCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    if(arguments.length >= 1) {
+      String world = WorldFinder.getWorld(sender);
+      if(TNE.instance().manager().exists(IDFinder.getID(arguments[0]))) {
+        //TODO: Data handling.
 
-    return true;
+        Message m = new Message("Messages.Admin.Deleted");
+        m.addVariable("$player", arguments[0]);
+        m.translate(world, sender);
+        return true;
+      }
+      Message m = new Message("Messages.General.NoPlayer");
+      m.addVariable("$player", arguments[0]);
+      m.translate(world, sender);
+      return false;
+    }
+    help(sender);
+    return false;
   }
 }

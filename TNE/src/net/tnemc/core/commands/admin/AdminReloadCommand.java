@@ -2,6 +2,7 @@ package net.tnemc.core.commands.admin;
 
 import com.github.tnerevival.commands.TNECommand;
 import net.tnemc.core.TNE;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -54,7 +55,12 @@ public class AdminReloadCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-
-    return true;
+    String id = (arguments.length == 1)? arguments[0] : "all";
+    if(TNE.configurations().reload(id)) {
+      sender.sendMessage(ChatColor.WHITE + "Successfully reload configuration with id of: " + id + ".");
+      return true;
+    }
+    help(sender);
+    return false;
   }
 }

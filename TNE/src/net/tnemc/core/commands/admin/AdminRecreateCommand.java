@@ -54,7 +54,12 @@ public class AdminRecreateCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-
+    if(plugin.saveFormat.equalsIgnoreCase("flatfile")) {
+      sender.sendMessage("Cannot recreate tables for database type: flatfile.");
+      return false;
+    }
+    sender.sendMessage("Attempting to recreate database tables...");
+    TNE.instance().sqlManager().recreate();
     return true;
   }
 }

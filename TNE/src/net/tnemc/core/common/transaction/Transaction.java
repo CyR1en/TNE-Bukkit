@@ -35,8 +35,16 @@ public class Transaction {
   private TransactionCost cost;
   private TransactionType type;
 
+  public Transaction(UUID initiator, UUID recipient, String world, TransactionCost cost, TransactionType type) {
+    this(TNE.instance().manager().transactionManager().generateTransactionID(), initiator.toString(), recipient.toString(), world, cost, type);
+  }
+
   public Transaction(String initiator, String recipient, String world, TransactionCost cost, TransactionType type) {
     this(TNE.instance().manager().transactionManager().generateTransactionID(), initiator, recipient, world, cost, type);
+  }
+
+  public Transaction(UUID id, UUID initiator, UUID recipient, String world, TransactionCost cost, TransactionType type) {
+    this(id, initiator.toString(), recipient.toString(), world, cost, type);
   }
 
   public Transaction(UUID id, String initiator, String recipient, String world, TransactionCost cost, TransactionType type) {

@@ -56,7 +56,7 @@ public class AdminVersionCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-
+    sender.sendMessage("You're currency running TNE version " + TNE.instance().getDescription().getVersion());
     return true;
   }
 }

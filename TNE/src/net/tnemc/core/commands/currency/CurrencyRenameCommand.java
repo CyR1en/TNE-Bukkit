@@ -19,29 +19,27 @@ import org.bukkit.command.CommandSender;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/10/2017.
+ * Created by Daniel on 7/16/2017.
  */
-public class CurrencyCreateCommand extends TNECommand {
+public class CurrencyRenameCommand extends TNECommand {
 
-  public CurrencyCreateCommand(TNE plugin) {
+  public CurrencyRenameCommand(TNE plugin) {
     super(plugin);
   }
 
   @Override
   public String getName() {
-    return "create";
+    return "rename";
   }
 
   @Override
   public String[] getAliases() {
-    return new String[] {
-        "+"
-    };
+    return new String[0];
   }
 
   @Override
   public String getNode() {
-    return "tne.currency.create";
+    return "tne.currency.rename";
   }
 
   @Override
@@ -51,7 +49,7 @@ public class CurrencyCreateCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Currency.Create";
+    return "Messages.Currency.Rename";
   }
 
   @Override

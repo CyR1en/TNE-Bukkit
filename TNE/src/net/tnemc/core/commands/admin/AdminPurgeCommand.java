@@ -1,7 +1,10 @@
 package net.tnemc.core.commands.admin;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.WorldFinder;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -54,7 +57,18 @@ public class AdminPurgeCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-
+    String world = WorldFinder.getWorld(sender);
+    boolean isWorld = arguments.length >= 1;
+    if(isWorld) {
+      if(Bukkit.getWorld(arguments[0]) == null)
+        new Message("Messages.General.NoWorld").translate(world, sender);
+      TNE.instance().manager().purge(arguments[0]);
+      Message m = new Message("Messages.Admin.PurgeWorld");
+      m.addVariable("$world", arguments[0]);
+      return true;
+    }
+    TNE.instance().manager().purgeAll();
+    new Message("Messages.Admin.Purge").translate(world, sender);
     return true;
   }
 }

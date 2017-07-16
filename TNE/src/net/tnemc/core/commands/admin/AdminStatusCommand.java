@@ -1,8 +1,16 @@
 package net.tnemc.core.commands.admin;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
+import com.github.tnerevival.user.IDFinder;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.Account;
+import net.tnemc.core.common.account.AccountStatus;
+import net.tnemc.core.common.account.WorldFinder;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+
+import java.util.UUID;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -54,7 +62,41 @@ public class AdminStatusCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    if(arguments.length >= 1) {
+      if(TNE.instance().manager().exists(IDFinder.getID(arguments[0]))) {
+        UUID target = IDFinder.getID(arguments[0]);
+        Account acc = TNE.instance().manager().getAccount(target);
 
-    return true;
+        AccountStatus status = (arguments.length == 2)? AccountStatus.fromName(arguments[1]) : acc.getStatus();
+        boolean changed = (status.getName().equals(acc.getStatus().getName()));
+
+        if(changed) {
+          acc.setStatus(status);
+          TNE.instance().manager().addAccount(acc);
+        }
+        String message = (changed)? "Messages.Admin.StatusChange" : "Messages.Admin.Status";
+
+        if(changed && Bukkit.getOnlinePlayers().contains(target)) {
+          String world = WorldFinder.getWorld(target);
+          Message m = new Message("Messages.Account.StatusChange");
+          m.addVariable("$status", status.getName());
+          m.translate(world, target);
+        }
+
+        Message m = new Message(message);
+        m.addVariable("$player", arguments[0]);
+        m.addVariable("$status", arguments[1]);
+        m.translate("", sender);
+        return true;
+      }
+
+
+      Message m = new Message("Messages.General.Player");
+      m.addVariable("$player", arguments[0]);
+      m.translate("", sender);
+      return false;
+    }
+    help(sender);
+    return false;
   }
 }

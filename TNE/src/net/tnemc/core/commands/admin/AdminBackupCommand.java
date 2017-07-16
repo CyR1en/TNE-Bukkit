@@ -54,7 +54,11 @@ public class AdminBackupCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-
-    return true;
+    if(TNE.instance().sqlManager().backup()) {
+      sender.sendMessage("Successfully backed up all data.");
+      return true;
+    }
+    sender.sendMessage("Something went wrong while trying to backup data!");
+    return false;
   }
 }

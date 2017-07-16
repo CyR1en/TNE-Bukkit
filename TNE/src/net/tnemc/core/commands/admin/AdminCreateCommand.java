@@ -1,8 +1,16 @@
 package net.tnemc.core.commands.admin;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
+import com.github.tnerevival.user.IDFinder;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.Account;
+import net.tnemc.core.common.account.WorldFinder;
+import net.tnemc.core.common.currency.CurrencyFormatter;
 import org.bukkit.command.CommandSender;
+
+import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -54,7 +62,31 @@ public class AdminCreateCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    if(arguments.length >= 1) {
+      String world = WorldFinder.getWorld(sender);
+      UUID id = IDFinder.genUUID(arguments[0]);
+      if(!TNE.instance().manager().exists(id)) {
+        Account acc = new Account(id);
+        BigDecimal balance = TNE.instance().manager().getInitialBalance(TNE.instance().defaultWorld, TNE.instance().manager().currencyManager().get(world).getSingle());
+        if(arguments.length > 1) {
+          try {
+            balance = CurrencyFormatter.translateBigDecimal(arguments[1], world);
+          } catch(Exception e) {
+            //Do Nothing
+          }
+        }
+        acc.setHoldings(TNE.instance().defaultWorld, TNE.instance().manager().currencyManager().get(world).getSingle(), balance);
+        TNE.instance().manager().addAccount(acc);
 
-    return true;
+        Message m = new Message("Messages.Admin.Created");
+        m.addVariable("$player", arguments[0]);
+        m.translate(world, sender);
+        return true;
+      }
+      new Message("Messages.Admin.Exists").translate(world, sender);
+      return false;
+    }
+    help(sender);
+    return false;
   }
 }
