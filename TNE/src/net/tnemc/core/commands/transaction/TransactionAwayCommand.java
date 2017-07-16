@@ -2,6 +2,7 @@ package net.tnemc.core.commands.transaction;
 
 import com.github.tnerevival.commands.TNECommand;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.WorldFinder;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -54,7 +55,7 @@ public class TransactionAwayCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-
+    String world = WorldFinder.getWorld(sender);
     return true;
   }
 }

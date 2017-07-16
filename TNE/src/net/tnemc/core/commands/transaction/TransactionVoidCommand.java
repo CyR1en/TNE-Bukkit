@@ -3,6 +3,7 @@ package net.tnemc.core.commands.transaction;
 import com.github.tnerevival.commands.TNECommand;
 import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.WorldFinder;
 import net.tnemc.core.common.transaction.Transaction;
 import org.bukkit.command.CommandSender;
 
@@ -59,6 +60,7 @@ public class TransactionVoidCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(arguments.length >= 1) {
+      String world = WorldFinder.getWorld(sender);
       UUID uuid = null;
       try {
         uuid = UUID.fromString(arguments[0]);
@@ -68,6 +70,7 @@ public class TransactionVoidCommand extends TNECommand {
       if(uuid == null || !TNE.instance().manager().transactionManager().isValid(uuid)) {
         Message message = new Message("Messages.Transaction.Invalid");
         message.addVariable("$transaction", arguments[0]);
+        message.translate(world, sender);
         return false;
       }
 
@@ -75,6 +78,7 @@ public class TransactionVoidCommand extends TNECommand {
       if(transaction.isVoided()) {
         Message message = new Message("Messages.Transaction.Already");
         message.addVariable("$transaction", arguments[0]);
+        message.translate(world, sender);
         return false;
       }
 
@@ -82,10 +86,12 @@ public class TransactionVoidCommand extends TNECommand {
       if(!result) {
         Message message = new Message("Messages.Transaction.Unable");
         message.addVariable("$transaction", arguments[0]);
+        message.translate(world, sender);
         return false;
       }
       Message message = new Message("Messages.Transaction.Voided");
       message.addVariable("$transaction", arguments[0]);
+      message.translate(world, sender);
       return true;
     }
     help(sender);

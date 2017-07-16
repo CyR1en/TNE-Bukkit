@@ -70,8 +70,10 @@ public class CurrencyManager {
 
         TNE.debug("[Loop]Loading Currency: " + cur + " for world: " + worldName);
         String base = curBase + "." + cur;
-        String single = configuration.getString(base + ".Name.Single", "Dollar");
-        String plural = configuration.getString(base + ".Name.Plural", "Dollars");
+        String single = configuration.getString(base + ".Name.Major.Single", "Dollar");
+        String plural = configuration.getString(base + ".Name.Major.Plural", "Dollars");
+        String singleMinor = configuration.getString(base + ".Name.Minor.Single", "Cent");
+        String pluralMinor = configuration.getString(base + ".Name.Minor.Plural", "Cents");
         BigDecimal balance = new BigDecimal(configuration.getString(base + ".Balance", "200.00"));
         String decimal = configuration.getString(base + ".Decimal", ".");
         Integer decimalPlaces = ((configuration.getInt(base + ".DecimalPlace", 2) > 4)? 4 : configuration.getInt(base + ".DecimalPlace", 2));
@@ -105,6 +107,8 @@ public class CurrencyManager {
         currency.setPrefixes(prefixes);
         currency.setSingle(single);
         currency.setPlural(plural);
+        currency.setSingleMinor(singleMinor);
+        currency.setPluralMinor(pluralMinor);
         currency.setSymbol(symbol);
         currency.setWorldDefault(worldDefault);
         currency.setRate(rate);
@@ -209,16 +213,16 @@ public class CurrencyManager {
     });
   }
 
-  public Optional<Currency> get(String world) {
+  public Currency get(String world) {
     for(Currency currency : TNE.instance().getWorldManager(world).getCurrencies()) {
-      if(currency.isWorldDefault()) return Optional.of(currency);
+      if(currency.isWorldDefault()) return currency;
     }
-    return Optional.empty();
+    return null;
   }
 
-  public Optional<Currency> get(String world, String name) {
+  public Currency get(String world, String name) {
     if(TNE.instance().getWorldManager(world).containsCurrency(name)) {
-      return Optional.of(TNE.instance().getWorldManager(world).getCurrency(name));
+      return TNE.instance().getWorldManager(world).getCurrency(name);
     }
     return get(world);
   }
@@ -265,7 +269,7 @@ public class CurrencyManager {
     });
 
     if(values.size() == 0) {
-      Currency defaultCur = get(TNE.instance().defaultWorld).get();
+      Currency defaultCur = get(TNE.instance().defaultWorld);
       if(defaultCur.isItem() && defaultCur.canTrackChest()) {
         values.add(defaultCur);
       }

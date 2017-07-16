@@ -86,17 +86,28 @@ Core:
     #All configurations relating to currency.
     Currency:
 
-        #Name of the currency
         Default:
 
             #Configurations relating to this currency's name for formatting purposes.
             Name:
 
-               #The singular form of this currency's name
-               Single: "Dollar"
+               #Configurations relating to the major name.
+               Major:
 
-               #The plural form of this currency's name
-               Plural: "Dollars"
+                  #The singular form of this currency's name
+                  Single: "Dollar"
+
+                  #The plural form of this currency's name
+                  Plural: "Dollars"
+
+               #Configurations relating to the minor name.
+               Minor:
+
+                  #The singular form of this currency's minor name.
+                  Single: "Cent"
+
+                  #The plural form of this currency's name.
+                  Plural: "Cents"
 
             #The format to use when outputting this currency into chat.
             #The variables you're able to use here.

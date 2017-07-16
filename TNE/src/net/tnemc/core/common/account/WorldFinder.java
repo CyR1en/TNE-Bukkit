@@ -1,5 +1,6 @@
 package net.tnemc.core.common.account;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
@@ -22,6 +23,10 @@ import org.bukkit.entity.Player;
 public class WorldFinder {
 
   public static String getWorld(Player player) {
+    return null;
+  }
+
+  public static String getWorld(CommandSender sender) {
     return null;
   }
 

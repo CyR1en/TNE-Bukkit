@@ -3,6 +3,7 @@ package net.tnemc.core.commands.module;
 import com.github.tnerevival.commands.TNECommand;
 import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.WorldFinder;
 import net.tnemc.core.common.module.ModuleEntry;
 import org.bukkit.command.CommandSender;
 
@@ -60,7 +61,7 @@ public class ModuleLoadCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(arguments.length >= 1) {
       String moduleName = arguments[0];
-      String world = TNE.instance().defaultWorld;
+      String world = WorldFinder.getWorld(sender);
       ModuleEntry module = TNE.instance().loader().getModule(moduleName);
       String author = module.getInfo().author();
       String version = module.getInfo().version();

@@ -42,6 +42,8 @@ public class Currency {
   private Integer minorWeight;
   private String single;
   private String plural;
+  private String singleMinor;
+  private String pluralMinor;
   private String symbol;
   private String format;
   private String prefixes;
@@ -217,6 +219,22 @@ public class Currency {
 
   public void setPlural(String plural) {
     this.plural = plural;
+  }
+
+  public String getSingleMinor() {
+    return singleMinor;
+  }
+
+  public void setSingleMinor(String singleMinor) {
+    this.singleMinor = singleMinor;
+  }
+
+  public String getPluralMinor() {
+    return pluralMinor;
+  }
+
+  public void setPluralMinor(String pluralMinor) {
+    this.pluralMinor = pluralMinor;
   }
 
   public String getSymbol() {
