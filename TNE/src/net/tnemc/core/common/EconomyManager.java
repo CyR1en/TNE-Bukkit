@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.UUID;
 
@@ -101,5 +102,12 @@ public class EconomyManager {
 
   public void purgeAll() {
     //TODO: Data handling.
+  }
+
+  public LinkedHashSet<Object> parseTop(String currency, String world, Boolean bank, Integer limit) {
+    LinkedHashSet<Object> finalBalances = new LinkedHashSet<>();
+
+    //TODO: Data handling.
+    return finalBalances;
   }
 }

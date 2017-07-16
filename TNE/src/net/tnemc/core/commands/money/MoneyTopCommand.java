@@ -1,8 +1,18 @@
 package net.tnemc.core.commands.money;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
+import com.github.tnerevival.core.collection.paginate.Page;
+import com.github.tnerevival.core.collection.paginate.Paginator;
+import com.github.tnerevival.user.IDFinder;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.WorldFinder;
+import net.tnemc.core.common.utils.MISCUtils;
+import net.tnemc.core.common.utils.TopBalance;
 import org.bukkit.command.CommandSender;
+
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -54,7 +64,39 @@ public class MoneyTopCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    Map<String, String> parsed = getArguments(arguments);
 
+    int page = 1;
+    int limit = (parsed.containsKey("limit") && MISCUtils.isInteger(parsed.get("limit")))? Integer.valueOf(parsed.get("limit")) : 10;
+    boolean bank = (parsed.containsKey("bank") && MISCUtils.isBoolean(parsed.get("bank")))? Boolean.valueOf(parsed.get("bank")) : false;
+    String world = (parsed.containsKey("world"))? WorldFinder.getWorld(parsed.get("world")) : WorldFinder.getWorld(sender);
+    String currency = (parsed.containsKey("currency") &&
+        TNE.instance().manager().currencyManager().contains(world, parsed.get("currency")) ||
+        parsed.containsKey("currency") && parsed.get("currency").equalsIgnoreCase("overall")
+    )? parsed.get("currency") : TNE.instance().manager().currencyManager().get(world).getSingle();
+
+    Paginator paginator = new Paginator(Arrays.asList(TNE.instance().manager().parseTop(currency, world, bank, limit).toArray()), 10);
+
+    if(arguments.length >= 1 && parsed.containsKey(String.valueOf(0))) {
+      if(MISCUtils.isInteger(parsed.get(String.valueOf(0)))) {
+        page = Integer.valueOf(parsed.get(String.valueOf(0)));
+      }
+    }
+
+    if(page > paginator.getMaxPages()) page = paginator.getMaxPages();
+    System.out.println(paginator.getMaxPages());
+
+    Page p = paginator.getPage(page);
+
+    Message top = new Message("Messages.Money.Top");
+    top.addVariable("$page", page + "");
+    top.addVariable("$page_top", paginator.getMaxPages() + "");
+    top.translate(WorldFinder.getWorld(sender), sender);
+
+    for(Object o : p.getElements()) {
+      TopBalance bal = (TopBalance)o;
+      sender.sendMessage(IDFinder.ecoToUsername(bal.getId()) + " has " + bal.getBalance());
+    }
     return true;
   }
 }

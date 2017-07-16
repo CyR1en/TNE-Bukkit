@@ -2,6 +2,7 @@ package net.tnemc.core.commands.admin;
 
 import com.github.tnerevival.commands.TNECommand;
 import com.github.tnerevival.core.Message;
+import com.github.tnerevival.user.IDFinder;
 import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.WorldFinder;
 import org.bukkit.Bukkit;
@@ -65,6 +66,7 @@ public class AdminPurgeCommand extends TNECommand {
       TNE.instance().manager().purge(arguments[0]);
       Message m = new Message("Messages.Admin.PurgeWorld");
       m.addVariable("$world", arguments[0]);
+      m.translate(world, IDFinder.getID(sender));
       return true;
     }
     TNE.instance().manager().purgeAll();

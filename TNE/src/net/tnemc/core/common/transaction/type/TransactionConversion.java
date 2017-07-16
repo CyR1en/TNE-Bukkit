@@ -25,6 +25,14 @@ import java.math.BigDecimal;
  */
 public class TransactionConversion extends TransactionType {
 
+  private String worldTo;
+  private String currencyTo;
+
+  public TransactionConversion(String worldTo, String currencyTo) {
+    this.worldTo = worldTo;
+    this.currencyTo = currencyTo;
+  }
+
   @Override
   public String getName() {
     return "Conversion";

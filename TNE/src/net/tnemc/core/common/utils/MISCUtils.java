@@ -1,5 +1,6 @@
 package net.tnemc.core.common.utils;
 
+import net.tnemc.core.TNE;
 import org.bukkit.Bukkit;
 
 /**
@@ -56,5 +57,30 @@ public class MISCUtils {
    */
   public static boolean isOneTwelve() {
     return Bukkit.getVersion().contains("1.12");
+  }
+
+  public static Boolean isBoolean(String value) {
+    return value.equalsIgnoreCase(String.valueOf(true)) || value.equalsIgnoreCase(String.valueOf(false));
+  }
+
+  public static Boolean isDouble(String value, String world) {
+    try {
+      TNE.debug("MISCUtils.isDouble(" + value + "," + world + ")");
+      Double.valueOf(value.replace(TNE.instance().api().getString("Core.Currency.Decimal", world), "."));
+      TNE.debug("Double confirmed");
+      return true;
+    } catch(Exception e) {
+      TNE.debug("Double denied");
+      return false;
+    }
+  }
+
+  public static Boolean isInteger(String value) {
+    try {
+      Integer.valueOf(value);
+      return true;
+    } catch(Exception e) {
+      return false;
+    }
   }
 }

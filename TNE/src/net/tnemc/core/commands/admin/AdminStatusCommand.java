@@ -76,7 +76,7 @@ public class AdminStatusCommand extends TNECommand {
         }
         String message = (changed)? "Messages.Admin.StatusChange" : "Messages.Admin.Status";
 
-        if(changed && Bukkit.getOnlinePlayers().contains(target)) {
+        if(changed && Bukkit.getPlayer(target) != null && Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(target))) {
           String world = WorldFinder.getWorld(target);
           Message m = new Message("Messages.Account.StatusChange");
           m.addVariable("$status", status.getName());

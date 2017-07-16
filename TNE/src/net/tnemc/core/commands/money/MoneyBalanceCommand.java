@@ -1,8 +1,20 @@
 package net.tnemc.core.commands.money;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
+import com.github.tnerevival.user.IDFinder;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.WorldFinder;
+import net.tnemc.core.common.currency.Currency;
+import net.tnemc.core.common.currency.CurrencyFormatter;
+import net.tnemc.core.common.transaction.Transaction;
+import net.tnemc.core.common.transaction.TransactionCost;
+import net.tnemc.core.common.transaction.TransactionResult;
+import net.tnemc.core.common.transaction.type.TransactionInquiry;
 import org.bukkit.command.CommandSender;
+
+import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -56,7 +68,19 @@ public class MoneyBalanceCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    String world = (arguments.length >= 1)? arguments[0] : WorldFinder.getWorld(sender);
+    String currencyName = (arguments.length >= 2)? arguments[1] : TNE.instance().manager().currencyManager().get(world).getSingle();
+    Currency currency = TNE.instance().manager().currencyManager().get(world, currencyName);
+    UUID id = IDFinder.getID(sender);
 
-    return true;
+    Transaction transaction = new Transaction(IDFinder.getID(sender), id, world, new TransactionCost(new BigDecimal(0.0), currency), new TransactionInquiry());
+    TransactionResult result = transaction.handle();
+    Message message = new Message(result.initiatorMessage());
+    message.addVariable("$player", arguments[0]);
+    message.addVariable("$world", world);
+    message.addVariable("$currency", currencyName);
+    message.addVariable("$amount", CurrencyFormatter.format(transaction.getCost().getCurrency(), world, transaction.getType().recipientBalance()));
+    message.translate(world, IDFinder.getID(sender));
+    return result.proceed();
   }
 }

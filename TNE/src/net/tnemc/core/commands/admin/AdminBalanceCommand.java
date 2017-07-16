@@ -81,6 +81,7 @@ public class AdminBalanceCommand extends TNECommand {
       message.addVariable("$player", arguments[0]);
       message.addVariable("$world", world);
       message.addVariable("$amount", CurrencyFormatter.format(transaction.getCost().getCurrency(), world, transaction.getType().recipientBalance()));
+      message.translate(world, IDFinder.getID(sender));
       return result.proceed();
     }
     help(sender);
