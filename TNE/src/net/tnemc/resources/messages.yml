@@ -91,6 +91,15 @@ Messages:
        Reset: <white>Your pin has been reset to <green>$pin<white>.
        StatusChange: <white>Your account's status has been changed to <green>$status<white>.
 
+    Configuration:
+       NoSuch: "The configuration node $node does not exist."
+       Invalid: "The value you specified for $node is invalid."
+       Get: "The value for node $node is $value."
+       Set: "Successfully set the value for $node to $value."
+       TNEGet: "The parsed value for node $node is $value."
+       Saved: "Successfully saved all modified configurations."
+       Undone: "Successfully undid modifications to $modified."
+
     Currency:
        List: "<white>The current currencies for $world are: $currencies."
        Tiers: "<white>The currency \"$currency\" currently has these tiers;<newline>Major: $major_tiers<newline>Minor: $minor_tiers"
@@ -274,7 +283,7 @@ Messages:
           Save: "/tnec save <configuration> - Saves modifications made to a configuration value via command.<newline>- Configuration ~ The configuration identifier to retrieve the value from."
           Set: "/tnec set <node> <value> [configuration] - Sets a configuration value. This will not save until you do /tnec save.<newline>"
           TNEGet: "/tnec tneget <node> [configuration] - Returns the value of a configuration after TNE takes into account player & world configurations.<newline>- Node ~ The configuration node to use.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
-          Undo: "/tnec undo [node:<node>] [configuration:<configuration>] [world:<world>] [player:<player>] [all] - Undoes modifications made to configurations."
+          Undo: "/tnec undo [configuration/all] - Undoes modifications made to configurations.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
        Currency:
           Rename: "/currency rename <currency> <new name> - Renames a currency to a different name."
           List: "/currency list [world] - Displays the currencies available for a world.<newline> - World ~ The world to use."

@@ -80,6 +80,7 @@ Messages:
        PurgeWorld: <white>Successfully purged economy accounts in $world.
        ResetPin: <white>Successfully set pin for $player to $pin.
        StatusChange: <white>Status for $player has been changed to <green>$status<white>.
+       Status: <white>Status for $player is <green>$status<white>.
        Reset: <white>Performed an economy reset using these parameters - world = $world, currency = $currency, and player = $player.
 
     Account:
@@ -89,6 +90,10 @@ Messages:
        NoTransactions: <white>You have no transactions to display at this time.
        Reset: <white>Your pin has been reset to <green>$pin<white>.
        StatusChange: <white>Your account's status has been changed to <green>$status<white>.
+
+    Currency:
+       List: "<white>The current currencies for $world are: $currencies."
+       Tiers: "<white>The currency \"$currency\" currently has these tiers;<newline>Major: $major_tiers<newline>Minor: $minor_tiers"
 
     Money:
        Failed: <red>Unable to process your transaction at this time.
@@ -106,7 +111,7 @@ Messages:
        NoPins: <red>Pins are disabled in this world!
        NoCurrency: <red>The currency "$currency" could not be found in "$world".
        Converted: <white>Successfully exchanged "<gold>$from_amount<white>" to "<gold>$amount<white>".
-       Top: <white>=========[<gold>Economy Top<white>]========= $page/$page_top
+       Top: "<white>=========[<gold>Economy Top<white>]========= $page/$page_top"
        InvalidFormat: <red>I'm sorry, but the monetary value you've entered is wrong.
        ExceedsCurrencyMaximum: <red>I'm sorry, but the monetary value you've entered exceeds the maximum possible balance.
        ExceedsPlayerMaximum: <red>I'm sorry, but performing this transaction will place your balance over the maximum allowed.
@@ -260,7 +265,7 @@ Messages:
           Reload: "/tne reload <configuration> - Saves modifications made via command, and reloads a configuration file.<newline>- Configuration ~ The identifier of the configuration to reload. Default is all."
           Report: "/tne report <report> - File a bug report.<newline>- Report ~ The link to the pastebin with the bug report, use the following format: https://github.com/TheNewEconomy/TNE-Bukkit/blob/master/Report%20Format.md."
           Save: "/tne save - Force saves all TNE data."
-          Status: "/tne status <player> - Displays the current account status of an account.<newline>- Player ~ The account owner."
+          Status: "/tne status <player> [status] - Displays, or sets, the current account status of an account.<newline>- Player ~ The account owner."
           Version: "/tne version - Displays the version of TNE currently running."
        Config:
           Get: "/tnec get <node> [configuration] - Returns the value of a configuration.<newline>- Node ~ The configuration node to use.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
@@ -269,7 +274,7 @@ Messages:
           TNEGet: "/tnec tneget <node> [configuration] - Returns the value of a configuration after TNE takes into account player & world configurations.<newline>- Node ~ The configuration node to use.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
           Undo: "/tnec undo [node:<node>] [configuration:<configuration>] [world:<world>] [player:<player>] [all] - Undoes modifications made to configurations."
        Currency:
-          Create: "/currency create <name> <plural> [world] - Creates a new currency for a world.<newline>- Name ~ The currency's name.<newline>- Plural ~ The currency's plural name.<newline>- World ~ The world to create the currency in."
+          Rename: "/currency rename <currency> <new name> - Renames a currency to a different name."
           List: "/currency list [world] - Displays the currencies available for a world.<newline> - World ~ The world to use."
           Tiers: "/currency tiers <currency> [world] - Displays the tiers for a currency.<newline>- Currency ~ The currency to check.<newline>- World ~ The world that the currency belongs to."
        Module:
@@ -287,7 +292,7 @@ Messages:
           Top: ""
        Transaction:
           Away: "/transaction away [page:#] - Displays transactions that you missed since the last time you were on."
-          History: "/transaction history [page:#] [world:name/all] [type:type/all] - See a detailed break down of your transaction history.<newline>- Page ~ The page number you wish to view.<newline>- World ~ The world name you wish to filter, or all for every world. Defaults to current world.<newline>- Type ~ The transaction type you wish to filter, or all for every transaction."
+          History: "/transaction history [page:#] [world:name/all] - See a detailed break down of your transaction history.<newline>- Page ~ The page number you wish to view.<newline>- World ~ The world name you wish to filter, or all for every world. Defaults to current world."
           Info: "/transaction info <uuid> - Displays information about a transaction.<newline>- UUID ~ The id of the transaction."
           Void: "/transaction void <uuid> - Undoes a previously completed transaction.<newline>- UUID ~ The id of the transaction."
        
