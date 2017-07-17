@@ -5,6 +5,7 @@ import net.tnemc.core.common.account.Account;
 import net.tnemc.core.event.transaction.TNETransactionEvent;
 import org.bukkit.Bukkit;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -34,6 +35,7 @@ public class Transaction {
   private String world;
   private TransactionCost cost;
   private TransactionType type;
+  private long time;
 
   public Transaction(UUID initiator, UUID recipient, String world, TransactionCost cost, TransactionType type) {
     this(TNE.instance().manager().transactionManager().generateTransactionID(), initiator.toString(), recipient.toString(), world, cost, type);
@@ -57,6 +59,7 @@ public class Transaction {
   }
 
   public TransactionResult handle() {
+    time = new Date().getTime();
     TransactionResult result = type.handle(initiator, recipient, world, cost);
     TNETransactionEvent event = new TNETransactionEvent(this, result);
     Bukkit.getServer().getPluginManager().callEvent(event);
@@ -119,5 +122,13 @@ public class Transaction {
 
   public TransactionType getType() {
     return type;
+  }
+
+  public long getTime() {
+    return time;
+  }
+
+  public void setTime(long time) {
+    this.time = time;
   }
 }

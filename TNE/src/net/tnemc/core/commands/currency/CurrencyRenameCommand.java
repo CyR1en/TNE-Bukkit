@@ -1,7 +1,9 @@
 package net.tnemc.core.commands.currency;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.WorldFinder;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -54,7 +56,35 @@ public class CurrencyRenameCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    if(arguments.length >= 2) {
+      String world = WorldFinder.getWorld(sender);
+      String currency = arguments[0];
+      String newName = arguments[1];
 
-    return true;
+      if(!TNE.instance().manager().currencyManager().contains(world, currency)) {
+        Message m = new Message("Messages.Money.NoCurrency");
+        m.addVariable("$currency", currency);
+        m.addVariable("$world", world);
+        m.translate(world, sender);
+        return false;
+      }
+
+      if(TNE.instance().manager().currencyManager().contains(world, newName)) {
+        Message m = new Message("Messages.Currency.AlreadyExists");
+        m.addVariable("$currency", newName);
+        m.addVariable("$world", world);
+        m.translate(world, sender);
+        return false;
+      }
+      TNE.instance().manager().currencyManager().rename(world, currency, newName);
+      Message m = new Message("Messages.Currency.Renamed");
+      m.addVariable("$currency", currency);
+      m.addVariable("$new_name", newName);
+      m.addVariable("$world", world);
+      m.translate(world, sender);
+      return true;
+    }
+    help(sender);
+    return false;
   }
 }

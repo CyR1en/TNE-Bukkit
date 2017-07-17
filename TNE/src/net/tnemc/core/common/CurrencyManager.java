@@ -279,6 +279,10 @@ public class CurrencyManager {
     return values;
   }
 
+  public void rename(String world, String currency, String newName) {
+    //TODO: Data Handling.
+  }
+
   public Optional<String> currencyFromItem(ItemStack stack) {
     //TODO: Item Currencies.
     return Optional.empty();

@@ -2,9 +2,7 @@ package net.tnemc.core.common.account.history;
 
 import net.tnemc.core.common.transaction.Transaction;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -42,5 +40,21 @@ public class AccountHistory {
                                                                              : new WorldHistory(transaction.getWorld());
     history.addTransaction(transaction);
     worldHistory.put(history.getWorld(), history);
+  }
+
+  public List<UUID> getHistroy(String world) {
+    List<UUID> transactions = new ArrayList<>();
+
+    if(!world.equalsIgnoreCase("all")) {
+      if(worldHistory.containsKey(world)) return worldHistory.get(world).getTransactions();
+      return transactions;
+    }
+
+    worldHistory.forEach((key, value)->{
+      if(key.equalsIgnoreCase(world)) {
+        transactions.addAll(value.getTransactions());
+      }
+    });
+    return transactions;
   }
 }

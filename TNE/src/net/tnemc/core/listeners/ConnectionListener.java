@@ -56,7 +56,7 @@ public class ConnectionListener implements Listener {
     }
 
     TNE.instance().getWorldManager(world).getItemCurrencies().forEach(value->{
-      account.setCurrencyItems(TNE.instance().manager().currencyManager().get(world, value).get(),
+      account.setCurrencyItems(TNE.instance().manager().currencyManager().get(world, value),
                                account.getHoldings(world, value));
     });
   }

@@ -91,6 +91,12 @@ Messages:
        Reset: <white>Your pin has been reset to <green>$pin<white>.
        StatusChange: <white>Your account's status has been changed to <green>$status<white>.
 
+    Currency:
+       List: "<white>The current currencies for $world are: $currencies."
+       Tiers: "<white>The currency \"$currency\" currently has these tiers;<newline>Major: $major_tiers<newline>Minor: $minor_tiers"
+       AlreadyExists: "<white>A currency with the name $currency already exists in world $world."
+       Renamed: "<white>Successfully renamed $currency in world $world to $new_Name."
+
     Money:
        Failed: <red>Unable to process your transaction at this time.
        Given: <white>You were given <gold>$amount<white>.
@@ -107,7 +113,7 @@ Messages:
        NoPins: <red>Pins are disabled in this world!
        NoCurrency: <red>The currency "$currency" could not be found in "$world".
        Converted: <white>Successfully exchanged "<gold>$from_amount<white>" to "<gold>$amount<white>".
-       Top: <white>=========[<gold>Economy Top<white>]========= $page/$page_top
+       Top: "<white>=========[<gold>Economy Top<white>]========= $page/$page_top"
        InvalidFormat: <red>I'm sorry, but the monetary value you've entered is wrong.
        ExceedsCurrencyMaximum: <red>I'm sorry, but the monetary value you've entered exceeds the maximum possible balance.
        ExceedsPlayerMaximum: <red>I'm sorry, but performing this transaction will place your balance over the maximum allowed.
@@ -270,7 +276,7 @@ Messages:
           TNEGet: "/tnec tneget <node> [configuration] - Returns the value of a configuration after TNE takes into account player & world configurations.<newline>- Node ~ The configuration node to use.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
           Undo: "/tnec undo [node:<node>] [configuration:<configuration>] [world:<world>] [player:<player>] [all] - Undoes modifications made to configurations."
        Currency:
-          Rename: "/currency rename <currency> <new name> - Renames a currency toa different name."
+          Rename: "/currency rename <currency> <new name> - Renames a currency to a different name."
           List: "/currency list [world] - Displays the currencies available for a world.<newline> - World ~ The world to use."
           Tiers: "/currency tiers <currency> [world] - Displays the tiers for a currency.<newline>- Currency ~ The currency to check.<newline>- World ~ The world that the currency belongs to."
        Module:
@@ -288,7 +294,7 @@ Messages:
           Top: ""
        Transaction:
           Away: "/transaction away [page:#] - Displays transactions that you missed since the last time you were on."
-          History: "/transaction history [page:#] [world:name/all] [type:type/all] - See a detailed break down of your transaction history.<newline>- Page ~ The page number you wish to view.<newline>- World ~ The world name you wish to filter, or all for every world. Defaults to current world.<newline>- Type ~ The transaction type you wish to filter, or all for every transaction."
+          History: "/transaction history [page:#] [world:name/all] - See a detailed break down of your transaction history.<newline>- Page ~ The page number you wish to view.<newline>- World ~ The world name you wish to filter, or all for every world. Defaults to current world."
           Info: "/transaction info <uuid> - Displays information about a transaction.<newline>- UUID ~ The id of the transaction."
           Void: "/transaction void <uuid> - Undoes a previously completed transaction.<newline>- UUID ~ The id of the transaction."
        

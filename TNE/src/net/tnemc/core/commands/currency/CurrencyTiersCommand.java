@@ -1,7 +1,10 @@
 package net.tnemc.core.commands.currency;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.currency.Currency;
+import net.tnemc.core.common.currency.Tier;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -56,7 +59,35 @@ public class CurrencyTiersCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    String world = (arguments.length >= 1)? arguments[0] : TNE.instance().defaultWorld;
+    String currencyName = (arguments.length >= 4)? arguments[3] : TNE.instance().manager().currencyManager().get(world).getSingle();
+    Currency currency = TNE.instance().manager().currencyManager().get(world, currencyName);
 
+    if(!TNE.instance().manager().currencyManager().contains(world, currencyName)) {
+      Message m = new Message("Messages.Money.NoCurrency");
+      m.addVariable("$currency", currencyName);
+      m.addVariable("$world", world);
+      m.translate(world, sender);
+      return false;
+    }
+
+    StringBuilder major = new StringBuilder();
+    StringBuilder minor = new StringBuilder();
+
+    for(Tier tier : currency.getMajorTiers().values()) {
+      if(major.length() > 0) major.append(", ");
+      major.append(tier.getSingle());
+    }
+
+    for(Tier tier : currency.getMinorTiers().values()) {
+      if(minor.length() > 0) minor.append(", ");
+      minor.append(tier.getSingle());
+    }
+    Message message = new Message("Messages.Currency.Tiers");
+    message.addVariable("$currency", world);
+    message.addVariable("$major_tiers", major.toString());
+    message.addVariable("$minor_tiers", minor.toString());
+    message.translate(world, sender);
     return true;
   }
 }

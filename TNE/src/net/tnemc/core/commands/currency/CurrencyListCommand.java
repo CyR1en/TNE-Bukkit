@@ -1,7 +1,9 @@
 package net.tnemc.core.commands.currency;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.currency.Currency;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -56,7 +58,18 @@ public class CurrencyListCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    String world = (arguments.length >= 1)? arguments[0] : TNE.instance().defaultWorld;
+    StringBuilder builder = new StringBuilder();
 
+    for(Currency currency : TNE.instance().manager().currencyManager().getWorldCurrencies(world)) {
+      if(builder.length() > 0) builder.append(", ");
+      builder.append(currency.getSingle());
+    }
+
+    Message message = new Message("Messages.Currency.List");
+    message.addVariable("$world", world);
+    message.addVariable("$currencies", builder.toString());
+    message.translate(world, sender);
     return true;
   }
 }

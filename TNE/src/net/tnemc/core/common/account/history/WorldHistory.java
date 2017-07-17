@@ -37,6 +37,10 @@ public class WorldHistory {
     history.add(transaction.getUuid());
   }
 
+  public List<UUID> getTransactions() {
+    return history;
+  }
+
   public String getWorld() {
     return world;
   }
