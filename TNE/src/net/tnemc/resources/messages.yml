@@ -94,11 +94,14 @@ Messages:
     Configuration:
        NoSuch: "The configuration node $node does not exist."
        Invalid: "The value you specified for $node is invalid."
+       InvalidFile: "The configuration file you specified is invalid."
        Get: "The value for node $node is $value."
        Set: "Successfully set the value for $node to $value."
        TNEGet: "The parsed value for node $node is $value."
-       Saved: "Successfully saved all modified configurations."
-       Undone: "Successfully undid modifications to $modified."
+       Saved: "Successfully saved all modified nodes for file $configuration."
+       SavedAll: "Successfully saved all modified configurations."
+       Undone: "Successfully undid all configuration modifications to $modified."
+       UndoneAll: "Successfully undid all configuration modifications."
 
     Currency:
        List: "<white>The current currencies for $world are: $currencies."
@@ -280,9 +283,9 @@ Messages:
           Version: "/tne version - Displays the version of TNE currently running."
        Config:
           Get: "/tnec get <node> [configuration] - Returns the value of a configuration.<newline>- Node ~ The configuration node to use.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
-          Save: "/tnec save <configuration> - Saves modifications made to a configuration value via command.<newline>- Configuration ~ The configuration identifier to retrieve the value from."
+          Save: "/tnec save [configuration] - Saves modifications made to a configuration value via command.<newline>- Configuration ~ The configuration identifier to retrieve the value from."
           Set: "/tnec set <node> <value> [configuration] - Sets a configuration value. This will not save until you do /tnec save.<newline>"
-          TNEGet: "/tnec tneget <node> [configuration] - Returns the value of a configuration after TNE takes into account player & world configurations.<newline>- Node ~ The configuration node to use.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
+          TNEGet: "/tnec tneget <node> [world] [player] - Returns the value of a configuration after TNE takes into account player & world configurations.<newline>- Node ~ The configuration node to use.<newline>- World ~ The name of the world to use for parsing.<newline>- Player ~ The name of the world to use for parsing."
           Undo: "/tnec undo [configuration/all] - Undoes modifications made to configurations.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
        Currency:
           Rename: "/currency rename <currency> <new name> - Renames a currency to a different name."

@@ -1,7 +1,9 @@
 package net.tnemc.core.commands.config;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.WorldFinder;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -54,7 +56,25 @@ public class ConfigSaveCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    String configuration = (arguments.length >= 1)? arguments[0] : "all";
+    if(configuration.equalsIgnoreCase("all")) {
+      TNE.configurations().saveAll();
+      Message message = new Message("Messages.Configuration.SavedAll");
+      message.translate(WorldFinder.getWorld(sender), sender);
+      return true;
+    }
 
+    if(!TNE.configurations().configurations.containsKey(configuration)) {
+      Message message = new Message("Messages.Configuration.InvalidFile");
+      message.addVariable("$configuration", configuration);
+      message.translate(WorldFinder.getWorld(sender), sender);
+      return false;
+    }
+
+    TNE.configurations().save(TNE.configurations().configurations.get(configuration));
+    Message message = new Message("Messages.Configuration.Saved");
+    message.addVariable("$configuration", configuration);
+    message.translate(WorldFinder.getWorld(sender), sender);
     return true;
   }
 }

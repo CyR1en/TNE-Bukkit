@@ -54,7 +54,6 @@ public class ConfigSetCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-
     return true;
   }
 }
