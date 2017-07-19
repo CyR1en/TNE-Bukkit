@@ -17,32 +17,22 @@ import net.tnemc.core.common.transaction.TransactionResult;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/7/2017.
+ * Created by Daniel on 7/12/2017.
  */
-public class TransactionCustom implements TransactionResult {
-
-  private String initiator;
-  private String recipient;
-  private boolean proceed;
-
-  public TransactionCustom(String initiator, String recipient, boolean proceed) {
-    this.initiator = initiator;
-    this.recipient = recipient;
-    this.proceed = proceed;
-  }
+public class TransactionResultHoldings implements TransactionResult {
 
   @Override
   public String initiatorMessage() {
-    return initiator;
+    return "Messages.Money.Paid";
   }
 
   @Override
   public String recipientMessage() {
-    return recipient;
+    return "";
   }
 
   @Override
   public boolean proceed() {
-    return proceed;
+    return true;
   }
 }

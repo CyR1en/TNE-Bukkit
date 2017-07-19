@@ -4,8 +4,6 @@ import net.tnemc.core.common.transaction.TransactionCost;
 import net.tnemc.core.common.transaction.TransactionResult;
 import net.tnemc.core.common.transaction.TransactionType;
 
-import java.math.BigDecimal;
-
 /**
  * The New Economy Minecraft Server Plugin
  * <p>
@@ -46,22 +44,10 @@ public class TransactionSet extends TransactionType {
   }
 
   @Override
-  public boolean handleInitiator() {
-    return false;
+  public void handleInitiator() {
   }
 
   @Override
-  public BigDecimal initiatorBalance() {
-    return null;
-  }
-
-  @Override
-  public boolean handleRecipient() {
-    return false;
-  }
-
-  @Override
-  public BigDecimal recipientBalance() {
-    return null;
+  public void handleRecipient() {
   }
 }

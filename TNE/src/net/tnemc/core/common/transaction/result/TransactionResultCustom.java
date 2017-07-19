@@ -19,20 +19,30 @@ import net.tnemc.core.common.transaction.TransactionResult;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Created by Daniel on 7/7/2017.
  */
-public class TransactionFailed implements TransactionResult {
+public class TransactionResultCustom implements TransactionResult {
+
+  private String initiator;
+  private String recipient;
+  private boolean proceed;
+
+  public TransactionResultCustom(String initiator, String recipient, boolean proceed) {
+    this.initiator = initiator;
+    this.recipient = recipient;
+    this.proceed = proceed;
+  }
 
   @Override
   public String initiatorMessage() {
-    return "Messages.Money.Failed";
+    return initiator;
   }
 
   @Override
   public String recipientMessage() {
-    return "";
+    return recipient;
   }
 
   @Override
   public boolean proceed() {
-    return false;
+    return proceed;
   }
 }

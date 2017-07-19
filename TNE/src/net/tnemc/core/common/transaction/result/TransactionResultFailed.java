@@ -19,20 +19,20 @@ import net.tnemc.core.common.transaction.TransactionResult;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Created by Daniel on 7/7/2017.
  */
-public class TransactionLost implements TransactionResult {
+public class TransactionResultFailed implements TransactionResult {
 
   @Override
   public String initiatorMessage() {
-    return "Messages.Money.Took";
+    return "Messages.Money.Failed";
   }
 
   @Override
   public String recipientMessage() {
-    return "Messages.Money.Taken";
+    return "";
   }
 
   @Override
   public boolean proceed() {
-    return true;
+    return false;
   }
 }

@@ -21,6 +21,12 @@ import java.math.BigDecimal;
  */
 public abstract class TransactionType {
 
+  protected BigDecimal initiatorBalance;
+  protected BigDecimal initiatorOldBalance;
+  protected BigDecimal recipientBalance;
+  protected BigDecimal recipientOldBalance;
+  protected TransactionResult result = null;
+
   /**
    * @return The name of this transaction type.
    */
@@ -49,23 +55,39 @@ public abstract class TransactionType {
 
   /**
    * Handles the initiator side of the transaction.
-   * @return True if everything is ready to proceed on the initiator's side of the transaction.
    */
-  public abstract boolean handleInitiator();
+  public abstract void handleInitiator();
 
   /**
    * @return The initiator's balance if the transaction proceeds.
    */
-  public abstract BigDecimal initiatorBalance();
+  public BigDecimal initiatorBalance() {
+    return initiatorBalance;
+  }
+
+  /**
+   * @return The initiator's balance before the transaction occurred, if it did.
+   */
+  public BigDecimal initiatorOldBalance() {
+    return initiatorOldBalance;
+  }
 
   /**
    * Handles the recipient side of the transaction.
-   * @return True if everything is ready to proceed on the recipient's side of the transaction.
    */
-  public abstract boolean handleRecipient();
+  public abstract void handleRecipient();
 
   /**
    * @return The recipient's balance if the transaction proceeds.
    */
-  public abstract BigDecimal recipientBalance();
+  public BigDecimal recipientBalance() {
+    return recipientBalance;
+  }
+
+  /**
+   * @return The recipient's balance before the transaction occurred, if it did.
+   */
+  public BigDecimal recipientOldBalance() {
+    return recipientOldBalance;
+  }
 }

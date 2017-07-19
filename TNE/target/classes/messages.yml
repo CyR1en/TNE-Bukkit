@@ -91,9 +91,23 @@ Messages:
        Reset: <white>Your pin has been reset to <green>$pin<white>.
        StatusChange: <white>Your account's status has been changed to <green>$status<white>.
 
+    Configuration:
+       NoSuch: "The configuration node $node does not exist."
+       Invalid: "The value you specified for $node is invalid."
+       InvalidFile: "The configuration file you specified is invalid."
+       Get: "The value for node $node is $value."
+       Set: "Successfully set the value for $node to $value."
+       TNEGet: "The parsed value for node $node is $value."
+       Saved: "Successfully saved all modified nodes for file $configuration."
+       SavedAll: "Successfully saved all modified configurations."
+       Undone: "Successfully undid all configuration modifications to $modified."
+       UndoneAll: "Successfully undid all configuration modifications."
+
     Currency:
        List: "<white>The current currencies for $world are: $currencies."
        Tiers: "<white>The currency \"$currency\" currently has these tiers;<newline>Major: $major_tiers<newline>Minor: $minor_tiers"
+       AlreadyExists: "<white>A currency with the name $currency already exists in world $world."
+       Renamed: "<white>Successfully renamed $currency in world $world to $new_Name."
 
     Money:
        Failed: <red>Unable to process your transaction at this time.
@@ -103,6 +117,7 @@ Messages:
        Insufficient: <red>I'm sorry, but you do not have <gold>$amount<red>.
        Holdings: <white>You currently have <gold>$amount<white> on you.
        Gave: <white>Successfully gave $player <gold>$amount<white>.
+       RecipientSet: <white>Your balance has been set to <gold>$amount<white>.
        Set: <white>Successfully set $player's balance to <gold>$amount<white>.
        Paid: <white>Successfully paid $player <gold>$amount<white>.
        Took: <white>Successfully took <gold>$amount<white> from $player.
@@ -269,10 +284,10 @@ Messages:
           Version: "/tne version - Displays the version of TNE currently running."
        Config:
           Get: "/tnec get <node> [configuration] - Returns the value of a configuration.<newline>- Node ~ The configuration node to use.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
-          Save: "/tnec save <configuration> - Saves modifications made to a configuration value via command.<newline>- Configuration ~ The configuration identifier to retrieve the value from."
+          Save: "/tnec save [configuration] - Saves modifications made to a configuration value via command.<newline>- Configuration ~ The configuration identifier to retrieve the value from."
           Set: "/tnec set <node> <value> [configuration] - Sets a configuration value. This will not save until you do /tnec save.<newline>"
-          TNEGet: "/tnec tneget <node> [configuration] - Returns the value of a configuration after TNE takes into account player & world configurations.<newline>- Node ~ The configuration node to use.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
-          Undo: "/tnec undo [node:<node>] [configuration:<configuration>] [world:<world>] [player:<player>] [all] - Undoes modifications made to configurations."
+          TNEGet: "/tnec tneget <node> [world] [player] - Returns the value of a configuration after TNE takes into account player & world configurations.<newline>- Node ~ The configuration node to use.<newline>- World ~ The name of the world to use for parsing.<newline>- Player ~ The name of the world to use for parsing."
+          Undo: "/tnec undo [configuration/all] - Undoes modifications made to configurations.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
        Currency:
           Rename: "/currency rename <currency> <new name> - Renames a currency to a different name."
           List: "/currency list [world] - Displays the currencies available for a world.<newline> - World ~ The world to use."

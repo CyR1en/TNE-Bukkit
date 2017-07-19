@@ -3,9 +3,7 @@ package net.tnemc.core.common.transaction.type;
 import net.tnemc.core.common.transaction.TransactionCost;
 import net.tnemc.core.common.transaction.TransactionResult;
 import net.tnemc.core.common.transaction.TransactionType;
-import net.tnemc.core.common.transaction.result.TransactionHoldings;
-
-import java.math.BigDecimal;
+import net.tnemc.core.common.transaction.result.TransactionResultHoldings;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -38,7 +36,7 @@ public class TransactionInquiry extends TransactionType {
 
   @Override
   public TransactionResult handle(String initiator, String recipient, String world, TransactionCost cost) {
-    return new TransactionHoldings();
+    return new TransactionResultHoldings();
   }
 
   @Override
@@ -47,22 +45,10 @@ public class TransactionInquiry extends TransactionType {
   }
 
   @Override
-  public boolean handleInitiator() {
-    return false;
+  public void handleInitiator() {
   }
 
   @Override
-  public BigDecimal initiatorBalance() {
-    return null;
-  }
-
-  @Override
-  public boolean handleRecipient() {
-    return false;
-  }
-
-  @Override
-  public BigDecimal recipientBalance() {
-    return null;
+  public void handleRecipient() {
   }
 }

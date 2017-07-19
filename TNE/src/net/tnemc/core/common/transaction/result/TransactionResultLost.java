@@ -19,16 +19,16 @@ import net.tnemc.core.common.transaction.TransactionResult;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Created by Daniel on 7/7/2017.
  */
-public class TransactionGave implements TransactionResult {
+public class TransactionResultLost implements TransactionResult {
 
   @Override
   public String initiatorMessage() {
-    return "Messages.Money.Gave";
+    return "Messages.Money.Took";
   }
 
   @Override
   public String recipientMessage() {
-    return "Messages.Money.Given";
+    return "Messages.Money.Taken";
   }
 
   @Override

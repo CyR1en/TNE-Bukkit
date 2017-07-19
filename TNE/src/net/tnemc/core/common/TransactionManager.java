@@ -3,7 +3,7 @@ package net.tnemc.core.common;
 import net.tnemc.core.common.account.Account;
 import net.tnemc.core.common.transaction.Transaction;
 import net.tnemc.core.common.transaction.TransactionResult;
-import net.tnemc.core.common.transaction.result.TransactionFailed;
+import net.tnemc.core.common.transaction.result.TransactionResultFailed;
 import net.tnemc.core.event.transaction.TNEPreTransaction;
 import org.bukkit.Bukkit;
 
@@ -52,7 +52,7 @@ public class TransactionManager {
     TNEPreTransaction event = new TNEPreTransaction(transaction);
     Bukkit.getServer().getPluginManager().callEvent(event);
     if(event.isCancelled()) {
-      return new TransactionFailed();
+      return new TransactionResultFailed();
     }
     return transaction.handle();
   }

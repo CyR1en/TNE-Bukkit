@@ -19,7 +19,7 @@ import net.tnemc.core.common.transaction.TransactionResult;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Created by Daniel on 7/12/2017.
  */
-public class TransactionSelfPay implements TransactionResult {
+public class TransactionResultSelfPay implements TransactionResult {
 
   @Override
   public String initiatorMessage() {

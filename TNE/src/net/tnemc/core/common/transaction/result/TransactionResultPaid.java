@@ -1,8 +1,6 @@
-package net.tnemc.core.common.transaction.type;
+package net.tnemc.core.common.transaction.result;
 
-import net.tnemc.core.common.transaction.TransactionCost;
 import net.tnemc.core.common.transaction.TransactionResult;
-import net.tnemc.core.common.transaction.TransactionType;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -21,32 +19,20 @@ import net.tnemc.core.common.transaction.TransactionType;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Created by Daniel on 7/7/2017.
  */
-public class TransactionPay extends TransactionType {
+public class TransactionResultPaid implements TransactionResult {
+
   @Override
-  public String getName() {
-    return "pay";
+  public String initiatorMessage() {
+    return "Messages.Money.Paid";
   }
 
   @Override
-  public boolean console() {
+  public String recipientMessage() {
+    return "Messages.Money.Received";
+  }
+
+  @Override
+  public boolean proceed() {
     return true;
-  }
-
-  @Override
-  public TransactionResult handle(String initiator, String recipient, String world, TransactionCost cost) {
-    return null;
-  }
-
-  @Override
-  public boolean voidTransaction() {
-    return false;
-  }
-
-  @Override
-  public void handleInitiator() {
-  }
-
-  @Override
-  public void handleRecipient() {
   }
 }
