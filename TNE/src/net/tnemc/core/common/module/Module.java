@@ -5,6 +5,7 @@ import com.github.tnerevival.core.SaveManager;
 import com.github.tnerevival.core.configurations.ConfigurationManager;
 import net.tnemc.core.TNE;
 import net.tnemc.core.common.configurations.MainConfigurations;
+import net.tnemc.core.common.configurations.MessageConfigurations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +111,14 @@ public abstract class Module {
    * @param configuration An instance of TNE's MainConfigurations class.
    */
   public void registerMainConfigurations(MainConfigurations configuration) {
+
+  }
+
+  /**
+   * Register any configuration node defaults for messages.yml that this module may use.
+   * @param configuration An instance of TNE's MessageConfigurations class.
+   */
+  public void registerMessages(MessageConfigurations configuration) {
 
   }
 

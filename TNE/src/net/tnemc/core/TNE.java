@@ -14,6 +14,7 @@ import net.tnemc.core.common.EconomyManager;
 import net.tnemc.core.common.TNESQLManager;
 import net.tnemc.core.common.WorldManager;
 import net.tnemc.core.common.configurations.MainConfigurations;
+import net.tnemc.core.common.configurations.MessageConfigurations;
 import net.tnemc.core.common.configurations.WorldConfigurations;
 import net.tnemc.core.common.module.ModuleLoader;
 import net.tnemc.core.common.version.Alpha56;
@@ -111,14 +112,19 @@ public class TNE extends TNELib {
     loadConfigurations();
     configurations().loadAll();
     MainConfigurations main = new MainConfigurations();
+    MessageConfigurations messages = new MessageConfigurations();
     WorldConfigurations world = new WorldConfigurations();
     loader.getModules().forEach((key, value)->{
       value.getModule().registerMainConfigurations(main);
     });
     loader.getModules().forEach((key, value)->{
+      value.getModule().registerMessages(messages);
+    });
+    loader.getModules().forEach((key, value)->{
       value.getModule().registerConfigurations(configurations());
     });
     configurations().add(main, "main");
+    configurations().add(messages, "messages");
     configurations().add(world, "world");
     configurations().updateLoad();
 

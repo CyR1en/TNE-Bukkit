@@ -3,6 +3,7 @@ package net.tnemc.core.common.transaction.type;
 import net.tnemc.core.common.transaction.TransactionCost;
 import net.tnemc.core.common.transaction.TransactionResult;
 import net.tnemc.core.common.transaction.TransactionType;
+import net.tnemc.core.common.transaction.result.TransactionHoldings;
 
 import java.math.BigDecimal;
 
@@ -37,7 +38,7 @@ public class TransactionInquiry extends TransactionType {
 
   @Override
   public TransactionResult handle(String initiator, String recipient, String world, TransactionCost cost) {
-    return null;
+    return new TransactionHoldings();
   }
 
   @Override
