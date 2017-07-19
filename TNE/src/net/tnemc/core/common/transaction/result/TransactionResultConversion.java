@@ -1,8 +1,6 @@
-package net.tnemc.core.common.transaction.type;
+package net.tnemc.core.common.transaction.result;
 
 import net.tnemc.core.common.transaction.TransactionResult;
-import net.tnemc.core.common.transaction.TransactionType;
-import net.tnemc.core.common.transaction.result.TransactionResultSet;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -19,30 +17,22 @@ import net.tnemc.core.common.transaction.result.TransactionResultSet;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/7/2017.
+ * Created by Daniel on 7/19/2017.
  */
-public class TransactionSet extends TransactionType {
+public class TransactionResultConversion implements TransactionResult {
 
   @Override
-  public String getName() {
-    return "Set";
+  public String initiatorMessage() {
+    return "Messages.Money.Converted";
   }
 
   @Override
-  public boolean console() {
+  public String recipientMessage() {
+    return "";
+  }
+
+  @Override
+  public boolean proceed() {
     return true;
-  }
-
-  @Override
-  public TransactionResult success() {
-    return new TransactionResultSet();
-  }
-
-  @Override
-  public void handleInitiator() {
-  }
-
-  @Override
-  public void handleRecipient() {
   }
 }

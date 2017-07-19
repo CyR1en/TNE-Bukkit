@@ -1,8 +1,8 @@
 package net.tnemc.core.common.transaction.type;
 
-import net.tnemc.core.common.transaction.TransactionCost;
 import net.tnemc.core.common.transaction.TransactionResult;
 import net.tnemc.core.common.transaction.TransactionType;
+import net.tnemc.core.common.transaction.result.TransactionResultLost;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -34,13 +34,8 @@ public class TransactionTake extends TransactionType {
   }
 
   @Override
-  public TransactionResult handle(String initiator, String recipient, String world, TransactionCost cost) {
-    return null;
-  }
-
-  @Override
-  public boolean voidTransaction() {
-    return false;
+  public TransactionResult success() {
+    return new TransactionResultLost();
   }
 
   @Override

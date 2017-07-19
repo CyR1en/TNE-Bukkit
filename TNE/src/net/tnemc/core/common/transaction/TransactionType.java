@@ -38,6 +38,11 @@ public abstract class TransactionType {
   public abstract boolean console();
 
   /**
+   * @return The {@TransactionResult result} of this transaction if it were to be successful.
+   */
+  public abstract TransactionResult success();
+
+  /**
    * Handles the transaction.
    * @return The {@TransactionResult result} of this transaction.
    * @param initiator The transaction initiator's identifier.
@@ -45,13 +50,33 @@ public abstract class TransactionType {
    * @param world The world the transaction occurred in.
    * @param cost The money and/or items this transaction consists of.
    */
-  public abstract TransactionResult handle(String initiator, String recipient, String world, TransactionCost cost);
+  public TransactionResult handle(String initiator, String recipient, String world, TransactionCost cost) {
+    handleInitiator();
+    if(result != null) {
+      return result;
+    }
+
+    handleRecipient();
+    if(result != null) {
+      return result;
+    }
+    return null;
+  }
 
   /**
    * Handles the voiding of a transaction.
    * @return True if this transaction may be voided.
    */
-  public abstract boolean voidTransaction();
+  public boolean voidTransaction() {
+    if(!initiatorOldBalance.equals(initiatorBalance)) {
+
+    }
+
+    if(!recipientOldBalance.equals(recipientBalance)) {
+
+    }
+    return false;
+  }
 
   /**
    * Handles the initiator side of the transaction.

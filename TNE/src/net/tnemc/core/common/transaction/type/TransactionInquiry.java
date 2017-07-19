@@ -1,6 +1,5 @@
 package net.tnemc.core.common.transaction.type;
 
-import net.tnemc.core.common.transaction.TransactionCost;
 import net.tnemc.core.common.transaction.TransactionResult;
 import net.tnemc.core.common.transaction.TransactionType;
 import net.tnemc.core.common.transaction.result.TransactionResultHoldings;
@@ -35,13 +34,8 @@ public class TransactionInquiry extends TransactionType {
   }
 
   @Override
-  public TransactionResult handle(String initiator, String recipient, String world, TransactionCost cost) {
+  public TransactionResult success() {
     return new TransactionResultHoldings();
-  }
-
-  @Override
-  public boolean voidTransaction() {
-    return false;
   }
 
   @Override
