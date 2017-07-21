@@ -107,7 +107,7 @@ public abstract class TransactionType {
         if (initiatorAccount != null) {
           initiatorAccount.setHoldings(world, cost.getCurrency().getSingle(), initiatorBalance);
           if(cost.getItems().size() > 0) {
-            initiatorAccount.giveItems(cost.getItems());
+            initiatorAccount.giveItems(cost.getItems(), world);
           }
         }
       }
@@ -118,7 +118,7 @@ public abstract class TransactionType {
       if(recipientAccount != null) {
         recipientAccount.setHoldings(world, cost.getCurrency().getSingle(), recipientBalance);
         if(cost.getItems().size() > 0) {
-          recipientAccount.giveItems(cost.getItems());
+          recipientAccount.giveItems(cost.getItems(), world);
         }
       }
     }

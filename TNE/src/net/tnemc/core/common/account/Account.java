@@ -103,16 +103,16 @@ public class Account {
     //TODO: Item Currencies.
   }
 
-  public boolean hasItems(List<ItemStack> items) {
+  public boolean hasItems(List<ItemStack> items, String world) {
     //TODO: Item Currencies.
     return false;
   }
 
-  public void takeItems(List<ItemStack> items) {
+  public void takeItems(List<ItemStack> items, String world) {
     //TODO: Item Currencies.
   }
 
-  public void giveItems(List<ItemStack> items) {
+  public void giveItems(List<ItemStack> items, String world) {
     //TODO: Item Currencies.
   }
 

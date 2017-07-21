@@ -41,7 +41,7 @@ public class TransactionPay extends TransactionType {
 
   @Override
   public void handleInitiator() {
-    if(initiatorOldBalance.compareTo(cost.getAmount()) == -1 || !Account.getAccount(initiator).hasItems(cost.getItems())) {
+    if(initiatorOldBalance.compareTo(cost.getAmount()) == -1 || !Account.getAccount(initiator).hasItems(cost.getItems(), world)) {
       result = new TransactionResultInsufficient();
       return;
     }

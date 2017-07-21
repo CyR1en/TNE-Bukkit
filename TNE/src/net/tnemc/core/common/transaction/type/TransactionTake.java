@@ -47,7 +47,7 @@ public class TransactionTake extends TransactionType {
 
   @Override
   public void handleRecipient() {
-    if(recipientOldBalance.compareTo(cost.getAmount()) == -1 || !Account.getAccount(recipient).hasItems(cost.getItems())) {
+    if(recipientOldBalance.compareTo(cost.getAmount()) == -1 || !Account.getAccount(recipient).hasItems(cost.getItems(), world)) {
       result = new TransactionResultFailed();
       return;
     }
