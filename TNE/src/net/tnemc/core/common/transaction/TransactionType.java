@@ -1,5 +1,8 @@
 package net.tnemc.core.common.transaction;
 
+import net.tnemc.core.common.account.Account;
+import net.tnemc.core.common.transaction.result.TransactionResultFailed;
+
 import java.math.BigDecimal;
 
 /**
@@ -21,8 +24,12 @@ import java.math.BigDecimal;
  */
 public abstract class TransactionType {
 
+  protected String world;
+  protected TransactionCost cost;
+  protected String initiator;
   protected BigDecimal initiatorBalance;
   protected BigDecimal initiatorOldBalance;
+  protected String recipient;
   protected BigDecimal recipientBalance;
   protected BigDecimal recipientOldBalance;
   protected TransactionResult result = null;
@@ -51,16 +58,70 @@ public abstract class TransactionType {
    * @param cost The money and/or items this transaction consists of.
    */
   public TransactionResult handle(String initiator, String recipient, String world, TransactionCost cost) {
+    if(initiator == null || recipient == null) {
+      return new TransactionResultFailed();
+    }
+
+    this.world = world;
+    this.cost = cost;
+    this.initiator = initiator;
+    this.recipient = recipient;
+
+    initializeBalances();
+
     handleInitiator();
     if(result != null) {
       return result;
+    }
+
+    if(cost.getCurrency() != null && initiatorBalance.compareTo(cost.getCurrency().getMaxBalance()) == 1) {
+      return new TransactionResultFailed();
     }
 
     handleRecipient();
     if(result != null) {
       return result;
     }
-    return null;
+
+    if(cost.getCurrency() != null && recipientBalance.compareTo(cost.getCurrency().getMaxBalance()) == 1) {
+      return new TransactionResultFailed();
+    }
+    return success();
+  }
+
+  /**
+   * Initializes the old balance variables of the parties involved.
+   */
+  public void initializeBalances() {
+    initiatorOldBalance = Account.getAccount(initiator).getHoldings(world, cost.getCurrency().getSingle());
+    recipientOldBalance = Account.getAccount(recipient).getHoldings(world, cost.getCurrency().getSingle());
+  }
+
+  /**
+   * Handles setting the balances after the transaction has been completed, and is successful.
+   */
+  public void setBalances() {
+    if(initiator != null) {
+      if(recipient == null || !recipient.equalsIgnoreCase(initiator)) {
+        Account initiatorAccount = Account.getAccount(initiator);
+        if (initiatorAccount != null) {
+          initiatorAccount.setHoldings(world, cost.getCurrency().getSingle(), initiatorBalance);
+          if(cost.getItems().size() > 0) {
+            initiatorAccount.giveItems(cost.getItems());
+          }
+        }
+      }
+    }
+
+    if(recipient != null) {
+      Account recipientAccount = Account.getAccount(recipient);
+      if(recipientAccount != null) {
+        recipientAccount.setHoldings(world, cost.getCurrency().getSingle(), recipientBalance);
+        if(cost.getItems().size() > 0) {
+          recipientAccount.giveItems(cost.getItems());
+        }
+      }
+    }
   }
 
   /**
@@ -69,11 +130,11 @@ public abstract class TransactionType {
    */
   public boolean voidTransaction() {
     if(!initiatorOldBalance.equals(initiatorBalance)) {
-
+      //TODO: Void Transaction
     }
 
     if(!recipientOldBalance.equals(recipientBalance)) {
-
+      //TODO: Void Transaction
     }
     return false;
   }

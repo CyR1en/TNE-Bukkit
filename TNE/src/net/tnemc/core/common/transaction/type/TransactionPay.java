@@ -1,7 +1,9 @@
 package net.tnemc.core.common.transaction.type;
 
+import net.tnemc.core.common.account.Account;
 import net.tnemc.core.common.transaction.TransactionResult;
 import net.tnemc.core.common.transaction.TransactionType;
+import net.tnemc.core.common.transaction.result.TransactionResultInsufficient;
 import net.tnemc.core.common.transaction.result.TransactionResultPaid;
 
 /**
@@ -39,9 +41,15 @@ public class TransactionPay extends TransactionType {
 
   @Override
   public void handleInitiator() {
+    if(initiatorOldBalance.compareTo(cost.getAmount()) == -1 || !Account.getAccount(initiator).hasItems(cost.getItems())) {
+      result = new TransactionResultInsufficient();
+      return;
+    }
+    initiatorBalance = initiatorOldBalance.subtract(cost.getAmount());
   }
 
   @Override
   public void handleRecipient() {
+    recipientBalance = recipientOldBalance.add(cost.getAmount());
   }
 }

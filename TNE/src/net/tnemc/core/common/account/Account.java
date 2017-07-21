@@ -6,9 +6,11 @@ import net.tnemc.core.common.account.history.AccountHistory;
 import net.tnemc.core.common.transaction.Transaction;
 import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -98,6 +100,19 @@ public class Account {
   }
 
   public void recalculateCurrencyHoldings(String world, Inventory inventory, String currency) {
+    //TODO: Item Currencies.
+  }
+
+  public boolean hasItems(List<ItemStack> items) {
+    //TODO: Item Currencies.
+    return false;
+  }
+
+  public void takeItems(List<ItemStack> items) {
+    //TODO: Item Currencies.
+  }
+
+  public void giveItems(List<ItemStack> items) {
     //TODO: Item Currencies.
   }
 

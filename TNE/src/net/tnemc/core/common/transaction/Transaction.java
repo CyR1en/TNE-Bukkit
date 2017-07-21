@@ -1,7 +1,6 @@
 package net.tnemc.core.common.transaction;
 
 import net.tnemc.core.TNE;
-import net.tnemc.core.common.account.Account;
 import net.tnemc.core.event.transaction.TNETransactionEvent;
 import org.bukkit.Bukkit;
 
@@ -64,27 +63,9 @@ public class Transaction {
     TNETransactionEvent event = new TNETransactionEvent(this, result);
     Bukkit.getServer().getPluginManager().callEvent(event);
     if(event.getResult().proceed()) {
-      setBalances();
+      event.getTransaction().getType().setBalances();
     }
     return event.getResult();
-  }
-
-  private void setBalances() {
-    if(initiator != null) {
-      if(recipient == null || !recipient.equalsIgnoreCase(initiator)) {
-        Account initiatorAccount = Account.getAccount(initiator);
-        if (initiatorAccount != null) {
-          initiatorAccount.setHoldings(world, cost.getCurrency().getSingle(), type.initiatorBalance());
-        }
-      }
-    }
-
-    if(recipient != null) {
-      Account recipientAccount = Account.getAccount(recipient);
-      if(recipientAccount != null) {
-        recipientAccount.setHoldings(world, cost.getCurrency().getSingle(), type.recipientBalance());
-      }
-    }
   }
 
   public UUID getUuid() {

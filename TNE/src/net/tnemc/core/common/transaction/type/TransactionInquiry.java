@@ -40,9 +40,11 @@ public class TransactionInquiry extends TransactionType {
 
   @Override
   public void handleInitiator() {
+    //We don't really have to do anything here for give
   }
 
   @Override
   public void handleRecipient() {
+    recipientBalance = recipientOldBalance;
   }
 }

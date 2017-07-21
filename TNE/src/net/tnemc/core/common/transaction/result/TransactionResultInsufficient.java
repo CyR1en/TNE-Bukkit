@@ -1,8 +1,6 @@
-package net.tnemc.core.common.transaction.type;
+package net.tnemc.core.common.transaction.result;
 
 import net.tnemc.core.common.transaction.TransactionResult;
-import net.tnemc.core.common.transaction.TransactionType;
-import net.tnemc.core.common.transaction.result.TransactionResultSet;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -19,32 +17,22 @@ import net.tnemc.core.common.transaction.result.TransactionResultSet;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/7/2017.
+ * Created by Daniel on 7/20/2017.
  */
-public class TransactionSet extends TransactionType {
+public class TransactionResultInsufficient implements TransactionResult {
 
   @Override
-  public String getName() {
-    return "Set";
+  public String initiatorMessage() {
+    return "Messages.Money.Insufficient";
   }
 
   @Override
-  public boolean console() {
-    return true;
+  public String recipientMessage() {
+    return "Messages.Money.Insufficient";
   }
 
   @Override
-  public TransactionResult success() {
-    return new TransactionResultSet();
-  }
-
-  @Override
-  public void handleInitiator() {
-    //We don't really have to do anything here for give
-  }
-
-  @Override
-  public void handleRecipient() {
-    recipientBalance = cost.getAmount();
+  public boolean proceed() {
+    return false;
   }
 }
