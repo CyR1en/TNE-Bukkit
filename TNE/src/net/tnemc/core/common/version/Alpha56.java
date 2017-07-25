@@ -11,9 +11,9 @@ import net.tnemc.core.common.transaction.Transaction;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.*;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -175,6 +175,49 @@ public class Alpha56 extends Version {
       sql().close();
     }
   }
+
+  public Collection<Account> loadAccounts() {
+    List<Account> accounts = new ArrayList<>();
+
+    String table = prefix + "_USERS";
+    try {
+      int accountIndex = sql().executeQuery("SELECT uuid FROM " + table + ";");
+      while (sql().results(accountIndex).next()) {
+        accounts.add(loadAccount(UUID.fromString(sql().results(accountIndex).getString("uuid"))));
+      }
+    } catch(Exception e) {
+      TNE.debug(e);
+    }
+    return accounts;
+  }
+
+  public Account loadAccount(UUID id) {
+    String table = prefix + "_USERS";
+    try {
+      int accountIndex = sql().executePreparedQuery("SELECT * FROM " + table + " WHERE uuid = ?", new Object[]{
+          id.toString()
+      });
+      if (sql().results(accountIndex).next()) {
+        ResultSet results = sql().results(accountIndex);
+        Account account = new Account(UUID.fromString(results.getString("uuid")));
+        //TODO: Data Handling.
+
+        //Load balances
+        String balancesTable = prefix + "_BALANCES";
+        int balancesIndex = sql().executePreparedQuery("SELECT * FROM " + balancesTable + " WHERE uuid = ?", new Object[]{account.getId().toString()});
+        while (sql().results(balancesIndex).next()) {
+          results = sql().results(balancesIndex);
+          account.setHoldings(results.getString("world"), results.getString("currency"), new BigDecimal(results.getString("balance")));
+        }
+        sql().close();
+        return account;
+      }
+    } catch(Exception e) {
+      TNE.debug(e);
+    }
+    return null;
+  }
+
   public void saveAccount(Account acc) {
     if (!TNE.instance().saveFormat.equalsIgnoreCase("flatfile")) {
       String table = prefix + "_USERS";
@@ -188,7 +231,7 @@ public class Alpha56 extends Version {
       final String balTable = prefix + "_BALANCES";
       acc.getHoldings().forEach((world, worldHoldings)->{
         worldHoldings.getHoldings().forEach((currency, balance)->{
-          sql().executePreparedUpdate("INSERT INTO `" + table + "` (uuid, server_name, world, currency, balance) " +
+          sql().executePreparedUpdate("INSERT INTO `" + balTable + "` (uuid, server_name, world, currency, balance) " +
                   "VALUES(?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE balance = ?",
               new Object[]{
                   acc.getId().toString(),
@@ -225,7 +268,7 @@ public class Alpha56 extends Version {
 
   @Override
   public void loadMySQL() {
-
+    loadH2();
   }
 
   @Override
@@ -259,6 +302,14 @@ public class Alpha56 extends Version {
 
   @Override
   public void loadH2() {
+    if(TNE.instance().cache) {
+      Collection<Account> accounts = loadAccounts();
+
+      accounts.forEach((acc)->TNE.manager().addAccount(acc));
+      TNE.instance().offlineIDS.putAll(loadIDS());
+      Map<String, Transaction> transactions = loadTransactions();
+      transactions.forEach((key, value)->TNE.transactionManager().add(value));
+    }
   }
 
   @Override
