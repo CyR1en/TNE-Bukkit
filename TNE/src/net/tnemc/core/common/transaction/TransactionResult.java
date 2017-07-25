@@ -20,6 +20,11 @@ package net.tnemc.core.common.transaction;
 public interface TransactionResult {
 
   /**
+   * @return The name of this transaction result for storage purposes.
+   */
+  String name();
+
+  /**
    * @return The configuration node that corresponds to the message the initiator sees, or "" for no message.
    */
   String initiatorMessage();

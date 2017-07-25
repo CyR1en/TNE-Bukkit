@@ -1,7 +1,7 @@
 package net.tnemc.core.common.transaction;
 
+import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.Account;
-import net.tnemc.core.common.transaction.result.TransactionResultFailed;
 
 import java.math.BigDecimal;
 
@@ -34,6 +34,10 @@ public abstract class TransactionType {
   protected BigDecimal recipientOldBalance;
   protected TransactionResult result = null;
 
+  public TransactionType(TransactionCost cost) {
+    this.cost = cost;
+  }
+
   /**
    * @return The name of this transaction type.
    */
@@ -55,15 +59,13 @@ public abstract class TransactionType {
    * @param initiator The transaction initiator's identifier.
    * @param recipient The transaction recipient's identifier.
    * @param world The world the transaction occurred in.
-   * @param cost The money and/or items this transaction consists of.
    */
-  public TransactionResult handle(String initiator, String recipient, String world, TransactionCost cost) {
+  public TransactionResult handle(String initiator, String recipient, String world) {
     if(initiator == null || recipient == null) {
-      return new TransactionResultFailed();
+      return TNE.transactionManager().getResult("failed");
     }
 
     this.world = world;
-    this.cost = cost;
     this.initiator = initiator;
     this.recipient = recipient;
 
@@ -75,7 +77,7 @@ public abstract class TransactionType {
     }
 
     if(cost.getCurrency() != null && initiatorBalance.compareTo(cost.getCurrency().getMaxBalance()) == 1) {
-      return new TransactionResultFailed();
+      return TNE.transactionManager().getResult("failed");
     }
 
     handleRecipient();
@@ -84,7 +86,7 @@ public abstract class TransactionType {
     }
 
     if(cost.getCurrency() != null && recipientBalance.compareTo(cost.getCurrency().getMaxBalance()) == 1) {
-      return new TransactionResultFailed();
+      return TNE.transactionManager().getResult("failed");
     }
     return success();
   }

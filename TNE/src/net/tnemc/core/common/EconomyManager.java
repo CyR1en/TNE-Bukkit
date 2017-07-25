@@ -91,6 +91,10 @@ public class EconomyManager {
     return true;
   }
 
+  public Map<UUID, Account> getAccounts() {
+    return accounts;
+  }
+
   public BigDecimal getInitialBalance(String world, String currency) {
     //TODO: Initial Balance
     return new BigDecimal(0.0);

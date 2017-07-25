@@ -72,13 +72,13 @@ public class MoneyConvertCommand extends TNECommand {
       UUID id = IDFinder.getID(sender);
       String worldTo = (arguments[1].contains(":"))? arguments[1].split(":")[1] : WorldFinder.getWorld(sender);
       String currencyTo = (arguments[1].contains(":"))? arguments[1].split(":")[0] : arguments[1];
-      Currency to = TNE.instance().manager().currencyManager().get(worldTo, currencyTo);
-      Currency from = TNE.instance().manager().currencyManager().get(WorldFinder.getWorld(sender));
+      Currency to = TNE.manager().currencyManager().get(worldTo, currencyTo);
+      Currency from = TNE.manager().currencyManager().get(WorldFinder.getWorld(sender));
       String worldFrom = WorldFinder.getWorld(sender);
       if(arguments.length >= 3) {
         worldFrom = (arguments[2].contains(":"))? arguments[2].split(":")[1] : WorldFinder.getWorld(sender);
         String currencyFrom = (arguments[2].contains(":"))? arguments[2].split(":")[0] : arguments[2];
-        from = TNE.instance().manager().currencyManager().get(worldFrom, currencyFrom);
+        from = TNE.manager().currencyManager().get(worldFrom, currencyFrom);
       }
 
       String parsed = CurrencyFormatter.parseAmount(to, worldTo, arguments[0]);
@@ -92,8 +92,9 @@ public class MoneyConvertCommand extends TNECommand {
       }
 
       BigDecimal value = new BigDecimal(parsed);
-      Transaction transaction = new Transaction(IDFinder.getID(sender), id, worldFrom, new TransactionCost(value, from), new TransactionConversion(worldTo, currencyTo));
-      TransactionResult result = transaction.handle();
+      Transaction transaction = new Transaction(IDFinder.getID(sender), id, worldFrom, new TransactionConversion(worldTo, currencyTo, new TransactionCost(value, from)));
+      TransactionResult result = TNE.transactionManager().perform(transaction);
+
       Message message = new Message(result.recipientMessage());
       message.addVariable("$player", arguments[0]);
       message.addVariable("$world", worldTo);

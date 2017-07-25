@@ -1,9 +1,12 @@
 package net.tnemc.core.common;
 
+import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.Account;
 import net.tnemc.core.common.transaction.Transaction;
 import net.tnemc.core.common.transaction.TransactionResult;
-import net.tnemc.core.common.transaction.result.TransactionResultFailed;
+import net.tnemc.core.common.transaction.TransactionType;
+import net.tnemc.core.common.transaction.result.*;
+import net.tnemc.core.common.transaction.type.*;
 import net.tnemc.core.event.transaction.TNEPreTransaction;
 import org.bukkit.Bukkit;
 
@@ -35,9 +38,50 @@ public class TransactionManager {
    * the key and {@link Transaction Transaction} as the value.
    */
   private Map<UUID, Transaction> transactions = new HashMap<>();
+  private Map<String, TransactionResult> results = new HashMap<>();
+  private Map<String, Class<? extends TransactionType>> types = new HashMap<>();
 
   public Transaction get(UUID id) {
     return transactions.get(id);
+  }
+
+  public void loadResults() {
+    results.put("conversion", new TransactionResultConversion());
+    results.put("failed", new TransactionResultFailed());
+    results.put("gave", new TransactionResultGave());
+    results.put("holdings", new TransactionResultHoldings());
+    results.put("insufficient", new TransactionResultInsufficient());
+    results.put("lost", new TransactionResultLost());
+    results.put("paid", new TransactionResultPaid());
+    results.put("selfpay", new TransactionResultSelfPay());
+    results.put("set", new TransactionResultSet());
+
+    TNE.instance().loader().getModules().forEach((key, value)->{
+      value.getModule().registerResults().forEach((k, v)->{
+        results.put(k, v);
+      });
+    });
+  }
+
+  public void loadTypes() {
+    types.put("conversion", TransactionConversion.class);
+    types.put("give", TransactionGive.class);
+    types.put("inquiry", TransactionInquiry.class);
+    types.put("pay", TransactionPay.class);
+    types.put("set", TransactionSet.class);
+    types.put("take", TransactionTake.class);
+
+    TNE.instance().loader().getModules().forEach((key, value)->{
+      value.getModule().registerTypes().forEach((k, v)->{
+        types.put(k, v);
+      });
+    });
+  }
+
+  //TODO: Get type method
+
+  public TransactionResult getResult(String name) {
+    return results.get(name);
   }
 
   public void add(Transaction transaction) {
@@ -66,6 +110,10 @@ public class TransactionManager {
     if(transaction.getRecipient() != null) {
       Account.getAccount(transaction.getRecipient()).log(transaction);
     }
+  }
+
+  public Map<UUID, Transaction> getTransactions() {
+    return transactions;
   }
 
   public UUID generateTransactionID() {

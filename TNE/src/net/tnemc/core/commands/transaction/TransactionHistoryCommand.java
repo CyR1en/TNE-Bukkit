@@ -91,7 +91,7 @@ public class TransactionHistoryCommand extends TNECommand {
       type = parsed.get("type");
     }
     UUID id = IDFinder.getID(player);
-    List<UUID> history = TNE.instance().manager().getAccount(IDFinder.getID(player)).getHistory().getHistroy(world);
+    List<UUID> history = TNE.manager().getAccount(IDFinder.getID(player)).getHistory().getHistroy(world);
     if(history.size() > 0) {
       Paginator paginator = new Paginator(new ArrayList<>(history), 5);
 
@@ -102,7 +102,7 @@ public class TransactionHistoryCommand extends TNECommand {
       for(Object obj : p.getElements()) {
         if(obj != null && obj instanceof UUID) {
           //TODO: Fix this to be better
-          Transaction transaction = TNE.instance().manager().transactionManager().get((UUID)obj);
+          Transaction transaction = TNE.transactionManager().get((UUID)obj);
           builder.append(ChatColor.GREEN + transaction.getType().getName() + ChatColor.WHITE + " | ");
           builder.append(ChatColor.GREEN + player.getDisplayName() + ChatColor.WHITE + " | ");
           builder.append(ChatColor.GREEN + transaction.getWorld() + ChatColor.WHITE + " | ");

@@ -1,8 +1,9 @@
 package net.tnemc.core.common.transaction.type;
 
+import net.tnemc.core.TNE;
+import net.tnemc.core.common.transaction.TransactionCost;
 import net.tnemc.core.common.transaction.TransactionResult;
 import net.tnemc.core.common.transaction.TransactionType;
-import net.tnemc.core.common.transaction.result.TransactionResultHoldings;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -23,6 +24,10 @@ import net.tnemc.core.common.transaction.result.TransactionResultHoldings;
  */
 public class TransactionInquiry extends TransactionType {
 
+  public TransactionInquiry(TransactionCost cost) {
+    super(cost);
+  }
+
   @Override
   public String getName() {
     return "Inquiry";
@@ -35,7 +40,7 @@ public class TransactionInquiry extends TransactionType {
 
   @Override
   public TransactionResult success() {
-    return new TransactionResultHoldings();
+    return TNE.transactionManager().getResult("holdings");
   }
 
   @Override

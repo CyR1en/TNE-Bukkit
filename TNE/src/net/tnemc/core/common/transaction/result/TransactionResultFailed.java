@@ -22,6 +22,11 @@ import net.tnemc.core.common.transaction.TransactionResult;
 public class TransactionResultFailed implements TransactionResult {
 
   @Override
+  public String name() {
+    return "failed";
+  }
+
+  @Override
   public String initiatorMessage() {
     return "Messages.Money.Failed";
   }

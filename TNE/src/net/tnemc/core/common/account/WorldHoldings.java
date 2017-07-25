@@ -20,6 +20,10 @@ public class WorldHoldings {
     this.world = world;
   }
 
+  public Map<String, BigDecimal> getHoldings() {
+    return holdings;
+  }
+
   public BigDecimal getHoldings(String currency) {
     BigDecimal current = new BigDecimal(0.0);
     if(holdings.containsKey(currency)) {

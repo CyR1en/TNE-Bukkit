@@ -1,10 +1,10 @@
 package net.tnemc.core.common.transaction.type;
 
+import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.Account;
+import net.tnemc.core.common.transaction.TransactionCost;
 import net.tnemc.core.common.transaction.TransactionResult;
 import net.tnemc.core.common.transaction.TransactionType;
-import net.tnemc.core.common.transaction.result.TransactionResultInsufficient;
-import net.tnemc.core.common.transaction.result.TransactionResultPaid;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -24,6 +24,10 @@ import net.tnemc.core.common.transaction.result.TransactionResultPaid;
  * Created by Daniel on 7/7/2017.
  */
 public class TransactionPay extends TransactionType {
+
+  public TransactionPay(TransactionCost cost) {
+    super(cost);
+  }
   @Override
   public String getName() {
     return "pay";
@@ -36,13 +40,13 @@ public class TransactionPay extends TransactionType {
 
   @Override
   public TransactionResult success() {
-    return new TransactionResultPaid();
+    return TNE.transactionManager().getResult("paid");
   }
 
   @Override
   public void handleInitiator() {
     if(initiatorOldBalance.compareTo(cost.getAmount()) == -1 || !Account.getAccount(initiator).hasItems(cost.getItems(), world)) {
-      result = new TransactionResultInsufficient();
+      result = TNE.transactionManager().getResult("insufficient");
       return;
     }
     initiatorBalance = initiatorOldBalance.subtract(cost.getAmount());

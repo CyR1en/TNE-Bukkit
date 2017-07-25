@@ -32,34 +32,33 @@ public class Transaction {
   private String initiator;
   private String recipient;
   private String world;
-  private TransactionCost cost;
   private TransactionType type;
   private long time;
 
-  public Transaction(UUID initiator, UUID recipient, String world, TransactionCost cost, TransactionType type) {
-    this(TNE.instance().manager().transactionManager().generateTransactionID(), initiator.toString(), recipient.toString(), world, cost, type);
+  public Transaction(UUID initiator, UUID recipient, String world, TransactionType type) {
+    this(TNE.transactionManager().generateTransactionID(), initiator.toString(), recipient.toString(), world, type, new Date().getTime());
   }
 
-  public Transaction(String initiator, String recipient, String world, TransactionCost cost, TransactionType type) {
-    this(TNE.instance().manager().transactionManager().generateTransactionID(), initiator, recipient, world, cost, type);
+  public Transaction(String initiator, String recipient, String world, TransactionType type) {
+    this(TNE.transactionManager().generateTransactionID(), initiator, recipient, world, type, new Date().getTime());
   }
 
-  public Transaction(UUID id, UUID initiator, UUID recipient, String world, TransactionCost cost, TransactionType type) {
-    this(id, initiator.toString(), recipient.toString(), world, cost, type);
+  public Transaction(UUID id, UUID initiator, UUID recipient, String world, TransactionType type, long time) {
+    this(id, initiator.toString(), recipient.toString(), world, type, time);
   }
 
-  public Transaction(UUID id, String initiator, String recipient, String world, TransactionCost cost, TransactionType type) {
+  public Transaction(UUID id, String initiator, String recipient, String world, TransactionType type, long time) {
     this.uuid = id;
     this.initiator = initiator;
     this.recipient = recipient;
     this.world = world;
-    this.cost = cost;
     this.type = type;
+    this.time = time;
   }
 
   public TransactionResult handle() {
     time = new Date().getTime();
-    TransactionResult result = type.handle(initiator, recipient, world, cost);
+    TransactionResult result = type.handle(initiator, recipient, world);
     TNETransactionEvent event = new TNETransactionEvent(this, result);
     Bukkit.getServer().getPluginManager().callEvent(event);
     if(event.getResult().proceed()) {
@@ -98,7 +97,7 @@ public class Transaction {
   }
 
   public TransactionCost getCost() {
-    return cost;
+    return type.cost;
   }
 
   public TransactionType getType() {

@@ -22,6 +22,11 @@ import net.tnemc.core.common.transaction.TransactionResult;
 public class TransactionResultSet implements TransactionResult {
 
   @Override
+  public String name() {
+    return "set";
+  }
+
+  @Override
   public String initiatorMessage() {
     return "Messages.Money.Set";
   }

@@ -22,6 +22,11 @@ import net.tnemc.core.common.transaction.TransactionResult;
 public class TransactionResultLost implements TransactionResult {
 
   @Override
+  public String name() {
+    return "lost";
+  }
+
+  @Override
   public String initiatorMessage() {
     return "Messages.Money.Took";
   }

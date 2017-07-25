@@ -61,7 +61,7 @@ public class Account {
     worldHoldings.setHoldings(currency, newHoldings);
 
     if(!skipInventory) {
-      net.tnemc.core.common.currency.Currency cur = TNE.instance().manager().currencyManager().get(world, currency);
+      net.tnemc.core.common.currency.Currency cur = TNE.manager().currencyManager().get(world, currency);
       if(cur.isItem()) {
         setCurrencyItems(cur, newHoldings);
       }
@@ -82,8 +82,16 @@ public class Account {
     return worldHoldings.getHoldings(currency);
   }
 
+  public WorldHoldings getHoldings(String world) {
+    return holdings.get(world);
+  }
+
+  public Map<String, WorldHoldings> getHoldings() {
+    return holdings;
+  }
+
   public static Account getAccount(String identifier) {
-    return TNE.instance().manager().getAccount(IDFinder.getID(identifier));
+    return TNE.manager().getAccount(IDFinder.getID(identifier));
   }
 
   public void setCurrencyItems(net.tnemc.core.common.currency.Currency currency, BigDecimal amount) {

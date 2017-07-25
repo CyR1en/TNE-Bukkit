@@ -6,9 +6,13 @@ import com.github.tnerevival.core.configurations.ConfigurationManager;
 import net.tnemc.core.TNE;
 import net.tnemc.core.common.configurations.MainConfigurations;
 import net.tnemc.core.common.configurations.MessageConfigurations;
+import net.tnemc.core.common.transaction.TransactionResult;
+import net.tnemc.core.common.transaction.TransactionType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
  * The New Economy Minecraft Server Plugin
@@ -136,5 +140,21 @@ public abstract class Module {
    */
   public void registerCommands(CommandManager manager) {
 
+  }
+
+  /**
+   * @return A map containing transaction results that this module wishes to add. This also allows modules to override
+   * existing transaction results.
+   */
+  public Map<String, TransactionResult> registerResults() {
+    return new HashMap<>();
+  }
+
+  /**
+   * @return A map containing transaction types that this module wishes to add. This also allows modules to override
+   * existing transaction types.
+   */
+  public Map<String, Class<? extends TransactionType>> registerTypes() {
+    return new HashMap<>();
   }
 }

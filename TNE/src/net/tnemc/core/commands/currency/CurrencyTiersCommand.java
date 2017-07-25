@@ -60,10 +60,10 @@ public class CurrencyTiersCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     String world = (arguments.length >= 1)? arguments[0] : TNE.instance().defaultWorld;
-    String currencyName = (arguments.length >= 4)? arguments[3] : TNE.instance().manager().currencyManager().get(world).getSingle();
-    Currency currency = TNE.instance().manager().currencyManager().get(world, currencyName);
+    String currencyName = (arguments.length >= 4)? arguments[3] : TNE.manager().currencyManager().get(world).getSingle();
+    Currency currency = TNE.manager().currencyManager().get(world, currencyName);
 
-    if(!TNE.instance().manager().currencyManager().contains(world, currencyName)) {
+    if(!TNE.manager().currencyManager().contains(world, currencyName)) {
       Message m = new Message("Messages.Money.NoCurrency");
       m.addVariable("$currency", currencyName);
       m.addVariable("$world", world);

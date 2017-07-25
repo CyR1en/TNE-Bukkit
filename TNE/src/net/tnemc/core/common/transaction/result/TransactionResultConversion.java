@@ -22,6 +22,11 @@ import net.tnemc.core.common.transaction.TransactionResult;
 public class TransactionResultConversion implements TransactionResult {
 
   @Override
+  public String name() {
+    return "conversion";
+  }
+
+  @Override
   public String initiatorMessage() {
     return "Messages.Money.Converted";
   }

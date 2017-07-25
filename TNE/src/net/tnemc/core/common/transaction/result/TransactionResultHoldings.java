@@ -22,6 +22,11 @@ import net.tnemc.core.common.transaction.TransactionResult;
 public class TransactionResultHoldings implements TransactionResult {
 
   @Override
+  public String name() {
+    return "holdings";
+  }
+
+  @Override
   public String initiatorMessage() {
     return "Messages.Money.Paid";
   }

@@ -61,7 +61,7 @@ public class CurrencyListCommand extends TNECommand {
     String world = (arguments.length >= 1)? arguments[0] : TNE.instance().defaultWorld;
     StringBuilder builder = new StringBuilder();
 
-    for(Currency currency : TNE.instance().manager().currencyManager().getWorldCurrencies(world)) {
+    for(Currency currency : TNE.manager().currencyManager().getWorldCurrencies(world)) {
       if(builder.length() > 0) builder.append(", ");
       builder.append(currency.getSingle());
     }

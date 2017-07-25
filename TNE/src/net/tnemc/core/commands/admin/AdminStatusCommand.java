@@ -63,16 +63,16 @@ public class AdminStatusCommand extends TNECommand {
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(arguments.length >= 1) {
-      if(TNE.instance().manager().exists(IDFinder.getID(arguments[0]))) {
+      if(TNE.manager().exists(IDFinder.getID(arguments[0]))) {
         UUID target = IDFinder.getID(arguments[0]);
-        Account acc = TNE.instance().manager().getAccount(target);
+        Account acc = TNE.manager().getAccount(target);
 
         AccountStatus status = (arguments.length == 2)? AccountStatus.fromName(arguments[1]) : acc.getStatus();
         boolean changed = (status.getName().equals(acc.getStatus().getName()));
 
         if(changed) {
           acc.setStatus(status);
-          TNE.instance().manager().addAccount(acc);
+          TNE.manager().addAccount(acc);
         }
         String message = (changed)? "Messages.Admin.StatusChange" : "Messages.Admin.Status";
 

@@ -60,7 +60,7 @@ public class AdminIDCommand extends TNECommand {
     if(arguments.length >= 1) {
       String world = WorldFinder.getWorld(sender);
 
-      if(TNE.instance().manager().exists(IDFinder.getID(arguments[0]))) {
+      if(TNE.manager().exists(IDFinder.getID(arguments[0]))) {
         Message m = new Message("Messages.Admin.ID");
         m.addVariable("$player", arguments[0]);
         m.addVariable("$id", IDFinder.getID(arguments[0]).toString());

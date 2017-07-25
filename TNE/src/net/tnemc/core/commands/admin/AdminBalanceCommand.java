@@ -72,10 +72,10 @@ public class AdminBalanceCommand extends TNECommand {
 
       UUID id = IDFinder.getID(arguments[0]);
       String world = (arguments.length >= 2) ? WorldFinder.getWorld(arguments[1]) : WorldFinder.getWorld(sender);
-      String currencyName = (arguments.length == 3) ? arguments[2] : TNE.instance().manager().currencyManager().get(world).getSingle();
-      Currency currency = TNE.instance().manager().currencyManager().get(world, currencyName);
+      String currencyName = (arguments.length == 3) ? arguments[2] : TNE.manager().currencyManager().get(world).getSingle();
+      Currency currency = TNE.manager().currencyManager().get(world, currencyName);
 
-      Transaction transaction = new Transaction(IDFinder.getID(sender), id, world, new TransactionCost(new BigDecimal(0.0), currency), new TransactionInquiry());
+      Transaction transaction = new Transaction(IDFinder.getID(sender), id, world, new TransactionInquiry(new TransactionCost(new BigDecimal(0.0), currency)));
       TransactionResult result = transaction.handle();
       Message message = new Message(result.initiatorMessage());
       message.addVariable("$player", arguments[0]);

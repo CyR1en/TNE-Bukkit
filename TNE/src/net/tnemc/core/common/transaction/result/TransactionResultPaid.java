@@ -22,6 +22,11 @@ import net.tnemc.core.common.transaction.TransactionResult;
 public class TransactionResultPaid implements TransactionResult {
 
   @Override
+  public String name() {
+    return "paid";
+  }
+
+  @Override
   public String initiatorMessage() {
     return "Messages.Money.Paid";
   }

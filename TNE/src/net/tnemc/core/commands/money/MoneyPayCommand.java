@@ -71,8 +71,8 @@ public class MoneyPayCommand extends TNECommand {
     Player player = getPlayer(sender);
     String world = WorldFinder.getWorld(sender);
     if(arguments.length >= 2) {
-      String currencyName = (arguments.length >= 3) ? arguments[2] : TNE.instance().manager().currencyManager().get(world).getSingle();
-      Currency currency = TNE.instance().manager().currencyManager().get(world, currencyName);
+      String currencyName = (arguments.length >= 3) ? arguments[2] : TNE.manager().currencyManager().get(world).getSingle();
+      Currency currency = TNE.manager().currencyManager().get(world, currencyName);
       UUID id = IDFinder.getID(arguments[0]);
 
       String parsed = CurrencyFormatter.parseAmount(currency, world, arguments[1]);
@@ -87,8 +87,8 @@ public class MoneyPayCommand extends TNECommand {
 
       BigDecimal value = new BigDecimal(parsed);
 
-      Transaction transaction = new Transaction(IDFinder.getID(sender), id, world, new TransactionCost(value, currency), new TransactionPay());
-      TransactionResult result = transaction.handle();
+      Transaction transaction = new Transaction(IDFinder.getID(sender), id, world, new TransactionPay(new TransactionCost(value, currency)));
+      TransactionResult result = TNE.transactionManager().perform(transaction);
 
       if(result.proceed() && transaction.getRecipient() != null && Bukkit.getPlayer(id) != null && Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(id))) {
         Message message = new Message(result.recipientMessage());

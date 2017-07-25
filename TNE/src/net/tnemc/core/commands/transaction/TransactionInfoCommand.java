@@ -69,7 +69,7 @@ public class TransactionInfoCommand extends TNECommand {
       } catch(IllegalArgumentException exception) {
         TNE.debug(exception);
       }
-      if(uuid == null || !TNE.instance().manager().transactionManager().isValid(uuid)) {
+      if(uuid == null || !TNE.transactionManager().isValid(uuid)) {
         Message message = new Message("Messages.Transaction.Invalid");
         message.addVariable("$transaction", arguments[0]);
         message.translate(world, sender);
@@ -77,7 +77,7 @@ public class TransactionInfoCommand extends TNECommand {
       }
 
       //TODO: Handle Server Account.
-      Transaction transaction = TNE.instance().manager().transactionManager().get(uuid);
+      Transaction transaction = TNE.transactionManager().get(uuid);
       Message message = new Message("Messages.Transaction.Info");
       message.addVariable("$id", arguments[0]);
       message.addVariable("$initiator", (transaction.getInitiator() == null)? "Server" : transaction.getInitiator());

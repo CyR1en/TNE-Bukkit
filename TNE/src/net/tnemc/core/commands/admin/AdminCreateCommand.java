@@ -65,9 +65,9 @@ public class AdminCreateCommand extends TNECommand {
     if(arguments.length >= 1) {
       String world = WorldFinder.getWorld(sender);
       UUID id = IDFinder.genUUID(arguments[0]);
-      if(!TNE.instance().manager().exists(id)) {
+      if(!TNE.manager().exists(id)) {
         Account acc = new Account(id);
-        BigDecimal balance = TNE.instance().manager().getInitialBalance(TNE.instance().defaultWorld, TNE.instance().manager().currencyManager().get(world).getSingle());
+        BigDecimal balance = TNE.manager().getInitialBalance(TNE.instance().defaultWorld, TNE.manager().currencyManager().get(world).getSingle());
         if(arguments.length > 1) {
           try {
             balance = CurrencyFormatter.translateBigDecimal(arguments[1], world);
@@ -75,8 +75,8 @@ public class AdminCreateCommand extends TNECommand {
             //Do Nothing
           }
         }
-        acc.setHoldings(TNE.instance().defaultWorld, TNE.instance().manager().currencyManager().get(world).getSingle(), balance);
-        TNE.instance().manager().addAccount(acc);
+        acc.setHoldings(TNE.instance().defaultWorld, TNE.manager().currencyManager().get(world).getSingle(), balance);
+        TNE.manager().addAccount(acc);
 
         Message m = new Message("Messages.Admin.Created");
         m.addVariable("$player", arguments[0]);

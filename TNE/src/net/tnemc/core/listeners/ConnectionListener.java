@@ -56,7 +56,7 @@ public class ConnectionListener implements Listener {
     }
 
     TNE.instance().getWorldManager(world).getItemCurrencies().forEach(value->{
-      account.setCurrencyItems(TNE.instance().manager().currencyManager().get(world, value),
+      account.setCurrencyItems(TNE.manager().currencyManager().get(world, value),
                                account.getHoldings(world, value));
     });
   }
@@ -65,10 +65,10 @@ public class ConnectionListener implements Listener {
   public void onQuit(final PlayerQuitEvent event) {
     Player player = event.getPlayer();
     UUID id = IDFinder.getID(player);
-    if(TNE.instance().manager().exists(id)) {
+    if(TNE.manager().exists(id)) {
       Account account = Account.getAccount(id.toString());
       account.setLastOnline(new Date().getTime());
-      TNE.instance().manager().addAccount(account);
+      TNE.manager().addAccount(account);
     }
   }
 }

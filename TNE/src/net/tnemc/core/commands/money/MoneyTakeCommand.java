@@ -10,7 +10,7 @@ import net.tnemc.core.common.currency.CurrencyFormatter;
 import net.tnemc.core.common.transaction.Transaction;
 import net.tnemc.core.common.transaction.TransactionCost;
 import net.tnemc.core.common.transaction.TransactionResult;
-import net.tnemc.core.common.transaction.type.TransactionGive;
+import net.tnemc.core.common.transaction.type.TransactionTake;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
@@ -71,10 +71,10 @@ public class MoneyTakeCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(arguments.length >= 2) {
       String world = (arguments.length >= 3) ? arguments[2] : WorldFinder.getWorld(sender);
-      String currencyName = (arguments.length >= 4) ? arguments[3] : TNE.instance().manager().currencyManager().get(world).getSingle();
+      String currencyName = (arguments.length >= 4) ? arguments[3] : TNE.manager().currencyManager().get(world).getSingle();
       UUID id = IDFinder.getID(arguments[0]);
 
-      if (!TNE.instance().manager().currencyManager().contains(world, currencyName)) {
+      if (!TNE.manager().currencyManager().contains(world, currencyName)) {
         Message m = new Message("Messages.Money.NoCurrency");
         m.addVariable("$currency", currencyName);
         m.addVariable("$world", world);
@@ -82,7 +82,7 @@ public class MoneyTakeCommand extends TNECommand {
         return false;
       }
 
-      Currency currency = TNE.instance().manager().currencyManager().get(world, currencyName);
+      Currency currency = TNE.manager().currencyManager().get(world, currencyName);
 
       String parsed = CurrencyFormatter.parseAmount(currency, world, arguments[1]);
       if (parsed.contains("Messages")) {
@@ -96,8 +96,9 @@ public class MoneyTakeCommand extends TNECommand {
 
       BigDecimal value = new BigDecimal(parsed);
 
-      Transaction transaction = new Transaction(IDFinder.getID(sender), id, world, new TransactionCost(value, currency), new TransactionGive());
-      TransactionResult result = transaction.handle();
+      Transaction transaction = new Transaction(IDFinder.getID(sender), id, world, new TransactionTake(new TransactionCost(value, currency)));
+      TransactionResult result = TNE.transactionManager().perform(transaction);
+
 
       if(result.proceed() && transaction.getRecipient() != null && Bukkit.getPlayer(id) != null && Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(id))) {
         Message message = new Message(result.recipientMessage());

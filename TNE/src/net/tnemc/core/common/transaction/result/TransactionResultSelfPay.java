@@ -22,6 +22,11 @@ import net.tnemc.core.common.transaction.TransactionResult;
 public class TransactionResultSelfPay implements TransactionResult {
 
   @Override
+  public String name() {
+    return "selfpay";
+  }
+
+  @Override
   public String initiatorMessage() {
     return "Messages.Money.SelfPay";
   }

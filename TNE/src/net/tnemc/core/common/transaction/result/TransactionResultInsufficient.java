@@ -22,6 +22,11 @@ import net.tnemc.core.common.transaction.TransactionResult;
 public class TransactionResultInsufficient implements TransactionResult {
 
   @Override
+  public String name() {
+    return "insufficient";
+  }
+
+  @Override
   public String initiatorMessage() {
     return "Messages.Money.Insufficient";
   }

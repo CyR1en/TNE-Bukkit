@@ -12,6 +12,7 @@ import net.tnemc.core.commands.money.MoneyCommand;
 import net.tnemc.core.commands.transaction.TransactionCommand;
 import net.tnemc.core.common.EconomyManager;
 import net.tnemc.core.common.TNESQLManager;
+import net.tnemc.core.common.TransactionManager;
 import net.tnemc.core.common.WorldManager;
 import net.tnemc.core.common.configurations.MainConfigurations;
 import net.tnemc.core.common.configurations.MessageConfigurations;
@@ -184,24 +185,26 @@ public class TNE extends TNELib {
     return (TNE)instance;
   }
 
-  public ModuleLoader loader() {
-    return loader;
+  public static ModuleLoader loader() { return instance().loader; }
+
+  public static EconomyManager manager() {
+    return instance().manager;
   }
 
-  public EconomyManager manager() {
-    return manager;
+  public static TransactionManager transactionManager() {
+    return instance().manager.transactionManager();
   }
 
-  public TNESQLManager sqlManager() {
-    return sqlManager;
+  public static TNESQLManager sqlManager() {
+    return instance().sqlManager;
   }
 
-  public SaveManager saveManager() {
-    return saveManager;
+  public static SaveManager saveManager() {
+    return instance().saveManager;
   }
 
-  public Logger logger() {
-    return getServer().getLogger();
+  public static Logger logger() {
+    return instance().getServer().getLogger();
   }
 
   private void initializeConfigurations() {

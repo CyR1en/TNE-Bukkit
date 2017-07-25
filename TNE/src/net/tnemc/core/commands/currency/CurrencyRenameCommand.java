@@ -61,7 +61,7 @@ public class CurrencyRenameCommand extends TNECommand {
       String currency = arguments[0];
       String newName = arguments[1];
 
-      if(!TNE.instance().manager().currencyManager().contains(world, currency)) {
+      if(!TNE.manager().currencyManager().contains(world, currency)) {
         Message m = new Message("Messages.Money.NoCurrency");
         m.addVariable("$currency", currency);
         m.addVariable("$world", world);
@@ -69,7 +69,7 @@ public class CurrencyRenameCommand extends TNECommand {
         return false;
       }
 
-      if(TNE.instance().manager().currencyManager().contains(world, newName)) {
+      if(TNE.manager().currencyManager().contains(world, newName)) {
         Message m = new Message("Messages.Currency.AlreadyExists");
         m.addVariable("$currency", newName);
         m.addVariable("$world", world);
@@ -77,7 +77,7 @@ public class CurrencyRenameCommand extends TNECommand {
         return false;
       }
 
-      TNE.instance().manager().currencyManager().rename(world, currency, newName);
+      TNE.manager().currencyManager().rename(world, currency, newName);
       Message m = new Message("Messages.Currency.Renamed");
       m.addVariable("$currency", currency);
       m.addVariable("$new_name", newName);

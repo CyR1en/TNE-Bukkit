@@ -63,13 +63,13 @@ public class AdminPurgeCommand extends TNECommand {
     if(isWorld) {
       if(Bukkit.getWorld(arguments[0]) == null)
         new Message("Messages.General.NoWorld").translate(world, sender);
-      TNE.instance().manager().purge(arguments[0]);
+      TNE.manager().purge(arguments[0]);
       Message m = new Message("Messages.Admin.PurgeWorld");
       m.addVariable("$world", arguments[0]);
       m.translate(world, IDFinder.getID(sender));
       return true;
     }
-    TNE.instance().manager().purgeAll();
+    TNE.manager().purgeAll();
     new Message("Messages.Admin.Purge").translate(world, sender);
     return true;
   }

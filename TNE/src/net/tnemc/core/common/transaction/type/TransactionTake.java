@@ -1,10 +1,10 @@
 package net.tnemc.core.common.transaction.type;
 
+import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.Account;
+import net.tnemc.core.common.transaction.TransactionCost;
 import net.tnemc.core.common.transaction.TransactionResult;
 import net.tnemc.core.common.transaction.TransactionType;
-import net.tnemc.core.common.transaction.result.TransactionResultFailed;
-import net.tnemc.core.common.transaction.result.TransactionResultLost;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -25,6 +25,10 @@ import net.tnemc.core.common.transaction.result.TransactionResultLost;
  */
 public class TransactionTake extends TransactionType {
 
+  public TransactionTake(TransactionCost cost) {
+    super(cost);
+  }
+
   @Override
   public String getName() {
     return "Take";
@@ -37,7 +41,7 @@ public class TransactionTake extends TransactionType {
 
   @Override
   public TransactionResult success() {
-    return new TransactionResultLost();
+    return TNE.transactionManager().getResult("lost");
   }
 
   @Override
@@ -48,7 +52,7 @@ public class TransactionTake extends TransactionType {
   @Override
   public void handleRecipient() {
     if(recipientOldBalance.compareTo(cost.getAmount()) == -1 || !Account.getAccount(recipient).hasItems(cost.getItems(), world)) {
-      result = new TransactionResultFailed();
+      result = TNE.transactionManager().getResult("failed");
       return;
     }
     recipientBalance = recipientOldBalance.subtract(cost.getAmount());

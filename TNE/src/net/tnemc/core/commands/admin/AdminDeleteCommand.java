@@ -59,7 +59,7 @@ public class AdminDeleteCommand extends TNECommand {
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     if(arguments.length >= 1) {
       String world = WorldFinder.getWorld(sender);
-      if(TNE.instance().manager().exists(IDFinder.getID(arguments[0]))) {
+      if(TNE.manager().exists(IDFinder.getID(arguments[0]))) {
         //TODO: Data handling.
 
         Message m = new Message("Messages.Admin.Deleted");

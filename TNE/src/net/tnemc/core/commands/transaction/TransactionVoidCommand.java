@@ -67,14 +67,14 @@ public class TransactionVoidCommand extends TNECommand {
       } catch(IllegalArgumentException exception) {
         TNE.debug(exception);
       }
-      if(uuid == null || !TNE.instance().manager().transactionManager().isValid(uuid)) {
+      if(uuid == null || !TNE.transactionManager().isValid(uuid)) {
         Message message = new Message("Messages.Transaction.Invalid");
         message.addVariable("$transaction", arguments[0]);
         message.translate(world, sender);
         return false;
       }
 
-      Transaction transaction = TNE.instance().manager().transactionManager().get(uuid);
+      Transaction transaction = TNE.transactionManager().get(uuid);
       if(transaction.isVoided()) {
         Message message = new Message("Messages.Transaction.Already");
         message.addVariable("$transaction", arguments[0]);
