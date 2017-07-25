@@ -243,7 +243,7 @@ public class Alpha56 extends Version {
                                                 });
 
     TNE.manager().getAccounts().forEach((id, account)->saveAccount(account));
-    TNE.instance().offlineIDS.forEach((username, id)->saveID(username, id));
+    TNE.instance().offlineIDS.forEach(this::saveID);
     TNE.transactionManager().getTransactions().forEach((id, transaction)->saveTransaction(transaction));
   }
 
@@ -269,7 +269,7 @@ public class Alpha56 extends Version {
     h2().executePreparedUpdate("Update " + table + " SET version = ? WHERE id = 1;", new Object[] { String.valueOf(versionNumber()) });
 
     TNE.manager().getAccounts().forEach((id, account)->saveAccount(account));
-    TNE.instance().offlineIDS.forEach((username, id)->saveID(username, id));
+    TNE.instance().offlineIDS.forEach(this::saveID);
     TNE.transactionManager().getTransactions().forEach((id, transaction)->saveTransaction(transaction));
   }
 
