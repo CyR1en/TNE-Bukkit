@@ -22,7 +22,7 @@ import com.github.tnerevival.core.SQLManager;
  */
 public class TNESQLManager extends SQLManager {
   public TNESQLManager(String mysqlHost, Integer mysqlPort, String mysqlDatabase, String mysqlUser, String mysqlPassword, String prefix, String h2File, String sqliteFile, String flatfile) {
-    super(mysqlHost, mysqlPort, mysqlDatabase, mysqlUser, mysqlPassword, prefix, h2File, sqliteFile, flatfile);
+    super(mysqlHost, mysqlPort, mysqlDatabase, mysqlUser, mysqlPassword, prefix, h2File, sqliteFile, flatfile, true);
   }
 
   public boolean backup() {
