@@ -51,7 +51,7 @@ public class ConfigGetCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Config.Get";
+    return "Messages.Commands.Config.Get";
   }
 
   @Override

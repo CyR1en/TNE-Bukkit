@@ -1,8 +1,11 @@
 package net.tnemc.core.common.version;
 
 import com.github.tnerevival.core.SQLManager;
+import com.github.tnerevival.core.db.FlatFile;
 import com.github.tnerevival.core.db.H2;
 import com.github.tnerevival.core.db.MySQL;
+import com.github.tnerevival.core.db.flat.FlatFileConnection;
+import com.github.tnerevival.core.db.flat.Section;
 import com.github.tnerevival.core.version.Version;
 import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.Account;
@@ -263,7 +266,21 @@ public class Alpha56 extends Version {
 
   @Override
   public void saveFlat(File file) {
+    Section accounts = new Section("accounts");
+    Section ids = new Section("ids");
+    Section transactions = new Section("transactions");
+    try {
 
+      db = new FlatFile(TNE.instance().getDataFolder() + File.separator + TNE.instance().api().getString("Core.Database.FlatFile.File"), true);
+      FlatFileConnection connection = (FlatFileConnection)db.connection();
+      connection.getOOS().writeDouble(versionNumber());
+      connection.getOOS().writeObject(accounts);
+      connection.getOOS().writeObject(ids);
+      connection.getOOS().writeObject(transactions);
+      connection.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override

@@ -51,7 +51,7 @@ public class AdminVersionCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.Version";
+    return "Messages.Commands.Admin.Version";
   }
 
   @Override

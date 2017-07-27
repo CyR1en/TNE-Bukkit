@@ -50,7 +50,7 @@ public class TransactionAwayCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Transaction.Away";
+    return "Messages.Commands.Transaction.Away";
   }
 
   @Override

@@ -54,7 +54,7 @@ public class ModuleUnloadCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Module.Unload";
+    return "Messages.Commands.Module.Unload";
   }
 
   @Override

@@ -41,6 +41,11 @@ public class TransactionManager {
   private Map<String, TransactionResult> results = new HashMap<>();
   private Map<String, Class<? extends TransactionType>> types = new HashMap<>();
 
+  public TransactionManager() {
+    loadResults();
+    //TODO: loadTypes();
+  }
+
   public Transaction get(UUID id) {
     return transactions.get(id);
   }

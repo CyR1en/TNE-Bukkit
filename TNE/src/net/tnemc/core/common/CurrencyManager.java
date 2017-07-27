@@ -49,8 +49,8 @@ public class CurrencyManager {
     trackedCurrencies = new HashMap<>();
 
     loadCurrency(TNE.instance().getConfig(), false, TNE.instance().defaultWorld);
-    for(String s : worlds) {
-      loadCurrency(TNE.instance().worldConfigurations, true, s);
+    for(WorldManager manager : TNE.instance().getWorldManagers()) {
+      initializeWorld(manager.getWorld());
     }
     largestSupported = null;
   }
@@ -148,22 +148,25 @@ public class CurrencyManager {
       String plural = configuration.getString(tierBase + ".Name.Plural", "Dollars");
       String type = configuration.getString(tierBase + ".Type", "Major");
       Integer weight = configuration.getInt(tierBase + ".Weight", 1);
+      ItemTier item = null;
 
-      //ItemTier variables
-      String material = configuration.getString(tierBase + ".Item.Material", "PAPER");
-      short damage = (short)configuration.getInt(tierBase + ".Item.Damage", 0);
-      String customName = configuration.getString(tierBase + ".Item.Name", null);
-      String lore = configuration.getString(tierBase + ".Item.Lore", null);
+      if(currency.isItem()) {
+        //ItemTier variables
+        String material = configuration.getString(tierBase + ".Item.Material", "PAPER");
+        short damage = (short) configuration.getInt(tierBase + ".Item.Damage", 0);
+        String customName = configuration.getString(tierBase + ".Item.Name", null);
+        String lore = configuration.getString(tierBase + ".Item.Lore", null);
 
-      ItemTier item = new ItemTier(material, damage);
-      item.setName(customName);
-      item.setLore(lore);
+        item = new ItemTier(material, damage);
+        item.setName(customName);
+        item.setLore(lore);
 
-      Set<String> enchants = configuration.getConfigurationSection(tierBase + ".Item.Enchantments").getKeys(false);
-      for(String enchant : enchants) {
-        Enchantment parsed = Enchantment.getByName(enchant);
-        if(parsed != null) {
-          item.addEnchantment(parsed.getName(), configuration.getString(tierBase + ".Item.Enchantments." + enchant, "*"));
+        Set<String> enchants = configuration.getConfigurationSection(tierBase + ".Item.Enchantments").getKeys(false);
+        for (String enchant : enchants) {
+          Enchantment parsed = Enchantment.getByName(enchant);
+          if (parsed != null) {
+            item.addEnchantment(parsed.getName(), configuration.getString(tierBase + ".Item.Enchantments." + enchant, "*"));
+          }
         }
       }
 
@@ -192,6 +195,7 @@ public class CurrencyManager {
       globalCurrencies.put(world, currency);
     } else {
       if(TNE.instance().getWorldManager(world) != null) {
+        TNE.debug("[Add]Adding Currency: " + currency.getSingle() + " for world: " + world);
         TNE.instance().getWorldManager(world).addCurrency(currency);
       }
     }
@@ -205,23 +209,33 @@ public class CurrencyManager {
   }
 
   public void initializeWorld(String world) {
+    TNE.debug("Initializing World: " + world);
     loadCurrency(TNE.instance().worldConfigurations, true, world);
-    globalCurrencies.forEach((key, value)->{
-      if(!globalDisabled.contains(value.getSingle())) {
-        TNE.instance().getWorldManager(world).addCurrency(value);
+    for(Currency currency : globalCurrencies.values()) {
+      if(!globalDisabled.contains(currency.getSingle())) {
+        if(TNE.instance().getWorldManager(world) == null) {
+          TNE.debug("World Manager for world: " + world + " is null. Skipping.");
+          break;
+        }
+        TNE.instance().getWorldManager(world).addCurrency(currency);
       }
-    });
+    }
   }
 
   public Currency get(String world) {
     for(Currency currency : TNE.instance().getWorldManager(world).getCurrencies()) {
-      if(currency.isWorldDefault()) return currency;
+      TNE.debug("Currency: " + currency.getSingle() + " World: " + world + " Default? " + currency.isWorldDefault());
+      if(currency.isWorldDefault()) {
+        TNE.debug("Returning default currency of " + currency.getSingle() + " for world " + world);
+        return currency;
+      }
     }
     return null;
   }
 
   public Currency get(String world, String name) {
     if(TNE.instance().getWorldManager(world).containsCurrency(name)) {
+      TNE.debug("Returning currency " + name + " for world " + world);
       return TNE.instance().getWorldManager(world).getCurrency(name);
     }
     return get(world);

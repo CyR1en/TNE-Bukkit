@@ -57,7 +57,7 @@ public class AdminCreateCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.Create";
+    return "Messages.Commands.Admin.Create";
   }
 
   @Override

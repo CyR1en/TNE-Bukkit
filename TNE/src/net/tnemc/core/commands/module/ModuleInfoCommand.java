@@ -54,7 +54,7 @@ public class ModuleInfoCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Module.Info";
+    return "Messages.Commands.Module.Info";
   }
 
   @Override

@@ -53,7 +53,7 @@ public class ConfigUndoCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Config.Undo";
+    return "Messages.Commands.Config.Undo";
   }
 
   @Override

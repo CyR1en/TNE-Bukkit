@@ -54,7 +54,7 @@ public class ModuleLoadCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Module.Load";
+    return "Messages.Commands.Module.Load";
   }
 
   @Override

@@ -76,7 +76,7 @@ public abstract class TransactionType {
       return result;
     }
 
-    if(cost.getCurrency() != null && initiatorBalance.compareTo(cost.getCurrency().getMaxBalance()) == 1) {
+    if(initiatorBalance != null && cost.getCurrency() != null && initiatorBalance.compareTo(cost.getCurrency().getMaxBalance()) == 1) {
       return TNE.transactionManager().getResult("failed");
     }
 

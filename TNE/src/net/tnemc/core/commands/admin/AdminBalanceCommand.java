@@ -63,7 +63,7 @@ public class AdminBalanceCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.Balance";
+    return "Messages.Commands.Admin.Balance";
   }
 
   @Override

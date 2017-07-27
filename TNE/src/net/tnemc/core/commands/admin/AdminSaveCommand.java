@@ -49,7 +49,7 @@ public class AdminSaveCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.Save";
+    return "Messages.Commands.Admin.Save";
   }
 
   @Override

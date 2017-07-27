@@ -54,7 +54,7 @@ public class TransactionVoidCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Transaction.Void";
+    return "Messages.Commands.Transaction.Void";
   }
 
   @Override

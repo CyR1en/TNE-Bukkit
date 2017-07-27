@@ -49,7 +49,7 @@ public class AdminBackupCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.Backup";
+    return "Messages.Commands.Admin.Backup";
   }
 
   @Override

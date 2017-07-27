@@ -54,7 +54,7 @@ public class ModuleReloadCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Module.Reload";
+    return "Messages.Commands.Module.Reload";
   }
 
   @Override

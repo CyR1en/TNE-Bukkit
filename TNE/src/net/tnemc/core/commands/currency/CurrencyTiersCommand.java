@@ -54,7 +54,7 @@ public class CurrencyTiersCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Currency.Tiers";
+    return "Messages.Commands.Currency.Tiers";
   }
 
   @Override

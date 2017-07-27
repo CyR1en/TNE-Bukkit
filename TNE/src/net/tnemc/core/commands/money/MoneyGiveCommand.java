@@ -64,7 +64,7 @@ public class MoneyGiveCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Money.Give";
+    return "Messages.Commands.Money.Give";
   }
 
   @Override
@@ -90,12 +90,12 @@ public class MoneyGiveCommand extends TNECommand {
       Transaction transaction = new Transaction(IDFinder.getID(sender), id, world, new TransactionGive(new TransactionCost(value, currency)));
       TransactionResult result = TNE.transactionManager().perform(transaction);
 
-      if(result.proceed() && transaction.getRecipient() != null && Bukkit.getPlayer(id) != null && Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(id))) {
+      if(result.proceed() && transaction.getRecipient() != null && !transaction.getInitiator().equalsIgnoreCase(transaction.getInitiator()) && Bukkit.getPlayer(id) != null && Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(id))) {
         Message message = new Message(result.recipientMessage());
         message.addVariable("$player", arguments[0]);
         message.addVariable("$world", world);
         message.addVariable("$currency", currencyName);
-        message.addVariable("$amount", CurrencyFormatter.format(transaction.getCost().getCurrency(), world, transaction.getType().recipientBalance()));
+        message.addVariable("$amount", CurrencyFormatter.format(transaction.getCost().getCurrency(), world, value));
         message.translate(world, id);
       }
 
@@ -103,7 +103,7 @@ public class MoneyGiveCommand extends TNECommand {
       message.addVariable("$player", arguments[0]);
       message.addVariable("$world", world);
       message.addVariable("$currency", currencyName);
-      message.addVariable("$amount", CurrencyFormatter.format(transaction.getCost().getCurrency(), world, transaction.getType().recipientBalance()));
+      message.addVariable("$amount", CurrencyFormatter.format(transaction.getCost().getCurrency(), world, value));
       message.translate(world, IDFinder.getID(sender));
       return result.proceed();
     }

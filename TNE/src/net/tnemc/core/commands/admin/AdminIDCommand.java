@@ -52,7 +52,7 @@ public class AdminIDCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.ID";
+    return "Messages.Commands.Admin.ID";
   }
 
   @Override

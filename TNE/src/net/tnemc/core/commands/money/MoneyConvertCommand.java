@@ -62,7 +62,7 @@ public class MoneyConvertCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Money.Convert";
+    return "Messages.Commands.Money.Convert";
   }
 
   @Override

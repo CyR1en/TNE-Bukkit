@@ -56,7 +56,7 @@ public class TransactionInfoCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Transaction.Info";
+    return "Messages.Commands.Transaction.Info";
   }
 
   @Override

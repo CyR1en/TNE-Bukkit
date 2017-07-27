@@ -42,7 +42,7 @@ public class CurrencyFormatter {
 
     if(currency == null) currency = TNE.manager().currencyManager().get(TNE.instance().defaultWorld);
 
-    amount = round(currency.getSingle(), world, amount);
+    amount = round(world, currency.getSingle(), amount);
     TNE.debug(currency.getSingle() + " World: " + currency);
 
     String shortFormat = "<symbol><short.amount>";

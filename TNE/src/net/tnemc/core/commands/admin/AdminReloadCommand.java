@@ -50,7 +50,7 @@ public class AdminReloadCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.Reload";
+    return "Messages.Commands.Admin.Reload";
   }
 
   @Override

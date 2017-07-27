@@ -53,7 +53,7 @@ public class AdminPurgeCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.Purge";
+    return "Messages.Commands.Admin.Purge";
   }
 
   @Override

@@ -49,7 +49,7 @@ public class ConfigSetCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Config.Set";
+    return "Messages.Commands.Config.Set";
   }
 
   @Override

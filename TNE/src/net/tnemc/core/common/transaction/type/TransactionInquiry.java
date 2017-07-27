@@ -46,6 +46,7 @@ public class TransactionInquiry extends TransactionType {
   @Override
   public void handleInitiator() {
     //We don't really have to do anything here for give
+    initiatorBalance = initiatorOldBalance;
   }
 
   @Override

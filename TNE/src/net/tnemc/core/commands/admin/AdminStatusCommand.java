@@ -57,7 +57,7 @@ public class AdminStatusCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.Status";
+    return "Messages.Commands.Admin.Status";
   }
 
   @Override

@@ -52,7 +52,7 @@ public class AdminDeleteCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.Delete";
+    return "Messages.Commands.Admin.Delete";
   }
 
   @Override

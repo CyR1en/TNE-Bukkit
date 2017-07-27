@@ -1,5 +1,7 @@
 package net.tnemc.core.common.account;
 
+import com.github.tnerevival.user.IDFinder;
+import net.tnemc.core.TNE;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -25,15 +27,17 @@ import java.util.UUID;
 public class WorldFinder {
 
   public static String getWorld(Player player) {
-    return null;
+    //TODO: Proper multi-world handling.
+    return player.getWorld().getName();
   }
 
   public static String getWorld(CommandSender sender) {
-    return null;
+    if(!(sender instanceof Player)) return TNE.instance().defaultWorld;
+    return getWorld((Player)sender);
   }
 
   public static String getWorld(String identifier) {
-    return null;
+    return getWorld(IDFinder.getPlayer(identifier));
   }
 
   public static String getWorld(UUID id) {
@@ -41,18 +45,20 @@ public class WorldFinder {
   }
 
   public static String getBalanceWorld(Player player) {
-    return null;
+    //TODO: Proper multi-world handling.
+    return player.getWorld().getName();
   }
 
   public static String getBalanceWorld(String identifier) {
-    return null;
+    return getBalanceWorld(IDFinder.getPlayer(identifier));
   }
 
   public static String getConfigurationWorld(Player player) {
-    return null;
+    //TODO: Proper multi-world handling.
+    return player.getWorld().getName();
   }
 
   public static String getConfigurationWorld(String identifier) {
-    return null;
+    return getConfigurationWorld(IDFinder.getPlayer(identifier));
   }
 }

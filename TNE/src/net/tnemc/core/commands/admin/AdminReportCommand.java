@@ -49,7 +49,7 @@ public class AdminReportCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.Report";
+    return "Messages.Commands.Admin.Report";
   }
 
   @Override

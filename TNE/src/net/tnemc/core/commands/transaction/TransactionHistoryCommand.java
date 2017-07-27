@@ -66,7 +66,7 @@ public class TransactionHistoryCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Transaction.History";
+    return "Messages.Commands.Transaction.History";
   }
 
   @Override

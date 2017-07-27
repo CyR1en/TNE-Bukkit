@@ -28,12 +28,12 @@ public class TransactionResultHoldings implements TransactionResult {
 
   @Override
   public String initiatorMessage() {
-    return "Messages.Money.Paid";
+    return "Messages.Admin.Holdings";
   }
 
   @Override
   public String recipientMessage() {
-    return "";
+    return "Messages.Money.Holdings";
   }
 
   @Override

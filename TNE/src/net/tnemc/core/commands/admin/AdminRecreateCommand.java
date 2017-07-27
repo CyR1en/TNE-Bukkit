@@ -49,7 +49,7 @@ public class AdminRecreateCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.Recreate";
+    return "Messages.Commands.Admin.Recreate";
   }
 
   @Override

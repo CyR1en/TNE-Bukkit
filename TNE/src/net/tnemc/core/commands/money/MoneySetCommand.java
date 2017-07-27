@@ -62,7 +62,7 @@ public class MoneySetCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Money.Set";
+    return "Messages.Commands.Money.Set";
   }
 
   @Override

@@ -22,6 +22,7 @@ import net.tnemc.core.common.version.Alpha56;
 import net.tnemc.core.event.module.TNEModuleLoadEvent;
 import net.tnemc.core.event.module.TNEModuleUnloadEvent;
 import net.tnemc.core.listeners.ConnectionListener;
+import net.tnemc.core.listeners.PlayerListener;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -156,6 +157,7 @@ public class TNE extends TNELib {
     //Initialize our plugin's managers.
     manager = new EconomyManager();
     getServer().getPluginManager().registerEvents(new ConnectionListener(this), this);
+    getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 
     //Version Checking
 
@@ -224,6 +226,9 @@ public class TNE extends TNELib {
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
     }
+  }
+  public static void debug(String message) {
+    instance().getLogger().info("[TNE Debug] " + message);
   }
 
   @Override
@@ -299,6 +304,7 @@ public class TNE extends TNELib {
   public WorldManager getWorldManager(String world) {
     for(WorldManager manager : this.worldManagers.values()) {
       if(manager.getWorld().equalsIgnoreCase(world)) {
+        debug("Return World Manager for world " + world);
         return manager;
       }
     }

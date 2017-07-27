@@ -49,7 +49,7 @@ public class AdminCaveatsCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Admin.Caveats";
+    return "Messages.Commands.Admin.Caveats";
   }
 
   @Override

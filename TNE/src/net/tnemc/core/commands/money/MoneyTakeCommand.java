@@ -64,7 +64,7 @@ public class MoneyTakeCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Money.Take";
+    return "Messages.Commands.Money.Take";
   }
 
   @Override

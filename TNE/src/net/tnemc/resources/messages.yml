@@ -67,9 +67,9 @@ Messages:
       InvalidAmount: <red>Invalid item amount entered.
        
     Admin:
-       NoBalance: <red>$player has no balance data for the world "$world"!
+       NoHoldings: <red>$player has no holdings for the world "$world"!
        NoBank: <red>$player has no bank data for the world "$world"!
-       Balance: <white>$player currently has <gold>$amount <white>for world "$world"!
+       Holdings: <white>$player currently has <gold>$amount <white>for world "$world"!
        NoTransactions: <white>$player has no transactions to display.
        Configuration: <white>The value of $node is currently $value.
        SetConfiguration: <white>The value of $node has been set to $value.
@@ -78,17 +78,13 @@ Messages:
        Created: <white>Successfully created account for $player.
        Purge: <white>Successfully purged all economy accounts.
        PurgeWorld: <white>Successfully purged economy accounts in $world.
-       ResetPin: <white>Successfully set pin for $player to $pin.
        StatusChange: <white>Status for $player has been changed to <green>$status<white>.
        Status: <white>Status for $player is <green>$status<white>.
        Reset: <white>Performed an economy reset using these parameters - world = $world, currency = $currency, and player = $player.
 
     Account:
        Locked: <red>You can't do that with a locked account($player)!
-       Set: <yellow>You must use /pin set before accessing your money and/or bank.
-       Confirm: <yellow>You must use /pin confirm before accessing your money and/or bank.
        NoTransactions: <white>You have no transactions to display at this time.
-       Reset: <white>Your pin has been reset to <green>$pin<white>.
        StatusChange: <white>Your account's status has been changed to <green>$status<white>.
 
     Configuration:
@@ -123,7 +119,6 @@ Messages:
        Took: <white>Successfully took <gold>$amount<white> from $player.
        Negative: <red>Amount cannot be a negative value!
        SelfPay: <red>You can't pay yourself!
-       NoPins: <red>Pins are disabled in this world!
        NoCurrency: <red>The currency "$currency" could not be found in "$world".
        Converted: <white>Successfully exchanged "<gold>$from_amount<white>" to "<gold>$amount<white>".
        Top: "<white>=========[<gold>Economy Top<white>]========= $page/$page_top"

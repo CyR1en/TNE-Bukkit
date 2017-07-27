@@ -53,7 +53,7 @@ public class CurrencyListCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Currency.List";
+    return "Messages.Commands.Currency.List";
   }
 
   @Override

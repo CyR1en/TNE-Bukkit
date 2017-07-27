@@ -63,21 +63,26 @@ public class MoneyBalanceCommand extends TNECommand {
 
   @Override
   public String getHelp() {
-    return "Messages.Money.Balance";
+    return "Messages.Commands.Money.Balance";
   }
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
     String world = (arguments.length >= 1)? arguments[0] : WorldFinder.getWorld(sender);
+    TNE.debug("MoneyBalanceCommand.execute, World: " + world);
+    if(TNE.manager() == null) TNE.debug("Economy Manager is null");
+    if(TNE.manager().currencyManager() == null) TNE.debug("Currency Manager is null");
+    if(TNE.manager().currencyManager().get(world) == null) TNE.debug("World Currency is null");
     String currencyName = (arguments.length >= 2)? arguments[1] : TNE.manager().currencyManager().get(world).getSingle();
     Currency currency = TNE.manager().currencyManager().get(world, currencyName);
     UUID id = IDFinder.getID(sender);
 
+
     Transaction transaction = new Transaction(IDFinder.getID(sender), id, world, new TransactionInquiry(new TransactionCost(new BigDecimal(0.0), currency)));
     TransactionResult result = TNE.transactionManager().perform(transaction);
 
-    Message message = new Message(result.initiatorMessage());
-    message.addVariable("$player", arguments[0]);
+    Message message = new Message(result.recipientMessage());
+    message.addVariable("$player", "");
     message.addVariable("$world", world);
     message.addVariable("$currency", currencyName);
     message.addVariable("$amount", CurrencyFormatter.format(transaction.getCost().getCurrency(), world, transaction.getType().recipientBalance()));

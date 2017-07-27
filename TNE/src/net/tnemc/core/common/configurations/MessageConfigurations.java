@@ -45,8 +45,8 @@ public class MessageConfigurations extends Configuration {
     configurations.put("Messages.General.Saved", "<yellow>Successfully saved all TNE Data!");
     configurations.put("Messages.General.Disabled", "<red>Economy features are currently disabled in this world!");
 
-    configurations.put("Messages.Admin.NoBalance", "<red>$player has no balance data for the world \"$world\"!");
-    configurations.put("Messages.Admin.Balance", "<white>$player currently has <gold>$amount <white>for world \"$world\"!");
+    configurations.put("Messages.Admin.NoHoldings", "<red>$player has no holdings for the world \"$world\"!");
+    configurations.put("Messages.Admin.Holdings", "<white>$player currently has <gold>$amount <white>for world \"$world\"!");
     configurations.put("Messages.Admin.NoTransactions", "<white>$player has no transactions to display.");
     configurations.put("Messages.Admin.Configuration", "<white>The value of $node is currently $value.");
     configurations.put("Messages.Admin.SetConfiguration", "<white>The value of $node has been set to $value.");
@@ -60,24 +60,38 @@ public class MessageConfigurations extends Configuration {
     configurations.put("Messages.Admin.Reset", "<white>Performed an economy reset using these parameters -  world = $world, currency = $currency, and player = $player.");
 
     configurations.put("Messages.Account.Locked", "<red>You can't do that with a locked account($player)!");
-    configurations.put("Messages.Account.Set", "<yellow>You must use /pin set before accessing your money and/or bank.");
-    configurations.put("Messages.Account.Confirm", "<yellow>You must use /pin confirm before accessing your money and/or bank.");
     configurations.put("Messages.Account.NoTransactions", "<white>You have no transactions to display at this time.");
-    configurations.put("Messages.Account.Reset", "<white>Your pin has been reset to <green>$pin<white>.");
     configurations.put("Messages.Account.StatusChange", "<white>Your account's status has been changed to <green>$status<white>.");
 
+    configurations.put("Messages.Configuration.NoSuch", "The configuration node $node does not exist.");
+    configurations.put("Messages.Configuration.Invalid", "The value you specified for $node is invalid.");
+    configurations.put("Messages.Configuration.InvalidFile", "The configuration file you specified is invalid.");
+    configurations.put("Messages.Configuration.Get", "The value for node $node is $value.");
+    configurations.put("Messages.Configuration.Set", "Successfully set the value for $node to $value.");
+    configurations.put("Messages.Configuration.TNEGet", "The parsed value for node $node is $value.");
+    configurations.put("Messages.Configuration.Saved", "Successfully saved all modified nodes for file $configuration.");
+    configurations.put("Messages.Configuration.SavedAll", "Successfully saved all modified configurations.");
+    configurations.put("Messages.Configuration.Undone", "Successfully undid all configuration modifications to $modified.");
+    configurations.put("Messages.Configuration.UndoneAll", "Successfully undid all configuration modifications.");
+
+    configurations.put("Messages.Currency.List", "<white>The current currencies for $world are: $currencies.");
+    configurations.put("Messages.Currency.Tiers", "<white>The currency \"$currency\" currently has these tiers;<newline>Major: $major_tiers<newline>Minor: $minor_tiers");
+    configurations.put("Messages.Currency.AlreadyExists", "<white>A currency with the name $currency already exists in world $world.");
+    configurations.put("Messages.Currency.Renamed", "<white>Successfully renamed $currency in world $world to $new_Name.");
+
+    configurations.put("Messages.Money.Failed", "<red>Unable to process your transaction at this time.");
     configurations.put("Messages.Money.Given", "<white>You were given <gold>$amount<white>.");
     configurations.put("Messages.Money.Received", "<white>You were paid <gold>$amount <white> by <white> $from.");
     configurations.put("Messages.Money.Taken", "<white>$from took <gold>$amount<white> from you.");
     configurations.put("Messages.Money.Insufficient", "<red>I'm sorry, but you do not have <gold>$amount<red>.");
-    configurations.put("Messages.Money.Balance", "<white>You currently have <gold>$amount<white> on you.");
+    configurations.put("Messages.Money.Holdings", "<white>You currently have <gold>$amount<white> on you.");
     configurations.put("Messages.Money.Gave", "<white>Successfully gave $player <gold>$amount<white>.");
+    configurations.put("Messages.Money.RecipientSet", "<white>Your balance has been set to <gold>$amount<white>.");
     configurations.put("Messages.Money.Set", "<white>Successfully set $player\'s balance to <gold>$amount<white>.");
     configurations.put("Messages.Money.Paid", "<white>Successfully paid $player <gold>$amount<white>.");
     configurations.put("Messages.Money.Took", "<white>Successfully took <gold>$amount<white> from $player.");
     configurations.put("Messages.Money.Negative", "<red>Amount cannot be a negative value!");
     configurations.put("Messages.Money.SelfPay", "<red>You can't pay yourself!");
-    configurations.put("Messages.Money.NoPins", "<red>Pins are disabled in this world!");
     configurations.put("Messages.Money.NoCurrency", "<red>The currency \"$currency\" could not be found in \"$world\".");
     configurations.put("Messages.Money.Converted", "<white>Successfully exchanged \"<gold>$from_amount<white>\" to \"<gold>$amount<white>\".");
     configurations.put("Messages.Money.Top", "<white>=========[<gold>Economy Top<white>]========= Page: $page/$page_top");
@@ -85,6 +99,48 @@ public class MessageConfigurations extends Configuration {
     configurations.put("Messages.Money.ExceedsCurrencyMaximum", "<red>I'm sorry, but the monetary value you've entered exceeds the maximum possible balance.");
     configurations.put("Messages.Money.ExceedsPlayerMaximum", "<red>I'm sorry, but performing this transaction will place your balance over the maximum allowed.");
     configurations.put("Messages.Money.ExceedsOtherPlayerMaximum", "<red>I'm sorry, but performing this transaction will place $player's balance over the maximum allowed.");
+
+    configurations.put("Messages.Commands.Admin.Backup", "/tne backup - Creates a backup of all server data.");
+    configurations.put("Messages.Commands.Admin.Balance", "/tne balance <player> [world] [currency] - Retrieves the balance of a player.<newline>- Player ~ The account owner.<newline>- World ~ The world to retrieve the balance from.<newline>- Currency ~ The currency to retrieve the balance of.");
+    configurations.put("Messages.Commands.Admin.Caveats", "/tne caveats - Displays all known caveats for this version of TNE.");
+    configurations.put("Messages.Commands.Admin.Create", "/tne create <player> [balance] - Creates a new economy account.<newline>- Player ~ The account owner.<newline>- Balance ~ The starting balance of the account.");
+    configurations.put("Messages.Commands.Admin.Delete", "/tne delete <player> - Deletes a player account.<newline>- Player ~ The account owner.");
+    configurations.put("Messages.Commands.Admin.ID", "/tne id <player> - Retrieves a player's TNE UUID.<newline>- Player ~ The player you wish to discover the UUID of.");
+    configurations.put("Messages.Commands.Admin.Purge", "/tne purge - Deletes all player accounts that have the default balance");
+    configurations.put("Messages.Commands.Admin.Recreate", "/tne recreate - Attempts to recreate database tables. WARNING: This will delete all data in the database.");
+    configurations.put("Messages.Commands.Admin.Reload", "/tne reload <configuration> - Saves modifications made via command, and reloads a configuration file.<newline>- Configuration ~ The identifier of the configuration to reload. Default is all.");
+    configurations.put("Messages.Commands.Admin.Report", "/tne report <report> - File a bug report.<newline>- Report ~ The link to the pastebin with the bug report, use the following format: https://github.com/TheNewEconomy/TNE-Bukkit/blob/master/Report%20Format.md.");
+    configurations.put("Messages.Commands.Admin.Save", "/tne save - Force saves all TNE data.");
+    configurations.put("Messages.Commands.Admin.Status", "/tne status <player> [status] - Displays, or sets, the current account status of an account.<newline>- Player ~ The account owner.");
+    configurations.put("Messages.Commands.Admin.Version", "/tne version - Displays the version of TNE currently running.");
+
+    configurations.put("Messages.Commands.Config.Get", "/tnec get <node> [configuration] - Returns the value of a configuration.<newline>- Node ~ The configuration node to use.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically.");
+    configurations.put("Messages.Commands.Config.Save", "/tnec save [configuration] - Saves modifications made to a configuration value via command.<newline>- Configuration ~ The configuration identifier to retrieve the value from.");
+    configurations.put("Messages.Commands.Config.Set", "/tnec set <node> <value> [configuration] - Sets a configuration value. This will not save until you do /tnec save.<newline>");
+    configurations.put("Messages.Commands.Config.TNEGet", "/tnec tneget <node> [world] [player] - Returns the value of a configuration after TNE takes into account player & world configurations.<newline>- Node ~ The configuration node to use.<newline>- World ~ The name of the world to use for parsing.<newline>- Player ~ The name of the world to use for parsing.");
+    configurations.put("Messages.Commands.Config.Undo", "/tnec undo [configuration/all] - Undoes modifications made to configurations.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically.");
+
+    configurations.put("Messages.Commands.Currency.Rename", "/currency rename <currency> <new name> - Renames a currency to a different name.");
+    configurations.put("Messages.Commands.Currency.List", "/currency list [world] - Displays the currencies available for a world.<newline> - World ~ The world to use.");
+    configurations.put("Messages.Commands.Currency.Tiers", "/currency tiers <currency> [world] - Displays the tiers for a currency.<newline>- Currency ~ The currency to check.<newline>- World ~ The world that the currency belongs to.");
+
+    configurations.put("Messages.Commands.Module.Info", "/module info <module> - Displays some information about a module.<newline>- Module ~ The module to look up.");
+    configurations.put("Messages.Commands.Module.Load", "/module load <module> - Load a module from the modules directory.<newline>- Module ~ The module to load.");
+    configurations.put("Messages.Commands.Module.Reload", "/module reload <module> - Reloads a module from the modules directory.<newline>- Module ~ The module to reload.");
+    configurations.put("Messages.Commands.Module.Unload", "/module unload <module> - Unload a module from the server.<newline>- Module ~ The module to unload.");
+
+    configurations.put("Messages.Commands.Money.Balance", "/money balance [world] [currency] - Displays your current holdings.");
+    configurations.put("Messages.Commands.Money.Convert", "/money convert <amount> <to currency[:world]> [from currency[:world]] - Convert some of your holdings to another currency.");
+    configurations.put("Messages.Commands.Money.Give", "/money give <player> <amount> [world] [currency] - Adds money into your economy, and gives it to a player.");
+    configurations.put("Messages.Commands.Money.Pay", "/money pay <player> <amount> [currency] - Use some of your holdings to pay another player.");
+    configurations.put("Messages.Commands.Money.Set", "/money set <player> <amount> [world] [currency] - Set the holdings of a player.");
+    configurations.put("Messages.Commands.Money.Take", "/money take <player> <amount> [world] [currency] - Removes money from your economy, specifically from a player's balance.");
+    configurations.put("Messages.Commands.Money.Top", "");
+
+    configurations.put("Messages.Commands.Transaction.Away", "/transaction away [page:#] - Displays transactions that you missed since the last time you were on.");
+    configurations.put("Messages.Commands.Transaction.History", "/transaction history [page:#] [world:name/all] - See a detailed break down of your transaction history.<newline>- Page ~ The page number you wish to view.<newline>- World ~ The world name you wish to filter, or all for every world. Defaults to current world.");
+    configurations.put("Messages.Commands.Transaction.Info", "/transaction info <uuid> - Displays information about a transaction.<newline>- UUID ~ The id of the transaction.");
+    configurations.put("Messages.Commands.Transaction.Void", "/transaction void <uuid> - Undoes a previously completed transaction.<newline>- UUID ~ The id of the transaction.");
 
     configurations.put("Messages.World.Change", "<white>You have been charged <gold> $amount<white> for changing worlds.");
     configurations.put("Messages.World.ChangeFailed", "<red>I'm sorry, but you need at least <gold>$amount<red> to change worlds.");
