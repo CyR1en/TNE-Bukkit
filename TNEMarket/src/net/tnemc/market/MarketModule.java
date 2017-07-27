@@ -31,7 +31,7 @@ import net.tnemc.core.common.module.ModuleInfo;
 public class MarketModule extends Module {
 
   @Override
-  public void load(TNE tne) {
+  public void load(TNE tne, String version) {
     tne.logger().info("Market Module loaded!");
   }
 

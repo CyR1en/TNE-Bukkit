@@ -31,7 +31,7 @@ import net.tnemc.core.common.module.ModuleInfo;
 public class ConversionModule extends Module {
 
   @Override
-  public void load(TNE tne) {
+  public void load(TNE tne, String version) {
     tne.logger().info("Conversion Module loaded!");
   }
 

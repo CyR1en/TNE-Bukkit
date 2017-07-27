@@ -29,7 +29,7 @@ import net.tnemc.core.common.module.ModuleInfo;
 public class ExampleModule extends Module {
 
   @Override
-  public void load(TNE tne) {
+  public void load(TNE tne, String version) {
     tne.logger().info("Example Module loaded!");
   }
 
