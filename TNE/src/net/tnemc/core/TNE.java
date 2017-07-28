@@ -23,6 +23,7 @@ import net.tnemc.core.event.module.TNEModuleLoadEvent;
 import net.tnemc.core.event.module.TNEModuleUnloadEvent;
 import net.tnemc.core.listeners.ConnectionListener;
 import net.tnemc.core.listeners.PlayerListener;
+import net.tnemc.core.menu.TNEActionMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -129,6 +130,9 @@ public class TNE extends TNELib {
     configurations().add(messages, "messages");
     configurations().add(world, "world");
     configurations().updateLoad();
+
+    //Menu Actions
+    menuManager.addMenu(new TNEActionMenu());
 
     //General Variables based on configuration values
     consoleName = configurations().getString("Core.Server.Name");

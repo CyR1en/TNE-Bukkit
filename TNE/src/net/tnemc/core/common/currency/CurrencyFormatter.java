@@ -38,7 +38,7 @@ public class CurrencyFormatter {
   }
 
   public static String format(Currency currency, String world, BigDecimal amount) {
-    TNE.debug("CurrencyFormatter.format(" + currency.getSingle() + ", " + world + ", " + amount.doubleValue() + ")");
+    TNE.debug("CurrencyFormatter.format(" + currency.getSingle() + ", " + world + ", " + amount.toPlainString() + ")");
 
     if(currency == null) currency = TNE.manager().currencyManager().get(TNE.instance().defaultWorld);
 

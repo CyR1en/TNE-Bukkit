@@ -85,7 +85,7 @@ public abstract class TransactionType {
       return result;
     }
 
-    if(cost.getCurrency() != null && recipientBalance.compareTo(cost.getCurrency().getMaxBalance()) == 1) {
+    if(cost.getCurrency() == null || cost.getCurrency() != null && recipientBalance.compareTo(cost.getCurrency().getMaxBalance()) == 1) {
       return TNE.transactionManager().getResult("failed");
     }
     return success();

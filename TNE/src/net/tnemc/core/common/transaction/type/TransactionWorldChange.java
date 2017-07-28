@@ -21,16 +21,17 @@ import net.tnemc.core.common.transaction.TransactionType;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/7/2017.
+ * Created by Daniel on 7/27/2017.
  */
-public class TransactionPay extends TransactionType {
+public class TransactionWorldChange extends TransactionType {
 
-  public TransactionPay(TransactionCost cost) {
+  public TransactionWorldChange(TransactionCost cost) {
     super(cost);
   }
+
   @Override
   public String getName() {
-    return "pay";
+    return "WorldChange";
   }
 
   @Override
@@ -40,26 +41,20 @@ public class TransactionPay extends TransactionType {
 
   @Override
   public TransactionResult success() {
-    return TNE.transactionManager().getResult("paid");
+    return TNE.transactionManager().getResult("worldchange");
   }
 
   @Override
   public void handleInitiator() {
-    TNE.debug("handleInitiator " + (initiatorOldBalance == null));
-    TNE.debug("handleInitiator " + (cost == null));
-    TNE.debug("handleInitiator " + (cost.getAmount() == null));
-    TNE.debug("handleInitiator " + (initiator == null));
-    TNE.debug("handleInitiator " + (cost.getItems() == null));
-    TNE.debug("handleInitiator " + (world == null));
-    if(initiatorOldBalance.compareTo(cost.getAmount()) == -1 || !Account.getAccount(initiator).hasItems(cost.getItems(), world)) {
-      result = TNE.transactionManager().getResult("insufficient");
-      return;
-    }
-    initiatorBalance = initiatorOldBalance.subtract(cost.getAmount());
+    //We don't really have to do anything here for give
+    initiatorBalance = initiatorOldBalance;
   }
 
   @Override
   public void handleRecipient() {
-    recipientBalance = recipientOldBalance.add(cost.getAmount());
+    if(!Account.getAccount(recipient).hasHoldings(world, cost.getCurrency().getSingle(), cost.getAmount()) || !Account.getAccount(recipient).hasItems(cost.getItems(), world)) {
+      result = TNE.transactionManager().getResult("insufficient");
+    }
+    recipientBalance = recipientOldBalance.subtract(cost.getAmount());
   }
 }

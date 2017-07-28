@@ -1,7 +1,6 @@
-package net.tnemc.core.commands.module;
+package net.tnemc.core.common.transaction.result;
 
-import com.github.tnerevival.commands.TNECommand;
-import net.tnemc.core.TNE;
+import net.tnemc.core.common.transaction.TransactionResult;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -18,38 +17,27 @@ import net.tnemc.core.TNE;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/10/2017.
+ * Created by Daniel on 7/27/2017.
  */
-public class ModuleCommand extends TNECommand {
+public class TransactionResultWorldChange implements TransactionResult {
 
-  public ModuleCommand(TNE plugin) {
-    super(plugin);
-    subCommands.add(new ModuleInfoCommand(plugin));
-    subCommands.add(new ModuleListCommand(plugin));
-    subCommands.add(new ModuleLoadCommand(plugin));
-    subCommands.add(new ModuleReloadCommand(plugin));
-    subCommands.add(new ModuleUnloadCommand(plugin));
+  @Override
+  public String name() {
+    return "worldchange";
   }
 
   @Override
-  public String getName() {
-    return "tnemodule";
+  public String initiatorMessage() {
+    return "Messages.World.Change";
   }
 
   @Override
-  public String[] getAliases() {
-    return new String[] {
-        "tnem"
-    };
+  public String recipientMessage() {
+    return "Messages.World.Change";
   }
 
   @Override
-  public String getNode() {
-    return "tne.module";
-  }
-
-  @Override
-  public boolean console() {
+  public boolean proceed() {
     return true;
   }
 }

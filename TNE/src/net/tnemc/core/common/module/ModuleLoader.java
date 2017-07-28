@@ -54,6 +54,7 @@ public class ModuleLoader {
     if(jars != null) {
       for (File jar : jars) {
         Module module = getModuleClass(jar.getAbsolutePath());
+        if(module == null || module.getClass() == null) continue;
         if (!module.getClass().isAnnotationPresent(ModuleInfo.class)) {
           TNE.instance().getLogger().info("Invalid module format! Module File: " + jar.getName());
           continue;
@@ -164,7 +165,7 @@ public class ModuleLoader {
     } catch (InstantiationException e) {
       e.printStackTrace();
     } catch (ClassNotFoundException e) {
-      e.printStackTrace();
+      TNE.logger().info("Unable to locate module main class for file " + file.getName());
     }
     return module;
   }

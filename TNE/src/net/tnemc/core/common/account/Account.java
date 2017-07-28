@@ -77,6 +77,13 @@ public class Account {
     return false;
   }
 
+  public boolean hasHoldings(String world, String currency, BigDecimal amount) {
+    if(hasHoldings(world, currency)){
+      return holdings.get(world).hasHoldings(currency, amount);
+    }
+    return false;
+  }
+
   public BigDecimal getHoldings(String world, String currency) {
     WorldHoldings worldHoldings = holdings.containsKey(world)? holdings.get(world) : new WorldHoldings(world);
     return worldHoldings.getHoldings(currency);
@@ -92,6 +99,12 @@ public class Account {
 
   public static Account getAccount(String identifier) {
     return TNE.manager().getAccount(IDFinder.getID(identifier));
+  }
+
+  public void initializeHoldings(String world) {
+    TNE.manager().currencyManager().getWorldCurrencies(world).forEach((currency)->{
+      setHoldings(world, currency.getSingle(), currency.getBalance());
+    });
   }
 
   public void setCurrencyItems(net.tnemc.core.common.currency.Currency currency, BigDecimal amount) {

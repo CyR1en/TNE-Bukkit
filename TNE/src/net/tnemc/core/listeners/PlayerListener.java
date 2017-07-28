@@ -2,11 +2,9 @@ package net.tnemc.core.listeners;
 
 import com.github.tnerevival.user.IDFinder;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.Account;
 import net.tnemc.core.common.account.WorldFinder;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
-import org.bukkit.Material;
+import net.tnemc.core.common.currency.Currency;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,11 +13,8 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Wool;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -52,6 +47,16 @@ public class PlayerListener implements Listener {
     Player player = event.getPlayer();
     UUID id = IDFinder.getID(player);
     String world = WorldFinder.getWorld(player);
+    boolean noEconomy = TNE.instance().getWorldManager(world).isEconomyDisabled();
+
+    if(!noEconomy) {
+      Account account = Account.getAccount(id.toString());
+      Optional<Currency> currency = TNE.manager().currencyManager().currencyFromItem(event.getItem().getItemStack());
+      currency.ifPresent((cur)->{
+        account.recalculateCurrencyHoldings(world, player.getInventory(), cur.getSingle());
+      });
+      TNE.manager().addAccount(account);
+    }
   }
 
   @EventHandler
@@ -59,13 +64,25 @@ public class PlayerListener implements Listener {
     Player player = event.getPlayer();
     UUID id = IDFinder.getID(player);
     String world = WorldFinder.getWorld(player);
+    boolean noEconomy = TNE.instance().getWorldManager(world).isEconomyDisabled();
+
+    if(!noEconomy) {
+      Account account = Account.getAccount(id.toString());
+      Optional<Currency> currency = TNE.manager().currencyManager().currencyFromItem(event.getItemDrop().getItemStack());
+      currency.ifPresent((cur)->{
+        account.recalculateCurrencyHoldings(world, player.getInventory(), cur.getSingle());
+      });
+      TNE.manager().addAccount(account);
+    }
   }
 
   @EventHandler
   public void onInventoryClick(InventoryClickEvent event) {
-    if(event.getInventory().getTitle() != null &&
-       event.getInventory().getTitle().equalsIgnoreCase("[TNE]Coming Soon")) {
+    Player player = (Player)event.getWhoClicked();
+    UUID id = IDFinder.getID(player);
+    if(TNE.menuManager().getViewer(id) != null) {
       event.setCancelled(true);
+      TNE.menuManager().getHolder(id).onClick(event.getSlot(), player);
     }
   }
 
@@ -74,59 +91,27 @@ public class PlayerListener implements Listener {
     Player player = (Player)event.getPlayer();
     UUID id = IDFinder.getID(player);
     String world = WorldFinder.getWorld(player);
+    boolean noEconomy = TNE.instance().getWorldManager(world).isEconomyDisabled();
+
+    if(!noEconomy) {
+      if(TNE.menuManager().getViewer(id) != null) {
+        TNE.menuManager().getHolder(id).onClose(player);
+      } else {
+        Account account = Account.getAccount(id.toString());
+        account.recalculateItemHoldings(world, player.getInventory());
+        TNE.manager().addAccount(account);
+      }
+    }
   }
 
   @EventHandler
   public void onInteractEntityEvent(PlayerInteractEntityEvent event) {
     Player player = event.getPlayer();
+    String world = WorldFinder.getWorld(player);
+    boolean noEconomy = TNE.instance().getWorldManager(world).isEconomyDisabled();
 
-    ItemStack take = new ItemStack(Material.WOOL);
-    Wool takeData = (Wool)take.getData();
-    takeData.setColor(DyeColor.RED);
-    take.setData(takeData);
-    ItemMeta takeMeta = take.getItemMeta();
-    takeMeta.setDisplayName(ChatColor.WHITE + "Take Funds");
-    take.setItemMeta(takeMeta);
-
-    ItemStack pay = new ItemStack(Material.WOOL);
-    Wool payData = (Wool)pay.getData();
-    payData.setColor(DyeColor.YELLOW);
-    pay.setData(payData);
-    ItemMeta payMeta = pay.getItemMeta();
-    payMeta.setDisplayName(ChatColor.WHITE + "Pay Funds");
-    pay.setItemMeta(payMeta);
-
-    ItemStack set = new ItemStack(Material.WOOL);
-    Wool setData = (Wool)set.getData();
-    setData.setColor(DyeColor.GRAY);
-    set.setData(setData);
-    ItemMeta setMeta = set.getItemMeta();
-    setMeta.setDisplayName(ChatColor.WHITE + "Set Funds");
-    set.setItemMeta(setMeta);
-
-    ItemStack loan = new ItemStack(Material.WOOL);
-    Wool loanData = (Wool)loan.getData();
-    loanData.setColor(DyeColor.WHITE);
-    loan.setData(loanData);
-    ItemMeta loanMeta = loan.getItemMeta();
-    loanMeta.setDisplayName(ChatColor.WHITE + "Loan Funds");
-    loan.setItemMeta(loanMeta);
-
-    ItemStack balance = new ItemStack(Material.WOOL);
-    Wool balanceData = (Wool)balance.getData();
-    balanceData.setColor(DyeColor.GREEN);
-    balance.setData(balanceData);
-    ItemMeta balanceMeta = balance.getItemMeta();
-    balanceMeta.setDisplayName(ChatColor.WHITE + "Display Funds");
-    balance.setItemMeta(balanceMeta);
-
-
-    Inventory inventory = Bukkit.createInventory(null, 9, "[TNE]Coming Soon");
-    inventory.setItem(2, take);
-    inventory.setItem(3, pay);
-    inventory.setItem(4, set);
-    inventory.setItem(5, loan);
-    inventory.setItem(6, balance);
-    player.openInventory(inventory);
+    if(!noEconomy && event.getRightClicked() instanceof Player) {
+      TNE.menuManager().getHolder("action").onOpen(player);
+    }
   }
 }

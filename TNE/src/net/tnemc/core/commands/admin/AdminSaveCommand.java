@@ -54,7 +54,7 @@ public class AdminSaveCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-    TNE.instance().saveManager().save();
+    TNE.saveManager().save();
     sender.sendMessage("Successfully saved all TNE Data!");
     return true;
   }

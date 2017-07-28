@@ -1,7 +1,8 @@
-package net.tnemc.core.commands.module;
+package net.tnemc.core.menu.screens;
 
-import com.github.tnerevival.commands.TNECommand;
-import net.tnemc.core.TNE;
+import com.github.tnerevival.menu.MenuScreen;
+import org.bukkit.Bukkit;
+import org.bukkit.inventory.Inventory;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -18,38 +19,27 @@ import net.tnemc.core.TNE;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/10/2017.
+ * Created by Daniel on 7/28/2017.
  */
-public class ModuleCommand extends TNECommand {
+public class TakeScreen extends MenuScreen {
+  private Inventory inventory;
 
-  public ModuleCommand(TNE plugin) {
-    super(plugin);
-    subCommands.add(new ModuleInfoCommand(plugin));
-    subCommands.add(new ModuleListCommand(plugin));
-    subCommands.add(new ModuleLoadCommand(plugin));
-    subCommands.add(new ModuleReloadCommand(plugin));
-    subCommands.add(new ModuleUnloadCommand(plugin));
+  public TakeScreen() {
+    inventory = Bukkit.createInventory(null, 9, "[TNE]Action");
   }
 
   @Override
   public String getName() {
-    return "tnemodule";
+    return "take";
   }
 
   @Override
-  public String[] getAliases() {
-    return new String[] {
-        "tnem"
-    };
+  public boolean isMain() {
+    return false;
   }
 
   @Override
-  public String getNode() {
-    return "tne.module";
-  }
-
-  @Override
-  public boolean console() {
-    return true;
+  public Inventory getInventory() {
+    return inventory;
   }
 }

@@ -79,6 +79,13 @@ public class MessageConfigurations extends Configuration {
     configurations.put("Messages.Currency.AlreadyExists", "<white>A currency with the name $currency already exists in world $world.");
     configurations.put("Messages.Currency.Renamed", "<white>Successfully renamed $currency in world $world to $new_Name.");
 
+    configurations.put("Messages.Module.Info", "<white>==== Module Info for $module ====<newline>Author: $author<newline>Version: $version");
+    configurations.put("Messages.Module.Invalid", "<red>Unable to find a module with the name of \"$module\".");
+    configurations.put("Messages.Module.List", "<white>This server is currently uses these TNE Modules: $modules.");
+    configurations.put("Messages.Module.Loaded", "<white>Loaded module \"$module\" $version created by \"$author\".");
+    configurations.put("Messages.Module.Reloaded", "<white>Reloaded module \"$module\".");
+    configurations.put("Messages.Module.Unloaded", "<white>Unloaded module \"$module\".");
+
     configurations.put("Messages.Money.Failed", "<red>Unable to process your transaction at this time.");
     configurations.put("Messages.Money.Given", "<white>You were given <gold>$amount<white>.");
     configurations.put("Messages.Money.Received", "<white>You were paid <gold>$amount <white> by <white> $from.");
@@ -124,10 +131,11 @@ public class MessageConfigurations extends Configuration {
     configurations.put("Messages.Commands.Currency.List", "/currency list [world] - Displays the currencies available for a world.<newline> - World ~ The world to use.");
     configurations.put("Messages.Commands.Currency.Tiers", "/currency tiers <currency> [world] - Displays the tiers for a currency.<newline>- Currency ~ The currency to check.<newline>- World ~ The world that the currency belongs to.");
 
-    configurations.put("Messages.Commands.Module.Info", "/module info <module> - Displays some information about a module.<newline>- Module ~ The module to look up.");
-    configurations.put("Messages.Commands.Module.Load", "/module load <module> - Load a module from the modules directory.<newline>- Module ~ The module to load.");
-    configurations.put("Messages.Commands.Module.Reload", "/module reload <module> - Reloads a module from the modules directory.<newline>- Module ~ The module to reload.");
-    configurations.put("Messages.Commands.Module.Unload", "/module unload <module> - Unload a module from the server.<newline>- Module ~ The module to unload.");
+    configurations.put("Messages.Commands.Module.Info", "/tnem info <module> - Displays some information about a module.<newline>- Module ~ The module to look up.");
+    configurations.put("Messages.Commands.Module.List", "/tnem list - Lists all loaded TNE modules.");
+    configurations.put("Messages.Commands.Module.Load", "/tnem load <module> - Load a module from the modules directory.<newline>- Module ~ The module to load.");
+    configurations.put("Messages.Commands.Module.Reload", "/tnem reload <module> - Reloads a module from the modules directory.<newline>- Module ~ The module to reload.");
+    configurations.put("Messages.Commands.Module.Unload", "/tnem unload <module> - Unload a module from the server.<newline>- Module ~ The module to unload.");
 
     configurations.put("Messages.Commands.Money.Balance", "/money balance [world] [currency] - Displays your current holdings.");
     configurations.put("Messages.Commands.Money.Convert", "/money convert <amount> <to currency[:world]> [from currency[:world]] - Convert some of your holdings to another currency.");
@@ -135,7 +143,7 @@ public class MessageConfigurations extends Configuration {
     configurations.put("Messages.Commands.Money.Pay", "/money pay <player> <amount> [currency] - Use some of your holdings to pay another player.");
     configurations.put("Messages.Commands.Money.Set", "/money set <player> <amount> [world] [currency] - Set the holdings of a player.");
     configurations.put("Messages.Commands.Money.Take", "/money take <player> <amount> [world] [currency] - Removes money from your economy, specifically from a player's balance.");
-    configurations.put("Messages.Commands.Money.Top", "");
+    configurations.put("Messages.Commands.Money.Top", "/money top [page] [currency:name] [bank:true/false] [world:world] [limit:#] - A list of players with the highest balances.<newline>[page] - The page number to view. Defaults to 1.<newline>[currency] - The name of the currency to get balances from. Defaults to world default. Use overall for all currencies.<newline>[bank] - Whether or not you want to rank players based on highest bank balance. Defaults to false.<newline>[world] - The world name you wish to filter, or all for every world. Defaults to current world. Use overall for all worlds.<newline>[limit] - Limit changes how many players are displayed. Defaults to 10.");
 
     configurations.put("Messages.Commands.Transaction.Away", "/transaction away [page:#] - Displays transactions that you missed since the last time you were on.");
     configurations.put("Messages.Commands.Transaction.History", "/transaction history [page:#] [world:name/all] - See a detailed break down of your transaction history.<newline>- Page ~ The page number you wish to view.<newline>- World ~ The world name you wish to filter, or all for every world. Defaults to current world.");

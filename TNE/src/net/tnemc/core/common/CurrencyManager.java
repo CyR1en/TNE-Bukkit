@@ -297,8 +297,8 @@ public class CurrencyManager {
     //TODO: Data Handling.
   }
 
-  public Optional<String> currencyFromItem(ItemStack stack) {
-    //TODO: Item Currencies.
+  public Optional<Currency> currencyFromItem(ItemStack stack) {
+    //TODO: Item Currencies
     return Optional.empty();
   }
 

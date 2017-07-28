@@ -45,4 +45,10 @@ public class WorldHoldings {
   public boolean hasHoldings(String currency) {
     return holdings.containsKey(currency);
   }
+  public boolean hasHoldings(String currency, BigDecimal amount) {
+    if(hasHoldings(currency)) {
+      return holdings.get(currency).compareTo(amount) > -1;
+    }
+    return false;
+  }
 }

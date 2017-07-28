@@ -62,25 +62,18 @@ public class ModuleLoadCommand extends TNECommand {
     if(arguments.length >= 1) {
       String moduleName = arguments[0];
       String world = WorldFinder.getWorld(sender);
-      ModuleEntry module = TNE.instance().loader().getModule(moduleName);
-      String author = module.getInfo().author();
-      String version = module.getInfo().version();
+      boolean loaded = TNE.loader().load(moduleName);
 
-      if(TNE.instance().loader().getModule(moduleName) == null) {
-        Message message = new Message("Messages.Module.Invalid");
-        message.addVariable("$module", moduleName);
-        message.translate(world, sender);
-        return false;
-      }
-
-
-      boolean loaded = TNE.instance().loader().load(moduleName);
       if(!loaded) {
         Message message = new Message("Messages.Module.Invalid");
         message.addVariable("$module", moduleName);
         message.translate(world, sender);
         return false;
       }
+      ModuleEntry module = TNE.loader().getModule(moduleName);
+
+      String author = module.getInfo().author();
+      String version = module.getInfo().version();
 
       Message message = new Message("Messages.Module.Loaded");
       message.addVariable("$module", moduleName);

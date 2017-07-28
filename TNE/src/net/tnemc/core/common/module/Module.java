@@ -3,6 +3,8 @@ package net.tnemc.core.common.module;
 import com.github.tnerevival.commands.CommandManager;
 import com.github.tnerevival.core.SaveManager;
 import com.github.tnerevival.core.configurations.ConfigurationManager;
+import com.github.tnerevival.menu.MenuScreen;
+import com.github.tnerevival.menu.icon.MenuIcon;
 import net.tnemc.core.TNE;
 import net.tnemc.core.common.configurations.MainConfigurations;
 import net.tnemc.core.common.configurations.MessageConfigurations;
@@ -155,6 +157,22 @@ public abstract class Module {
    * existing transaction types.
    */
   public Map<String, Class<? extends TransactionType>> registerTypes() {
+    return new HashMap<>();
+  }
+
+  /**
+   * @return A map containing menu screens to be registered for the TNE Action Menu that appears when you right click
+   * a player.
+   */
+  public Map<String, ? extends MenuScreen> registerScreens() {
+    return new HashMap<>();
+  }
+
+  /**
+   * @return A map containing menu icons to be registered for the TNE Action Menu that appears when you right click
+   * a player.
+   */
+  public Map<Integer, ? extends MenuIcon> registerIcons() {
     return new HashMap<>();
   }
 }

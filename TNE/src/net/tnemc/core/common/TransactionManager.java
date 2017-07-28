@@ -50,7 +50,7 @@ public class TransactionManager {
     return transactions.get(id);
   }
 
-  public void loadResults() {
+  private void loadResults() {
     results.put("conversion", new TransactionResultConversion());
     results.put("failed", new TransactionResultFailed());
     results.put("gave", new TransactionResultGave());
@@ -60,6 +60,7 @@ public class TransactionManager {
     results.put("paid", new TransactionResultPaid());
     results.put("selfpay", new TransactionResultSelfPay());
     results.put("set", new TransactionResultSet());
+    results.put("worldchange", new TransactionResultWorldChange());
 
     TNE.instance().loader().getModules().forEach((key, value)->{
       value.getModule().registerResults().forEach((k, v)->{
@@ -71,10 +72,12 @@ public class TransactionManager {
   public void loadTypes() {
     types.put("conversion", TransactionConversion.class);
     types.put("give", TransactionGive.class);
+    types.put("hasfunds", TransactionHasFunds.class);
     types.put("inquiry", TransactionInquiry.class);
     types.put("pay", TransactionPay.class);
     types.put("set", TransactionSet.class);
     types.put("take", TransactionTake.class);
+    types.put("worldchange", TransactionWorldChange.class);
 
     TNE.instance().loader().getModules().forEach((key, value)->{
       value.getModule().registerTypes().forEach((k, v)->{

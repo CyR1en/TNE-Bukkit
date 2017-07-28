@@ -1,7 +1,10 @@
 package net.tnemc.core.commands.module;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.WorldFinder;
+import org.bukkit.command.CommandSender;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -18,38 +21,53 @@ import net.tnemc.core.TNE;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/10/2017.
+ * Created by Daniel on 7/27/2017.
  */
-public class ModuleCommand extends TNECommand {
+public class ModuleListCommand extends TNECommand {
 
-  public ModuleCommand(TNE plugin) {
+  public ModuleListCommand(TNE plugin) {
     super(plugin);
-    subCommands.add(new ModuleInfoCommand(plugin));
-    subCommands.add(new ModuleListCommand(plugin));
-    subCommands.add(new ModuleLoadCommand(plugin));
-    subCommands.add(new ModuleReloadCommand(plugin));
-    subCommands.add(new ModuleUnloadCommand(plugin));
   }
 
   @Override
   public String getName() {
-    return "tnemodule";
+    return "list";
   }
 
   @Override
   public String[] getAliases() {
     return new String[] {
-        "tnem"
+        "i"
     };
   }
 
   @Override
   public String getNode() {
-    return "tne.module";
+    return "tne.module.list";
   }
 
   @Override
   public boolean console() {
+    return true;
+  }
+
+  @Override
+  public String getHelp() {
+    return "Messages.Commands.Module.List";
+  }
+
+  @Override
+  public boolean execute(CommandSender sender, String command, String[] arguments) {
+
+    StringBuilder modules = new StringBuilder();
+    TNE.loader().getModules().forEach((key, value)->{
+      if(modules.length() > 0) modules.append(", ");
+      modules.append(value.getInfo().name());
+    });
+
+    Message message = new Message("Messages.Module.List");
+    message.addVariable("$modules", modules.toString());
+    message.translate(WorldFinder.getWorld(sender), sender);
     return true;
   }
 }
