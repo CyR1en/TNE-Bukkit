@@ -76,7 +76,7 @@ public class TransactionInfoCommand extends TNECommand {
         return false;
       }
 
-      //TODO: Handle Server Account.
+      //TODO: Fix this to be better
       Transaction transaction = TNE.transactionManager().get(uuid);
       Message message = new Message("Messages.Transaction.Info");
       message.addVariable("$id", arguments[0]);

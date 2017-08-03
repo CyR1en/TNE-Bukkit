@@ -5,9 +5,7 @@ import net.tnemc.core.TNE;
 import net.tnemc.core.common.WorldManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -27,6 +25,10 @@ import java.util.Set;
  * Created by Daniel on 7/7/2017.
  */
 public class WorldConfigurations extends Configuration {
+
+  private Map<String, String> balanceShare = new HashMap<>();
+  private Map<String, String> configurationShare = new HashMap<>();
+
   @Override
   public FileConfiguration getConfiguration() {
     return TNE.instance().worldConfigurations;
@@ -57,8 +59,35 @@ public class WorldConfigurations extends Configuration {
           manager.setConfiguration(node, configurationFile.get(node));
         }
       }
+
+      List<String> balances = new ArrayList<>();
+      if(configurationFile.contains("Worlds." + world + ".Share.Balances")) {
+        balances = configurationFile.getStringList("Worlds." + world + ".Share.Balances");
+      }
+
+      if(balances.size() > 0) {
+        balances.forEach((sharedWorld)->balanceShare.put(sharedWorld, world));
+      }
+
+      List<String> configWorlds = new ArrayList<>();
+      if(configurationFile.contains("Worlds." + world + ".Share.Configurations")) {
+        configWorlds = configurationFile.getStringList("Worlds." + world + ".Share.Configurations");
+      }
+
+      if(configWorlds.size() > 0) {
+        configWorlds.forEach((sharedWorld)->configurationShare.put(sharedWorld, world));
+      }
+
       TNE.instance().addWorldManager(manager);
     }
+
+    TNE.instance().getWorldManagers().forEach((manager)->{
+      if(balanceShare.containsKey(manager.getWorld()))
+        manager.setBalanceWorld(balanceShare.get(manager.getWorld()));
+
+      if(configurationShare.containsKey(manager.getWorld()))
+        manager.setConfigurationWorld(configurationShare.get(manager.getWorld()));
+    });
 
     super.load(configurationFile);
   }

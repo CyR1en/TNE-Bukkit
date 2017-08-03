@@ -1,5 +1,6 @@
 package net.tnemc.core.common.account.history;
 
+import net.tnemc.core.TNE;
 import net.tnemc.core.common.transaction.Transaction;
 
 import java.util.*;
@@ -23,6 +24,10 @@ import java.util.*;
  */
 public class AccountHistory {
 
+  /**
+   * Collection is a {@link ArrayList} that contains {@link UUID transaction id}.
+   */
+  private List<UUID> away = new ArrayList<>();
 
   /**
    * Dictionary is a {@link Map} collection that contains {@link String World Name} as
@@ -34,6 +39,27 @@ public class AccountHistory {
    * The {@link UUID} of the player this history is about.
    */
   private UUID id;
+
+  public void logAway(UUID id) {
+    away.add(id);
+  }
+
+  public void clearAway() {
+    away.clear();
+  }
+
+  public List<UUID> getAway() {
+    return away;
+  }
+
+  public void populateAway(long time) {
+    worldHistory.forEach((world, history)-> {
+      history.getTransactions().forEach((id)->{
+        final Transaction trans = TNE.transactionManager().get(id);
+        if(trans.getTime() > time) logAway(id);
+      });
+    });
+  }
 
   public void log(Transaction transaction) {
     WorldHistory history = (worldHistory.containsKey(transaction.getWorld()))? worldHistory.get(transaction.getWorld())

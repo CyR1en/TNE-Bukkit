@@ -76,6 +76,7 @@ public class ConfigTNEGetCommand extends TNECommand {
       message.addVariable("$node", node);
       message.addVariable("$value", value.toString());
       message.translate(WorldFinder.getWorld(sender), sender);
+      return true;
     }
     help(sender);
     return false;

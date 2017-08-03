@@ -5,6 +5,8 @@ import net.tnemc.core.common.module.injectors.InjectMethod;
 import net.tnemc.core.common.module.injectors.ModuleInjector;
 import net.tnemc.core.common.module.injectors.ModuleInjectorHandler;
 import net.tnemc.core.common.module.injectors.ModuleInjectorWrapper;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
 import java.lang.reflect.Method;
@@ -39,9 +41,24 @@ import java.util.jar.JarFile;
  **/
 public class ModuleLoader {
 
+  private File modulesYAML;
+  private FileConfiguration moduleConfigurations;
   private Map<String, ModuleEntry> modules = new HashMap<>();
 
   private Map<String, ModuleInjectorHandler> injectors = new HashMap<>();
+
+  public ModuleLoader() {
+    modulesYAML = new File("plugins/TheNewEconomy/modules.yml");
+    if(!modulesYAML.exists()) {
+      try {
+        modulesYAML.createNewFile();
+      } catch (IOException e) {
+        TNE.logger().info("Error occured while try to create modules.yml.");
+        TNE.debug(e);
+      }
+    }
+    moduleConfigurations = YamlConfiguration.loadConfiguration(modulesYAML);
+  }
 
   /**
    * Loads all modules into a map for later usage.
@@ -91,7 +108,18 @@ public class ModuleLoader {
 
   public void unload(String moduleName) {
     if(hasModule(moduleName)) {
-      getModule(moduleName).getModule().unload(TNE.instance());
+      ModuleEntry entry = getModule(moduleName);
+      entry.getModule().unload(TNE.instance());
+
+
+      moduleConfigurations.set("Modules.DONTMODIFY." + entry.getInfo().name(), entry.getInfo().version());
+      try {
+        moduleConfigurations.save(modulesYAML);
+      } catch (IOException e) {
+        TNE.logger().info("Error occured while saving modules.yml.");
+        TNE.debug(e);
+      }
+
       modules.remove(moduleName);
     }
   }
@@ -221,5 +249,9 @@ public class ModuleLoader {
 
   public Map<String, ModuleEntry> getModules() {
     return modules;
+  }
+
+  public String getLastVersion(String name) {
+    return moduleConfigurations.getString("Modules.DONTMODIFY." + name, modules.get(name).getInfo().version());
   }
 }

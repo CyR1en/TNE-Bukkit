@@ -34,6 +34,8 @@ public class WorldManager {
 
   public WorldManager(String world) {
     this.world = world;
+    this.balanceWorld = world;
+    this.configurationWorld = world;
   }
 
   public void addCurrency(Currency currency) {

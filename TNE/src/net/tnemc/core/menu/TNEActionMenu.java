@@ -2,6 +2,7 @@ package net.tnemc.core.menu;
 
 import com.github.tnerevival.menu.Menu;
 import net.tnemc.core.TNE;
+import net.tnemc.core.menu.screens.DisplayScreen;
 import net.tnemc.core.menu.screens.MainScreen;
 import net.tnemc.core.menu.screens.TakeScreen;
 
@@ -32,6 +33,7 @@ public class TNEActionMenu extends Menu {
 
   public void registerScreens() {
     screens.put("main", new MainScreen());
+    screens.put("display", new DisplayScreen());
     screens.put("take", new TakeScreen());
     TNE.loader().getModules().forEach((key, value)->{
       screens.putAll(value.getModule().registerScreens());

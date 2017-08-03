@@ -59,7 +59,9 @@ public class ConfigGetCommand extends TNECommand {
     if(arguments.length >= 1) {
       String node = arguments[0];
       String configuration = (arguments.length >= 2)? arguments[1] : "all";
-      boolean valid = (configuration.equalsIgnoreCase("all"))? TNE.configurations().hasConfiguration(node)
+      boolean valid = (configuration.equalsIgnoreCase("all"))? TNE.configurations().hasNode(node,
+                                                                              TNE.configurations().fromPrefix(
+                                                                                  TNE.configurations().getPrefix(node)))
                                                                         : TNE.configurations().hasNode(node, configuration);
       if(!valid) {
         Message message = new Message("Messages.Configuration.NoSuch");
@@ -76,6 +78,7 @@ public class ConfigGetCommand extends TNECommand {
       message.addVariable("$configuration", configuration);
       message.addVariable("$value", value.toString());
       message.translate(WorldFinder.getWorld(sender), sender);
+      return true;
     }
     help(sender);
     return false;

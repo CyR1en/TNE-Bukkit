@@ -38,6 +38,11 @@ public class CurrencyFormatter {
   }
 
   public static String format(Currency currency, String world, BigDecimal amount) {
+    TNE.debug("CurrencyFormatter.java(41): currency != null - " + (currency != null));
+    TNE.debug("CurrencyFormatter.java(41): world != null - " + (world != null));
+    TNE.debug("CurrencyFormatter.java(41): amount != null - " + (amount != null));
+    TNE.debug("CurrencyFormatter.java(41): currency.getSingle() != null - " + (currency.getSingle() != null));
+    TNE.debug("CurrencyFormatter.java(41): amount.toPlainString() != null - " + (amount.toPlainString() != null));
     TNE.debug("CurrencyFormatter.format(" + currency.getSingle() + ", " + world + ", " + amount.toPlainString() + ")");
 
     if(currency == null) currency = TNE.manager().currencyManager().get(TNE.instance().defaultWorld);

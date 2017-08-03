@@ -4,6 +4,9 @@ import com.github.tnerevival.Metrics;
 import com.github.tnerevival.TNELib;
 import com.github.tnerevival.core.SaveManager;
 import com.github.tnerevival.core.UpdateChecker;
+import com.github.tnerevival.core.collection.EventList;
+import com.github.tnerevival.core.collection.EventMap;
+import net.milkbowl.vault.economy.Economy;
 import net.tnemc.core.commands.admin.AdminCommand;
 import net.tnemc.core.commands.config.ConfigCommand;
 import net.tnemc.core.commands.currency.CurrencyCommand;
@@ -14,6 +17,7 @@ import net.tnemc.core.common.EconomyManager;
 import net.tnemc.core.common.TNESQLManager;
 import net.tnemc.core.common.TransactionManager;
 import net.tnemc.core.common.WorldManager;
+import net.tnemc.core.common.api.VaultEconomy;
 import net.tnemc.core.common.configurations.MainConfigurations;
 import net.tnemc.core.common.configurations.MessageConfigurations;
 import net.tnemc.core.common.configurations.WorldConfigurations;
@@ -24,10 +28,14 @@ import net.tnemc.core.event.module.TNEModuleUnloadEvent;
 import net.tnemc.core.listeners.ConnectionListener;
 import net.tnemc.core.listeners.PlayerListener;
 import net.tnemc.core.menu.TNEActionMenu;
+import net.tnemc.core.menu.TNEMenuManager;
+import net.tnemc.core.worker.CacheWorker;
+import net.tnemc.core.worker.SaveWorker;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.ServicePriority;
 
 import java.io.*;
 import java.util.*;
@@ -65,15 +73,29 @@ public class TNE extends TNELib {
   private static boolean debugMode = false;
 
   // Files & Custom Configuration Files
-  public File items;
+  private File items;
   public File messages;
-  public File players;
-  public File worlds;
+  private File players;
+  private File worlds;
 
   public FileConfiguration itemConfigurations;
   public FileConfiguration messageConfigurations;
   public FileConfiguration playerConfigurations;
   public FileConfiguration worldConfigurations;
+
+  //BukkitRunnable Workers
+  private SaveWorker saveWorker;
+  private CacheWorker cacheWorker;
+
+  //Cache-related collections
+  private List<EventList> cacheLists = new ArrayList<>();
+  private List<EventMap> cacheMaps = new ArrayList<>();
+
+  public void onLoad() {
+    getLogger().info("Loading The New Economy with Java Version: " + System.getProperty("java.version"));
+    instance = this;
+    setupVault();
+  }
 
   public void onEnable() {
     instance = this;
@@ -94,8 +116,7 @@ public class TNE extends TNELib {
       TNEModuleLoadEvent event = new TNEModuleLoadEvent(key, value.getInfo().version());
       Bukkit.getServer().getPluginManager().callEvent(event);
       if(!event.isCancelled()) {
-        //TODO: Determine last version of module used.
-        value.getModule().load(this, value.getInfo().version());
+        value.getModule().load(this, loader.getLastVersion(value.getInfo().name()));
       }
     });
 
@@ -132,6 +153,7 @@ public class TNE extends TNELib {
     configurations().updateLoad();
 
     //Menu Actions
+    menuManager = new TNEMenuManager();
     menuManager.addMenu(new TNEActionMenu());
 
     //General Variables based on configuration values
@@ -156,14 +178,21 @@ public class TNE extends TNELib {
       value.getModule().enableSave(saveManager);
     });
 
-    //TODO: Load offlineIDS.
+    //Bukkit Runnables & Workers
+    if(configurations().getBoolean("Core.AutoSaver.Enabled")) {
+      saveWorker = new SaveWorker(this);
+      saveWorker.runTaskTimer(this, configurations().getLong("Core.AutoSaver.Interval") * 20, configurations().getLong("Core.AutoSaver.Interval") * 20);
+    }
+
+    if(!saveFormat.equalsIgnoreCase("flatfile") && cache) {
+      cacheWorker = new CacheWorker(this, cacheLists, cacheMaps);
+      cacheWorker.runTaskTimer(this, update * 20, update * 20);
+    }
 
     //Initialize our plugin's managers.
     manager = new EconomyManager();
     getServer().getPluginManager().registerEvents(new ConnectionListener(this), this);
     getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-
-    //Version Checking
 
     //Metrics
     if(configurations().getBoolean("Core.Metrics")) {
@@ -214,9 +243,6 @@ public class TNE extends TNELib {
   }
 
   private void initializeConfigurations() {
-    loader.getModules().forEach((key, value)->{
-      value.getModule().initializeConfigurations();
-    });
     items = new File(getDataFolder(), "items.yml");
     messages = new File(getDataFolder(), "messages.yml");
     players = new File(getDataFolder(), "players.yml");
@@ -225,6 +251,9 @@ public class TNE extends TNELib {
     messageConfigurations = YamlConfiguration.loadConfiguration(messages);
     playerConfigurations = YamlConfiguration.loadConfiguration(players);
     worldConfigurations = YamlConfiguration.loadConfiguration(worlds);
+    loader.getModules().forEach((key, value)->{
+      value.getModule().initializeConfigurations();
+    });
     try {
       setConfigurationDefaults();
     } catch (UnsupportedEncodingException e) {
@@ -299,6 +328,14 @@ public class TNE extends TNELib {
       YamlConfiguration config = YamlConfiguration.loadConfiguration(worldsStream);
       worldConfigurations.setDefaults(config);
     }
+  }
+
+  private void setupVault() {
+    if(getServer().getPluginManager().getPlugin("Vault") == null) {
+      return;
+    }
+    getServer().getServicesManager().register(Economy.class, new VaultEconomy(this), this, ServicePriority.Highest);
+    debug("Hooked into Vault");
   }
 
   public void addWorldManager(WorldManager manager) {

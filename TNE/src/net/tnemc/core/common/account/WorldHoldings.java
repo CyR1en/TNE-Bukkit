@@ -29,7 +29,7 @@ public class WorldHoldings {
     if(holdings.containsKey(currency)) {
       return holdings.get(currency);
     }
-    //TODO: Initialize currency holdings with default holdings.
+
     InjectMethod injector = new InjectMethod("WorldHoldings.getHoldings", new HashMap<>());
     injector.setParameter("currency", currency);
     injector.setParameter("holdings", current);

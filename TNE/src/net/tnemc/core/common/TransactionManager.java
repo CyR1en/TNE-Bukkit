@@ -62,7 +62,7 @@ public class TransactionManager {
     results.put("set", new TransactionResultSet());
     results.put("worldchange", new TransactionResultWorldChange());
 
-    TNE.instance().loader().getModules().forEach((key, value)->{
+    TNE.loader().getModules().forEach((key, value)->{
       value.getModule().registerResults().forEach((k, v)->{
         results.put(k, v);
       });
@@ -79,7 +79,7 @@ public class TransactionManager {
     types.put("take", TransactionTake.class);
     types.put("worldchange", TransactionWorldChange.class);
 
-    TNE.instance().loader().getModules().forEach((key, value)->{
+    TNE.loader().getModules().forEach((key, value)->{
       value.getModule().registerTypes().forEach((k, v)->{
         types.put(k, v);
       });

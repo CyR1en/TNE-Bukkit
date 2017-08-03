@@ -71,6 +71,8 @@ public class TransactionCost {
 
   public String toString() {
     //TODO: Return friendly version of the transaction cost.
-    return "";
+    StringBuilder builder = new StringBuilder();
+    items.forEach((key)->builder.append(key.toString()));
+    return builder.toString();
   }
 }

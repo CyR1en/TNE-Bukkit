@@ -84,7 +84,7 @@ public class MoneyTopCommand extends TNECommand {
     }
 
     if(page > paginator.getMaxPages()) page = paginator.getMaxPages();
-    System.out.println(paginator.getMaxPages());
+    TNE.debug("MoneyTopCommand.java(87): Max Pages - " + paginator.getMaxPages());
 
     Page p = paginator.getPage(page);
 

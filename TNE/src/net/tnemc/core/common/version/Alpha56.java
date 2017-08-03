@@ -269,18 +269,14 @@ public class Alpha56 extends Version {
     Section accounts = new Section("accounts");
     Section ids = new Section("ids");
     Section transactions = new Section("transactions");
-    try {
 
-      db = new FlatFile(TNE.instance().getDataFolder() + File.separator + TNE.instance().api().getString("Core.Database.FlatFile.File"), true);
-      FlatFileConnection connection = (FlatFileConnection)db.connection();
-      connection.getOOS().writeDouble(versionNumber());
-      connection.getOOS().writeObject(accounts);
-      connection.getOOS().writeObject(ids);
-      connection.getOOS().writeObject(transactions);
-      connection.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    db = new FlatFile(TNE.instance().getDataFolder() + File.separator + TNE.instance().api().getString("Core.Database.FlatFile.File"), true);
+    FlatFileConnection connection = (FlatFileConnection)db.connection();
+    /*connection.getOOS().writeDouble(versionNumber());
+    connection.getOOS().writeObject(accounts);
+    connection.getOOS().writeObject(ids);
+    connection.getOOS().writeObject(transactions);
+    connection.close();*/
   }
 
   @Override

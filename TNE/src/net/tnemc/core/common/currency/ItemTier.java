@@ -1,6 +1,14 @@
 package net.tnemc.core.common.currency;
 
+import net.tnemc.core.TNE;
+import net.tnemc.core.common.material.MaterialHelper;
+import net.tnemc.core.common.utils.MISCUtils;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,5 +90,28 @@ public class ItemTier {
 
   public void setLore(String lore) {
     this.lore = lore;
+  }
+
+  public ItemStack toStack() {
+    ItemStack stack = new ItemStack(MaterialHelper.getMaterial(material));
+    stack.setDurability(damage);
+    ItemMeta meta = stack.getItemMeta();
+    List<String> itemLore = meta.getLore();
+    if(name != null) meta.setDisplayName(name);
+    if(lore != null) itemLore.add(lore);
+    meta.setLore(itemLore);
+    stack.setItemMeta(meta);
+
+    if(enchantments.size() > 0) {
+      enchantments.forEach((name, level)->{
+        Enchantment enchantment = Enchantment.getByName(name);
+        if(enchantment == null || !MISCUtils.isInteger(level)) {
+          TNE.logger().info("Unable to apply enchantment to item tier: " + name);
+        } else {
+          stack.addEnchantment(enchantment, Integer.valueOf(level));
+        }
+      });
+    }
+    return stack;
   }
 }

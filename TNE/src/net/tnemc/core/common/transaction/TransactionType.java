@@ -131,8 +131,10 @@ public abstract class TransactionType {
    * @return True if this transaction may be voided.
    */
   public boolean voidTransaction() {
-    if(!initiatorOldBalance.equals(initiatorBalance)) {
-      //TODO: Void Transaction
+    if(!initiator.equalsIgnoreCase(recipient)) {
+      if (!initiatorOldBalance.equals(initiatorBalance)) {
+        //TODO: Void Transaction
+      }
     }
 
     if(!recipientOldBalance.equals(recipientBalance)) {

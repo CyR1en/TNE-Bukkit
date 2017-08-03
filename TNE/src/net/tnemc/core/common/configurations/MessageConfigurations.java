@@ -140,6 +140,7 @@ public class MessageConfigurations extends Configuration {
     configurations.put("Messages.Commands.Money.Balance", "/money balance [world] [currency] - Displays your current holdings.");
     configurations.put("Messages.Commands.Money.Convert", "/money convert <amount> <to currency[:world]> [from currency[:world]] - Convert some of your holdings to another currency.");
     configurations.put("Messages.Commands.Money.Give", "/money give <player> <amount> [world] [currency] - Adds money into your economy, and gives it to a player.");
+    configurations.put("Messages.Commands.Money.Note", "/money note <amount> [currency] - Makes your virtual currency physical, for storage/trading purposes.");
     configurations.put("Messages.Commands.Money.Pay", "/money pay <player> <amount> [currency] - Use some of your holdings to pay another player.");
     configurations.put("Messages.Commands.Money.Set", "/money set <player> <amount> [world] [currency] - Set the holdings of a player.");
     configurations.put("Messages.Commands.Money.Take", "/money take <player> <amount> [world] [currency] - Removes money from your economy, specifically from a player's balance.");

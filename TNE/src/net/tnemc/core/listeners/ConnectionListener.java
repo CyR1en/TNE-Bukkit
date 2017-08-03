@@ -73,6 +73,9 @@ public class ConnectionListener implements Listener {
             account.getHoldings(world, value));
       });
     }
+
+    account.getHistory().populateAway(account.getLastOnline());
+    TNE.manager().addAccount(account);
   }
 
   @EventHandler
@@ -82,6 +85,7 @@ public class ConnectionListener implements Listener {
     if(TNE.manager().exists(id)) {
       Account account = Account.getAccount(id.toString());
       account.setLastOnline(new Date().getTime());
+      account.getHistory().clearAway();
       TNE.manager().addAccount(account);
     }
   }

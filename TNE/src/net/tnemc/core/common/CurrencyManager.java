@@ -297,9 +297,34 @@ public class CurrencyManager {
     //TODO: Data Handling.
   }
 
-  public Optional<Currency> currencyFromItem(ItemStack stack) {
-    //TODO: Item Currencies
+  public Optional<Currency> currencyFromItem(String world, ItemStack stack) {
+    for(Currency currency : TNE.instance().getWorldManager(world).getCurrencies()) {
+      if(currency.isItem()) {
+        if(isMajorItem(world, currency.getSingle(), stack) ||
+            isMinorItem(world, currency.getSingle(), stack)) {
+          return Optional.of(currency);
+        }
+      }
+    }
     return Optional.empty();
+  }
+
+  public boolean isMajorItem(String world, String currency, ItemStack stack) {
+    for(Tier tier : TNE.instance().getWorldManager(world).getCurrency(currency).getMajorTiers().values()) {
+      if(tier.getItemInfo().toStack().equals(stack)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean isMinorItem(String world, String currency, ItemStack stack) {
+    for(Tier tier : TNE.instance().getWorldManager(world).getCurrency(currency).getMinorTiers().values()) {
+      if(tier.getItemInfo().toStack().equals(stack)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public boolean contains(String world, String name) {

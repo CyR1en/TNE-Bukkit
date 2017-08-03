@@ -10,8 +10,7 @@ import net.tnemc.core.common.currency.CurrencyFormatter;
 import net.tnemc.core.common.transaction.Transaction;
 import net.tnemc.core.common.transaction.TransactionCost;
 import net.tnemc.core.common.transaction.TransactionResult;
-import net.tnemc.core.common.transaction.type.TransactionGive;
-import org.bukkit.Bukkit;
+import net.tnemc.core.common.transaction.type.TransactionTake;
 import org.bukkit.command.CommandSender;
 
 import java.math.BigDecimal;
@@ -32,50 +31,48 @@ import java.util.UUID;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/10/2017.
+ * Created by Daniel on 7/31/2017.
  */
-public class MoneyGiveCommand extends TNECommand {
+public class MoneyNoteCommand extends TNECommand {
 
-  public MoneyGiveCommand(TNE plugin) {
+  public MoneyNoteCommand(TNE plugin) {
     super(plugin);
   }
 
   @Override
   public String getName() {
-    return "give";
+    return "note";
   }
 
   @Override
   public String[] getAliases() {
-    return new String[] {
-        "+"
-    };
+    return new String[0];
   }
 
   @Override
   public String getNode() {
-    return "tne.money.give";
+    return "tne.money.note";
   }
 
   @Override
   public boolean console() {
-    return true;
+    return false;
   }
 
   @Override
   public String getHelp() {
-    return "Messages.Commands.Money.Give";
+    return "Messages.Commands.Money.Note";
   }
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
-    if(arguments.length >= 2) {
-      String world = (arguments.length == 3) ? arguments[2] : WorldFinder.getWorld(sender);
-      String currencyName = (arguments.length >= 4) ? arguments[3] : TNE.manager().currencyManager().get(world).getSingle();
+    if(arguments.length >= 1) {
+      String world = WorldFinder.getWorld(sender);
+      String currencyName = (arguments.length >= 2) ? arguments[1] : TNE.manager().currencyManager().get(world).getSingle();
       Currency currency = TNE.manager().currencyManager().get(world, currencyName);
       UUID id = IDFinder.getID(arguments[0]);
 
-      String parsed = CurrencyFormatter.parseAmount(currency, world, arguments[1]);
+      String parsed = CurrencyFormatter.parseAmount(currency, world, arguments[0]);
       if(parsed.contains("Messages")) {
         Message max = new Message(parsed);
         max.addVariable("$currency", currency.getSingle());
@@ -87,25 +84,18 @@ public class MoneyGiveCommand extends TNECommand {
 
       BigDecimal value = new BigDecimal(parsed);
 
-      Transaction transaction = new Transaction(IDFinder.getID(sender), id, world, new TransactionGive(new TransactionCost(value, currency)));
+      Transaction transaction = new Transaction(IDFinder.getID(sender), id, world, new TransactionTake(new TransactionCost(value, currency)));
       TransactionResult result = TNE.transactionManager().perform(transaction);
 
-      if(result.proceed() && transaction.getRecipient() != null && !transaction.getInitiator().equalsIgnoreCase(transaction.getRecipient()) && Bukkit.getPlayer(id) != null && Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(id))) {
+
+      if(result.proceed()) {
         Message message = new Message(result.recipientMessage());
         message.addVariable("$player", arguments[0]);
         message.addVariable("$world", world);
         message.addVariable("$currency", currencyName);
-        message.addVariable("$amount", CurrencyFormatter.format(transaction.getCost().getCurrency(), world, value));
+        message.addVariable("$amount", CurrencyFormatter.format(transaction.getCost().getCurrency(), world, transaction.getType().recipientBalance()));
         message.translate(world, id);
       }
-
-      Message message = new Message(result.initiatorMessage());
-      message.addVariable("$player", arguments[0]);
-      message.addVariable("$world", world);
-      message.addVariable("$currency", currencyName);
-      message.addVariable("$amount", CurrencyFormatter.format(transaction.getCost().getCurrency(), world, value));
-      message.translate(world, IDFinder.getID(sender));
-      return result.proceed();
     }
     help(sender);
     return false;

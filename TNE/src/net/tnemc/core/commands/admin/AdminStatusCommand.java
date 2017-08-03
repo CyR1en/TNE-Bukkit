@@ -67,7 +67,9 @@ public class AdminStatusCommand extends TNECommand {
         UUID target = IDFinder.getID(arguments[0]);
         Account acc = TNE.manager().getAccount(target);
 
-        AccountStatus status = (arguments.length == 2)? AccountStatus.fromName(arguments[1]) : acc.getStatus();
+        AccountStatus status = (arguments.length >= 2)? AccountStatus.fromName(arguments[1]) : acc.getStatus();
+        TNE.debug("AdminStatusCommand.java(70): status != null - " + (status != null));
+        TNE.debug("AdminStatusCommand.java(70): acc.getStatus != null - " + (acc.getStatus() != null));
         boolean changed = (status.getName().equals(acc.getStatus().getName()));
 
         if(changed) {

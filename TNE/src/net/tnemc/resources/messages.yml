@@ -1,4 +1,4 @@
-# The New Economy v0.0.5.5
+# The New Economy v0.1.0.0
 # Author: creatorfromhell
 # License: AGPLv3
 # If you would like to contribute to the plugin
@@ -288,13 +288,13 @@ Messages:
        Config:
           Get: "/tnec get <node> [configuration] - Returns the value of a configuration.<newline>- Node ~ The configuration node to use.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
           Save: "/tnec save [configuration] - Saves modifications made to a configuration value via command.<newline>- Configuration ~ The configuration identifier to retrieve the value from."
-          Set: "/tnec set <node> <value> [configuration] - Sets a configuration value. This will not save until you do /tnec save.<newline>"
+          Set: "/tnec set <node> <value> [configuration] - Sets a configuration value. This will not save until you do /tnec save."
           TNEGet: "/tnec tneget <node> [world] [player] - Returns the value of a configuration after TNE takes into account player & world configurations.<newline>- Node ~ The configuration node to use.<newline>- World ~ The name of the world to use for parsing.<newline>- Player ~ The name of the world to use for parsing."
           Undo: "/tnec undo [configuration/all] - Undoes modifications made to configurations.<newline>- Configuration ~ The configuration identifier to retrieve the value from. This may be retrieved automatically."
        Currency:
           Rename: "/currency rename <currency> <new name> - Renames a currency to a different name."
           List: "/currency list [world] - Displays the currencies available for a world.<newline> - World ~ The world to use."
-          Tiers: "/currency tiers <currency> [world] - Displays the tiers for a currency.<newline>- Currency ~ The currency to check.<newline>- World ~ The world that the currency belongs to."
+          Tiers: "/currency tiers [currency] [world] - Displays the tiers for a currency.<newline>- Currency ~ The currency to check.<newline>- World ~ The world that the currency belongs to."
        Module:
           Info: "/tnem info <module> - Displays some information about a module.<newline>- Module ~ The module to look up."
           List: "/tnem list - Lists all loaded TNE modules."
@@ -305,6 +305,7 @@ Messages:
           Balance: "/money balance [world] [currency] - Displays your current holdings."
           Convert: "/money convert <amount> <to currency[:world]> [from currency[:world]] - Convert some of your holdings to another currency."
           Give: "/money give <player> <amount> [world] [currency] - Adds money into your economy, and gives it to a player."
+          Note: "/money note <amount> [currency] - Makes your virtual currency physical, for storage/trading purposes."
           Pay: "/money pay <player> <amount> [currency] - Use some of your holdings to pay another player."
           Set: "/money set <player> <amount> [world] [currency] - Set the holdings of a player."
           Take: "/money take <player> <amount> [world] [currency] - Removes money from your economy, specifically from a player's balance."

@@ -9,10 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /*
  * The New Economy Minecraft Server Plugin
@@ -46,6 +43,8 @@ public class Account {
 
   public Account(UUID id) {
     this.id = id;
+    this.status = AccountStatus.NORMAL;
+    this.lastOnline = new Date().getTime();
   }
 
   public void log(Transaction transaction) {

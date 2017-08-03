@@ -1,8 +1,9 @@
-package net.tnemc.core.commands.admin;
+package net.tnemc.core.common.transaction.type;
 
-import com.github.tnerevival.commands.TNECommand;
 import net.tnemc.core.TNE;
-import org.bukkit.command.CommandSender;
+import net.tnemc.core.common.transaction.TransactionCost;
+import net.tnemc.core.common.transaction.TransactionResult;
+import net.tnemc.core.common.transaction.TransactionType;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -19,27 +20,17 @@ import org.bukkit.command.CommandSender;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/10/2017.
+ * Created by Daniel on 8/3/2017.
  */
-public class AdminCaveatsCommand extends TNECommand {
+public class TransactionNote extends TransactionType {
 
-  public AdminCaveatsCommand(TNE plugin) {
-    super(plugin);
+  public TransactionNote(TransactionCost cost) {
+    super(cost);
   }
 
   @Override
   public String getName() {
-    return "caveats";
-  }
-
-  @Override
-  public String[] getAliases() {
-    return new String[0];
-  }
-
-  @Override
-  public String getNode() {
-    return "tne.admin.caveats";
+    return "Note";
   }
 
   @Override
@@ -48,13 +39,17 @@ public class AdminCaveatsCommand extends TNECommand {
   }
 
   @Override
-  public String getHelp() {
-    return "Messages.Commands.Admin.Caveats";
+  public TransactionResult success() {
+    return TNE.transactionManager().getResult("noted");
   }
 
   @Override
-  public boolean execute(CommandSender sender, String command, String[] arguments) {
-    sender.sendMessage("No known caveats at this point.");
-    return true;
+  public void handleInitiator() {
+    //We don't really have to do anything here for give
+  }
+
+  @Override
+  public void handleRecipient() {
+    recipientBalance = recipientOldBalance.subtract(cost.getAmount());
   }
 }

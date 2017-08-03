@@ -1,9 +1,12 @@
 package net.tnemc.core.common.transaction.type;
 
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.Account;
 import net.tnemc.core.common.transaction.TransactionCost;
 import net.tnemc.core.common.transaction.TransactionResult;
 import net.tnemc.core.common.transaction.TransactionType;
+
+import java.math.BigDecimal;
 
 /**
  * The New Economy Minecraft Server Plugin
@@ -20,17 +23,17 @@ import net.tnemc.core.common.transaction.TransactionType;
  * <p>
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * Created by Daniel on 7/7/2017.
+ * Created by Daniel on 8/3/2017.
  */
-public class TransactionGive extends TransactionType {
+public class TransactionNoteClaim extends TransactionType {
 
-  public TransactionGive(TransactionCost cost) {
+  public TransactionNoteClaim(TransactionCost cost) {
     super(cost);
   }
 
   @Override
   public String getName() {
-    return "Give";
+    return "NoteClaim";
   }
 
   @Override
@@ -40,7 +43,7 @@ public class TransactionGive extends TransactionType {
 
   @Override
   public TransactionResult success() {
-    return TNE.transactionManager().getResult("gave");
+    return TNE.transactionManager().getResult("noteclaimed");
   }
 
   @Override
@@ -50,9 +53,12 @@ public class TransactionGive extends TransactionType {
 
   @Override
   public void handleRecipient() {
-    TNE.debug("TransactionGive.java(53) RecipientOldBalance != null: " + (recipientOldBalance != null));
-    TNE.debug("TransactionGive.java(53) cost != null: " + (cost != null));
-    TNE.debug("TransactionGive.java(53) cost.getAmount() != null: " + (cost.getAmount() != null));
-    recipientBalance = recipientOldBalance.add(cost.getAmount());
+    if(recipientOldBalance.compareTo(cost.getAmount()) == -1 || cost.getItems().size() < 1 || !Account.getAccount(recipient).hasItems(cost.getItems(), world)) {
+      result = TNE.transactionManager().getResult("failed");
+      return;
+    }
+
+    BigDecimal noteAmount = new BigDecimal(0.0);
+    recipientBalance = recipientOldBalance.add(noteAmount);
   }
 }

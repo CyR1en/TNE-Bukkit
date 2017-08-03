@@ -5,9 +5,6 @@ package net.tnemc.core.common.module;
  * All rights reserved.
  **/
 public class ModuleEntry {
-
-  //TODO: Module Injectors.
-
   private ModuleInfo info;
   private Module module;
 

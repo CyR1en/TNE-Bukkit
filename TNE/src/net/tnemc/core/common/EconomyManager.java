@@ -77,6 +77,12 @@ public class EconomyManager {
     return accounts.get(id);
   }
 
+  public void deleteAccount(UUID id) {
+    if(exists(id)) {
+      accounts.remove(id);
+    }
+  }
+
   public boolean createAccount(UUID id) {
     Account account = new Account(id);
     account.setSpecial(TNE.instance().special.contains(id));

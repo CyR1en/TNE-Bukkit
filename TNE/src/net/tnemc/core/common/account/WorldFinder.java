@@ -27,7 +27,6 @@ import java.util.UUID;
 public class WorldFinder {
 
   public static String getWorld(Player player) {
-    //TODO: Proper multi-world handling.
     return player.getWorld().getName();
   }
 
@@ -45,8 +44,7 @@ public class WorldFinder {
   }
 
   public static String getBalanceWorld(Player player) {
-    //TODO: Proper multi-world handling.
-    return player.getWorld().getName();
+    return TNE.instance().getWorldManager(getWorld(player)).getBalanceWorld();
   }
 
   public static String getBalanceWorld(String identifier) {
@@ -54,8 +52,7 @@ public class WorldFinder {
   }
 
   public static String getConfigurationWorld(Player player) {
-    //TODO: Proper multi-world handling.
-    return player.getWorld().getName();
+    return TNE.instance().getWorldManager(getWorld(player)).getConfigurationWorld();
   }
 
   public static String getConfigurationWorld(String identifier) {

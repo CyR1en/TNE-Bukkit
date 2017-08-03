@@ -1,7 +1,9 @@
 package net.tnemc.core.commands.config;
 
 import com.github.tnerevival.commands.TNECommand;
+import com.github.tnerevival.core.Message;
 import net.tnemc.core.TNE;
+import net.tnemc.core.common.account.WorldFinder;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -54,6 +56,38 @@ public class ConfigSetCommand extends TNECommand {
 
   @Override
   public boolean execute(CommandSender sender, String command, String[] arguments) {
+    if(arguments.length >= 2) {
+      String node = arguments[0];
+      String configuration = (arguments.length >= 3)? arguments[2] :
+                                                      TNE.configurations().fromPrefix(
+                                                          TNE.configurations().getPrefix(node)
+                                                      );
+
+      if(!TNE.configurations().hasNode(node, configuration)) {
+        Message message = new Message("Messages.Configuration.NoSuch");
+        message.addVariable("$node", node);
+        message.translate(WorldFinder.getWorld(sender), sender);
+        return false;
+      }
+
+      Object value = TNE.configurations().getValue(node, configuration);
+      Object newValue = arguments[1];
+
+      if(!value.getClass().equals(newValue.getClass())) {
+        Message message = new Message("Messages.Configuration.Invalid");
+        message.addVariable("$node", node);
+        message.addVariable("$value", newValue.toString());
+        message.translate(WorldFinder.getWorld(sender), sender);
+        return false;
+      }
+      TNE.configurations().setValue(node, configuration, newValue);
+      Message message = new Message("Messages.Configuration.Set");
+      message.addVariable("$node", node);
+      message.addVariable("$value", newValue.toString());
+      message.translate(WorldFinder.getWorld(sender), sender);
+      return true;
+    }
+    help(sender);
     return true;
   }
 }
