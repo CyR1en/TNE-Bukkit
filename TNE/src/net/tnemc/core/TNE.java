@@ -17,6 +17,7 @@ import net.tnemc.core.common.EconomyManager;
 import net.tnemc.core.common.TNESQLManager;
 import net.tnemc.core.common.TransactionManager;
 import net.tnemc.core.common.WorldManager;
+import net.tnemc.core.common.api.TNEAPI;
 import net.tnemc.core.common.api.VaultEconomy;
 import net.tnemc.core.common.configurations.MainConfigurations;
 import net.tnemc.core.common.configurations.MessageConfigurations;
@@ -98,8 +99,8 @@ public class TNE extends TNELib {
   }
 
   public void onEnable() {
-    instance = this;
     super.onEnable();
+    this.api = new TNEAPI(this);
     updater = new UpdateChecker("https://creatorfromhell.com/tne/tnebuild.txt", getDescription().getVersion());
 
     //Run the ModuleLoader
@@ -218,6 +219,10 @@ public class TNE extends TNELib {
 
   public static TNE instance() {
     return (TNE)instance;
+  }
+
+  public TNEAPI api() {
+    return (TNEAPI)api;
   }
 
   public static ModuleLoader loader() { return instance().loader; }

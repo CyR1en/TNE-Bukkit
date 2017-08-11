@@ -94,6 +94,7 @@ public class ConnectionListener implements Listener {
   public void onWorldChange(final PlayerChangedWorldEvent event) {
     Player player = event.getPlayer();
     UUID id = IDFinder.getID(player);
+    Account account = Account.getAccount(id.toString());
     String world = player.getWorld().getName();
 
     boolean noEconomy = TNE.instance().getWorldManager(world).isEconomyDisabled();
@@ -109,10 +110,15 @@ public class ConnectionListener implements Listener {
         message.translate(world, player);
       }
       Account.getAccount(id.toString()).initializeHoldings(world);
+    } else if(!noEconomy && !TNE.instance().api().getBoolean("Core.World.EnableChangeFee", world, IDFinder.getID(player).toString())) {
+      Account.getAccount(id.toString()).initializeHoldings(world);
     }
 
-    if(!noEconomy && !TNE.instance().api().getBoolean("Core.World.EnableChangeFee", world, IDFinder.getID(player).toString())) {
-      Account.getAccount(id.toString()).initializeHoldings(world);
+    if(!noEconomy) {
+      TNE.instance().getWorldManager(world).getItemCurrencies().forEach(value -> {
+        account.setCurrencyItems(TNE.manager().currencyManager().get(world, value),
+            account.getHoldings(world, value));
+      });
     }
   }
 

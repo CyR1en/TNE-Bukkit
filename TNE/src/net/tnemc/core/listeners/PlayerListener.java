@@ -54,7 +54,7 @@ public class PlayerListener implements Listener {
       Account account = Account.getAccount(id.toString());
       Optional<Currency> currency = TNE.manager().currencyManager().currencyFromItem(world, event.getItem().getItemStack());
       currency.ifPresent((cur)->{
-        account.recalculateCurrencyHoldings(world, player.getInventory(), cur.getSingle());
+        account.recalculateCurrencyHoldings(world, cur.getSingle());
       });
       TNE.manager().addAccount(account);
     }
@@ -71,7 +71,7 @@ public class PlayerListener implements Listener {
       Account account = Account.getAccount(id.toString());
       Optional<Currency> currency = TNE.manager().currencyManager().currencyFromItem(world, event.getItemDrop().getItemStack());
       currency.ifPresent((cur)->{
-        account.recalculateCurrencyHoldings(world, player.getInventory(), cur.getSingle());
+        account.recalculateCurrencyHoldings(world, cur.getSingle());
       });
       TNE.manager().addAccount(account);
     }
@@ -101,7 +101,7 @@ public class PlayerListener implements Listener {
         TNE.instance().menuManager().getHolder(id).onClose(player);
       } else {
         Account account = Account.getAccount(id.toString());
-        account.recalculateItemHoldings(world, player.getInventory());
+        account.recalculateItemHoldings(world);
         TNE.manager().addAccount(account);
       }
     }

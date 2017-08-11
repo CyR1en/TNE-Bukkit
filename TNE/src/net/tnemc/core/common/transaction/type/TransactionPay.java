@@ -51,7 +51,7 @@ public class TransactionPay extends TransactionType {
     TNE.debug("handleInitiator " + (initiator == null));
     TNE.debug("handleInitiator " + (cost.getItems() == null));
     TNE.debug("handleInitiator " + (world == null));
-    if(initiatorOldBalance.compareTo(cost.getAmount()) == -1 || !Account.getAccount(initiator).hasItems(cost.getItems(), world)) {
+    if(initiatorOldBalance.compareTo(cost.getAmount()) == -1 || !Account.getAccount(initiator).hasItems(cost.getItems())) {
       result = TNE.transactionManager().getResult("insufficient");
       return;
     }

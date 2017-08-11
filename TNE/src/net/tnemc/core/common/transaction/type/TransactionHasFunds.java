@@ -52,7 +52,7 @@ public class TransactionHasFunds extends TransactionType {
 
   @Override
   public void handleRecipient() {
-    if(!Account.getAccount(recipient).hasHoldings(world, cost.getCurrency().getSingle(), cost.getAmount()) || !Account.getAccount(recipient).hasItems(cost.getItems(), world)) {
+    if(!Account.getAccount(recipient).hasHoldings(world, cost.getCurrency().getSingle(), cost.getAmount()) || !Account.getAccount(recipient).hasItems(cost.getItems())) {
       result = TNE.transactionManager().getResult("failed");
     }
     recipientBalance = recipientOldBalance;

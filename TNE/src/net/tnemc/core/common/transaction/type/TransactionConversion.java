@@ -50,7 +50,7 @@ public class TransactionConversion extends TransactionType {
 
   @Override
   public void handleInitiator() {
-    if(initiatorOldBalance.compareTo(cost.getAmount()) == -1 || !Account.getAccount(initiator).hasItems(cost.getItems(), world)) {
+    if(initiatorOldBalance.compareTo(cost.getAmount()) == -1 || !Account.getAccount(initiator).hasItems(cost.getItems())) {
       result = TNE.transactionManager().getResult("insufficient");
       return;
     }
@@ -76,7 +76,7 @@ public class TransactionConversion extends TransactionType {
         if (initiatorAccount != null) {
           initiatorAccount.setHoldings(world, cost.getCurrency().getSingle(), initiatorBalance);
           if(cost.getItems().size() > 0) {
-            initiatorAccount.giveItems(cost.getItems(), world);
+            initiatorAccount.giveItems(cost.getItems());
           }
         }
       }
@@ -87,7 +87,7 @@ public class TransactionConversion extends TransactionType {
       if(recipientAccount != null) {
         recipientAccount.setHoldings(worldTo, currencyTo, recipientBalance);
         if(cost.getItems().size() > 0) {
-          recipientAccount.giveItems(cost.getItems(), worldTo);
+          recipientAccount.giveItems(cost.getItems());
         }
       }
     }

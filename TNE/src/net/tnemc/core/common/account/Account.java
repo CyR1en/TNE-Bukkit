@@ -5,7 +5,7 @@ import net.tnemc.core.TNE;
 import net.tnemc.core.common.account.history.AccountHistory;
 import net.tnemc.core.common.transaction.Transaction;
 import org.bukkit.Location;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.math.BigDecimal;
@@ -102,7 +102,9 @@ public class Account {
 
   public void initializeHoldings(String world) {
     TNE.manager().currencyManager().getWorldCurrencies(world).forEach((currency)->{
-      setHoldings(world, currency.getSingle(), currency.getBalance());
+      if(!hasHoldings(world, currency.getSingle())) {
+        setHoldings(world, currency.getSingle(), currency.getBalance());
+      }
     });
   }
 
@@ -110,30 +112,46 @@ public class Account {
     //TODO: Item Currencies
   }
 
-  public BigDecimal getCurrencyItems(net.tnemc.core.common.currency.Currency currency, Inventory inventory) {
+  public BigDecimal getCurrencyItems(net.tnemc.core.common.currency.Currency currency) {
     //TODO: Item Currencies
     return new BigDecimal(0.0);
   }
 
-  public void recalculateItemHoldings(String world, Inventory inventory) {
+  public void recalculateItemHoldings(String world) {
     //TODO: Item Currencies.
   }
 
-  public void recalculateCurrencyHoldings(String world, Inventory inventory, String currency) {
+  public void recalculateCurrencyHoldings(String world, String currency) {
     //TODO: Item Currencies.
   }
 
-  public boolean hasItems(List<ItemStack> items, String world) {
-    //TODO: Item Currencies.
-    return false;
+  public boolean hasItems(List<ItemStack> items) {
+    Player player = IDFinder.getPlayer(id.toString());
+    for(ItemStack stack : items) {
+      //TODO: Item Currencies.
+    }
+    return true;
   }
 
-  public void takeItems(List<ItemStack> items, String world) {
-    //TODO: Item Currencies.
+  public void takeItems(List<ItemStack> items) {
+    Player player = IDFinder.getPlayer(id.toString());
+    for(ItemStack stack : items) {
+      player.getInventory().remove(stack);
+    }
   }
 
-  public void giveItems(List<ItemStack> items, String world) {
-    //TODO: Item Currencies.
+  public void giveItems(List<ItemStack> items) {
+    Player player = IDFinder.getPlayer(id.toString());
+    List<ItemStack> leftOver = new ArrayList<>();
+    for(ItemStack stack : items) {
+      leftOver.addAll(player.getInventory().addItem(stack).values());
+    }
+
+    for(ItemStack stack : leftOver) {
+      if(stack != null) {
+        player.getWorld().dropItem(player.getLocation(), stack);
+      }
+    }
   }
 
   public AccountHistory getHistory() {
